@@ -50,21 +50,26 @@ def login():
 			return redirect('/login')
 		login_user(user, remember=form.remember_me.data)
 
-		exists = db.session.query(Activity.id).filter(
-			Activity.owner_id == user.id).order_by(desc(Activity.id)).first() is not None
-		if exists:
-			user_activity = Activity.query.filter(
-				Activity.owner_id == user.id).order_by(desc(Activity.id)).first()
-			user_time = user_activity.usertime.strftime("%m-%d-%y")
-			today = datetime.datetime.utcnow().strftime("%m-%d-%y")
-			if user_time != today:
-				time_login = Activity(timeamount=0, owner=user)
-				db.session.add(time_login)
-				db.session.commit()
-		else:
-			time_login = Activity(timeamount=0, owner=user)
-			db.session.add(time_login)
-			db.session.commit()
+		# exists = db.session.query(Activity.id).filter(
+		# 	Activity.owner_id == user.id).order_by(desc(Activity.id)).first() is not None
+		# if exists:
+		# 	user_activity = Activity.query.filter(
+		# 		Activity.owner_id == user.id).order_by(desc(Activity.id)).first()
+		# 	user_time = user_activity.usertime.strftime("%m-%d-%y")
+		# 	today = datetime.datetime.utcnow().strftime("%m-%d-%y")
+		# 	if user_time != today:
+		# 		time_login = Activity(timeamount=0, owner=user)
+		# 		db.session.add(time_login)
+		# 		db.session.commit()
+		# else:
+		# 	time_login = Activity(timeamount=0, owner=user)
+		# 	db.session.add(time_login)
+		# 	db.session.commit()
 
-		return redirect(url_for('home', username=user))
+		return redirect('/profile')
 	return render_template('login.html', form=form)
+
+
+@myapp_obj.route("/profile")
+def profile():
+	return render_template('profile.html')

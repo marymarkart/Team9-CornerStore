@@ -104,8 +104,9 @@
       </div>
       <div class="modal-body">
         <form method="POST" action = "/signup">
-          <div class="form-group">
-            <div class="containerx">
+            {{ form.hidden_tag() }}
+<!--           <div class="form-group">
+            <div class="containerx"> -->
             <fieldset>
 
           <p style="text-align:left;"> {{ form.username.label }} <br>
@@ -162,15 +163,19 @@
             </ul>
           {% endif %} 
           <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p> 
-        </form>
-      </div>
+
       <div class="modal-footer">
         <a href="/tester"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></a>
+        
         {{ form.submit(class="btn btn-primary") }}
+
         </fieldset>
       </div>
-    </div>
+
+</form>
   </div>
+
+
 </div>
 
 {% endblock %}
