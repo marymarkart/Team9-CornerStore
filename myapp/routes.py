@@ -8,7 +8,7 @@ from myapp.models import User
 from flask_login import current_user, login_user, logout_user, login_required
 
 
-@myapp_obj.route("/tester")
+@myapp_obj.route("/")
 def tester():
 	x = 'dollar'
 	return render_template('home.html')
