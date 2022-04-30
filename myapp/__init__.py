@@ -19,3 +19,4 @@ login = LoginManager(myapp_obj)
 login.login_view = 'login'
 
 from myapp import routes, models
+db.create_all()
