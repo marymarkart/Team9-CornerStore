@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Corner Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/nav.css}" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/javascript.js}"></script>
+    <style>
+        /* Remove the navbar's default rounded borders and increase the bottom margin */
+        /*.navbar {*/
+        /*    margin-bottom: 50px;*/
+        /*    border-radius: 0;*/
+        /*}*/
+
+        /* Remove the jumbotron's default bottom margin */
+        .jumbotron {
+            margin-bottom: 0;
+            font-family: "Monaco", "Courier New", monospace;
+            background-color: white;
+            padding: 10px;
+        }
+
+        /* Add a gray background color and some padding to the footer */
+        /*footer {*/
+        /*    background-color: #f2f2f2;*/
+        /*    padding: 25px;*/
+        /*}*/
+        .h1 {
+            font-family: "Monaco", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="jumbotron">
+    <div class="container text-center">
+        <h1><img src="/images/recyclebag.png" alt="recycle">Corner Store</h1>
+        <p>Reduce waste by buying, selling, and trading used</p>
+    </div>
+</div>
+<nav id="nav">
+    <div class="nav left">
+        <span class="gradient skew"><h1 class="logo un-skew"><a href="/home">Corner Store</a></h1></span>
+        <button id="menu" class="btn-nav"><span class="fas fa-bars"></span></button>
+    </div>
+    <div class="nav right">
+        <a href="/home" class="nav-link active"><span class="nav-link-span"><span class="u-nav">Home</span></span></a>
+        <a href="/login" class="nav-link"><span class="nav-link-span"><span class="u-nav">Login</span></span></a>
+        <a href="/account" class="nav-link"><span class="nav-link-span"><span class="u-nav">Account</span></span></a>
+        <a href="/sale" class="nav-link"><span class="nav-link-span"><span class="u-nav">Items for Sale</span></span></a>
+        <a href="/trade" class="nav-link"><span class="nav-link-span"><span class="u-nav">Items for Free</span></span></a>
+        <a href="/volunteer" class="nav-link"><span class="nav-link-span"><span class="u-nav">Volunteer</span></span></a>
+    </div>
+</nav>
+<!--<section id="home">-->
+
+<!--</section>-->
+<!--<section id="about">-->
+
+<!--</section>-->
+<!--<section id="work">-->
+
+<!--</section>-->
+<!--<section id="contact">-->
+<!--</section>-->
+<!--<section id="trade">-->
+<!--</section>-->
+<!--<section id="free">-->
+<!--</section>-->
+<!--<section id="volunteer">-->
+
+<!--</section>-->
+
+<!--<div class="container">-->
+<!--    <div class="row content">-->
+<!--        <div class="col-sm-3 sidenav">-->
+<!--            <h4>User Name</h4>-->
+<!--            <ul >-->
+<!--                <li>Picture</li>-->
+<!--                <li>Location</li>-->
+<!--                <li>Rating: this rating</li>-->
+<!--            </ul><br>-->
+<!--            <div class="input-group">-->
+<!--                <input type="text" class="form-control" placeholder="About">-->
+<!--                <span class="input-group-btn">-->
+<!--          <button class="btn btn-default" type="button">-->
+<!--            <span class="glyphicon glyphicon-search"></span>-->
+<!--          </button>-->
+<!--        </span>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-sm-9">-->
+<!--            <h4><small>Current Listings</small></h4>-->
+<!--            <h2>THis item</h2>-->
+<!--            <br><br>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<br><br>
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                <br> <center><strong><span class="font-weight-bold">Username</span></strong>
+                <br><span> User Rating: </span> <br>
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">First Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
+                    <div class="col-md-6"><label class="labels">Last Name</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
+                    <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
+                    <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                    <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                    <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                    <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>
