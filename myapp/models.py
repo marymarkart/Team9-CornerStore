@@ -32,6 +32,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(128), unique=True)
     password = db.Column(db.String(128))
+    profile = db.relationship('Profile', backref='users', lazy='dynamic')
 
     def __init__(self, username, email):
         self.username = username
@@ -57,3 +58,34 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+class Profile(db.Model):
+    __tablename__ = 'profile'
+    id = db.Column(db.Integer, primary_key = True)
+    first = db.Column(db.String(64))
+    last = db.Column(db.String(64))
+    
+    phone = db.Column(db.String(64))
+    address1 = db.Column(db.String(128))
+    address2 = db.Column(db.String(128))
+    postal = db.Column(db.String(64))
+    state = db.Column(db.String(64))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+    def __init__(self , first, last, phone, address1, address2, postal, state, user_id):
+        self.first = first
+        self.last = last
+        self.phone = phone
+        self.address1 = address1
+        self.address2 = address2
+        self.postal = postal
+        self.state = state
+        self.user_id = user_id
+
+# class Rating(db.Model):
+#     __tablename__ = 'ratings'
+#     id = db.Column(db.Integer, primary_key = True)
+#     rating = db.Column(db.Float)
+#     user_id
+

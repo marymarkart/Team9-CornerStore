@@ -42,7 +42,18 @@ class SignupForm(FlaskForm):
         confirm = PasswordField('Confirm yor password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
         submit = SubmitField('Register')
 
-class ToDoForm(FlaskForm):
+
+class EditProfile(FlaskForm):
+    first = StringField('First Name')
+    last = StringField('Last Name')
+    phone = StringField('Phone Number')
+    address1 = StringField('Address Line 1')
+    address2 = StringField('Address Line 2')
+    postal = StringField('Postal Code')
+    state = SelectField('State', choices = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'])
+    submit = SubmitField('Save Changes')
+
+class ToDo(FlaskForm):
         """
         This class creates a todo list item form
 

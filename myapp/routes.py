@@ -1,10 +1,10 @@
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm
+from myapp.forms import LoginForm, SignupForm, EditProfile
 from flask import render_template, flash, redirect
 from flask import Flask
 
 from myapp import db
-from myapp.models import User
+from myapp.models import User, Profile
 from flask_login import current_user, login_user, logout_user, login_required
 
 
@@ -50,26 +50,43 @@ def login():
 			return redirect('/login')
 		login_user(user, remember=form.remember_me.data)
 
-		# exists = db.session.query(Activity.id).filter(
-		# 	Activity.owner_id == user.id).order_by(desc(Activity.id)).first() is not None
-		# if exists:
-		# 	user_activity = Activity.query.filter(
-		# 		Activity.owner_id == user.id).order_by(desc(Activity.id)).first()
-		# 	user_time = user_activity.usertime.strftime("%m-%d-%y")
-		# 	today = datetime.datetime.utcnow().strftime("%m-%d-%y")
-		# 	if user_time != today:
-		# 		time_login = Activity(timeamount=0, owner=user)
-		# 		db.session.add(time_login)
-		# 		db.session.commit()
-		# else:
-		# 	time_login = Activity(timeamount=0, owner=user)
-		# 	db.session.add(time_login)
-		# 	db.session.commit()
-
 		return redirect('/profile')
 	return render_template('login.html', form=form)
 
 
 @myapp_obj.route("/profile")
+@login_required
 def profile():
-	return render_template('profile.html')
+    username = current_user.username
+    return render_template('profile.html', username = username)
+
+
+@myapp_obj.route("/editprofile", methods=['GET', 'POST'])
+@login_required
+def edit():
+    username = current_user.username
+    user_id = current_user.id
+    
+    form = EditProfile()
+    if form.validate_on_submit():
+        flash(f'Changes Saved')
+        first = form.first.data
+        last = form.last.data
+        phone = form.phone.data
+        address1 = form.address1.data
+        address2 = form.address2.data
+        postal = form.postal.data
+        state = form.state.data
+        user_id = current_user.id
+        profile = Profile(first, last, phone, address1, address2, postal, state, user_id)
+        db.session.add(profile)
+        db.session.commit()
+        return redirect('/profile')
+    profile = Profile.query.filter_by(user_id =current_user.id).first()
+    return render_template('editprofile.html', form=form, username=username, profile=profile)
+
+@myapp_obj.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return render_template('home.html')
