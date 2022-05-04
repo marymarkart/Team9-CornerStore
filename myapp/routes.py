@@ -95,3 +95,12 @@ def logout():
 @login_required
 def itemsForSale():
     return render_template('listitem.html')
+
+@myapp_obj.route('/sale')
+def listings():
+    return render_template('listings.html')
+
+
+
+
+
