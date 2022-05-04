@@ -43,6 +43,27 @@ class SignupForm(FlaskForm):
         submit = SubmitField('Register')
 
 
+class AgencySignupForm(FlaskForm):
+        """
+         This class creates a user signup form
+
+            Parameters:
+                    username (StringField): A single line of text for user to input name
+                    email (StringField): A single line of text for users to input email
+                    password (PasswordField): A single line of text for users to enter password
+                    confirm (PasswordFeild): A single line of text for users to re-enter password
+                    submit (SubmitField)
+
+            Returns:
+                    Show a signup form
+        """
+        username = StringField('Username', validators=[DataRequired()])
+        email = StringField('Email', validators=[DataRequired()])
+        password = PasswordField('Password', validators=[DataRequired(), Length(min=6, message='Select a stronger password.')])
+        confirm = PasswordField('Confirm yor password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
+        submit = SubmitField('Register')
+
+
 class EditProfile(FlaskForm):
     first = StringField('First Name')
     last = StringField('Last Name')
