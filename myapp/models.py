@@ -1,7 +1,7 @@
 from myapp import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from sqlalchemy import Boolean
 from flask_login import UserMixin
 from myapp import login
 
@@ -32,11 +32,18 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(128), unique=True)
     password = db.Column(db.String(128))
+    admin = db.Column(db.String(10))
+    agency = db.Column(db.String(10))
     profile = db.relationship('Profile', backref='users', lazy='dynamic')
+
+    # def __init__(self, username, email):
+    #     self.username = username
+    #     self.email = email
 
     def __init__(self, username, email):
         self.username = username
         self.email = email
+        
 
     def __repr__(self):
         return f'{self.username}'
@@ -49,6 +56,9 @@ class User(UserMixin, db.Model):
 
     def set_password(self, password):
         self.password = generate_password_hash(password, method='sha256')
+
+    def set_agency(self, agency):
+        self.agency = agency
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
