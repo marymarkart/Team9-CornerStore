@@ -1,19 +1,13 @@
+{% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Corner Store</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" th:href="@{/nav.css}" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" th:src="@{/javascript.js}"></script>
     <style>
-
+        /* Remove the navbar's default rounded borders and increase the bottom margin */
+        /*.navbar {*/
+        /*    margin-bottom: 50px;*/
+        /*    border-radius: 0;*/
+        /*}*/
 
         /* Remove the jumbotron's default bottom margin */
         .jumbotron {
@@ -23,18 +17,32 @@
             padding: 10px;
         }
 
-
+        /* Add a gray background color and some padding to the footer */
+        /*footer {*/
+        /*    background-color: #f2f2f2;*/
+        /*    padding: 25px;*/
+        /*}*/
         .h1 {
             font-family: "Monaco", "Courier New", monospace;
         }
+        button {
 
-        form {
-            border: 0px;
+            background-color: #5fa70d;
+
+            width: 100%;
+            color: black;
+            padding: 15px;
+            margin: 10px 0px;
+            border: none;
+            cursor: pointer;
         }
-        Body {
-            font-family: Calibri, Helvetica, sans-serif;
-            background-color: white;
+        button:hover {
+            opacity: 0.7;
         }
+    </style>
+
+{% block content %}
+<style>
         button {
             background-color: #5fa70d;
             width: 100%;
@@ -81,33 +89,9 @@
             width: 60%;
             padding: 0px;
             background-color: white;
-        }
-    </style>
-</head>
+    }
+</style>
 <body>
-
-<div class="jumbotron">
-
-    <div class="container text-center">
-
-        <h1><img src="/images/recyclebag.png" alt="recycle">Corner Store</h1>
-        <p>Reduce waste by buying, selling, and trading used</p>
-    </div>
-</div>
-<nav id="nav">
-    <div class="nav left">
-        <span class="gradient skew"><h1 class="logo un-skew"><a href="/home">Corner Store</a></h1></span>
-        <button id="menu" class="btn-nav"><span class="fas fa-bars"></span></button>
-    </div>
-    <div class="nav right">
-        <a href="/home" class="nav-link active"><span class="nav-link-span"><span class="u-nav">Home</span></span></a>
-        <a href="/login" class="nav-link"><span class="nav-link-span"><span class="u-nav">Login</span></span></a>
-        <a href="/account" class="nav-link"><span class="nav-link-span"><span class="u-nav">Account</span></span></a>
-        <a href="/sale" class="nav-link"><span class="nav-link-span"><span class="u-nav">Items for Sale</span></span></a>
-        <a href="/trade" class="nav-link"><span class="nav-link-span"><span class="u-nav">Items for Free</span></span></a>
-        <a href="/volunteer" class="nav-link"><span class="nav-link-span"><span class="u-nav">Volunteer</span></span></a>
-    </div>
-</nav>
 <br>
 <center> <h1 style = "font-family: monaco;"> List Item For Sale! </h1> </center>
 <br><br>
@@ -143,11 +127,11 @@
             </label>
         </div>
 
-        <button type="submit" class="button">List Item</button>
+        <button type ="submit" class="button"> List Item </button>
 
     </form>
 </div>
 </div>
-
+{% endblock %}
 </body>
 </html>
