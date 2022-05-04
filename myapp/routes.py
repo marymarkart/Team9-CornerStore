@@ -51,7 +51,7 @@ def login():
 		login_user(user, remember=form.remember_me.data)
 
 		return redirect('/profile')
-	return render_template('login.html', form=form)
+	return render_template('login.html', form = form)
 
 
 @myapp_obj.route("/profile")
@@ -90,3 +90,8 @@ def edit():
 def logout():
     logout_user()
     return render_template('home.html')
+
+@myapp_obj.route("/listitem")
+@login_required
+def itemsForSale():
+    return render_template('listitem.html')
