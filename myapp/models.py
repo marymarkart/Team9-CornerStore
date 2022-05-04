@@ -60,6 +60,9 @@ class User(UserMixin, db.Model):
     def set_agency(self, agency):
         self.agency = agency
 
+    def set_admin(self, admin):
+        self.admin = admin
+
     def check_password(self, password):
         return check_password_hash(self.password, password)
 

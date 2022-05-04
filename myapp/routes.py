@@ -8,9 +8,10 @@ from myapp.models import User, Profile
 from flask_login import current_user, login_user, logout_user, login_required
 
 
+
 @myapp_obj.route("/")
-def tester():
-	x = 'dollar'
+def home():
+
 	return render_template('home.html')
 
 @ myapp_obj.route("/signup", methods=['GET', 'POST'])
@@ -79,6 +80,8 @@ def login():
         login_user(user, remember=form.remember_me.data)
         if user.agency == 'True':
             return redirect('/agencyprofile')
+        if user.admin == 'True':
+            return redirect('/adminprofile')
         else:
             return redirect('/profile')
     return render_template('login.html', form = form)
@@ -137,6 +140,10 @@ def itemsForSale():
 @myapp_obj.route('/sale')
 def listings():
     return render_template('listings.html')
+
+@myapp_obj.route('/adminprofile')
+def adminprofile():
+    return render_template('adminprofile.html')
 
 
 
