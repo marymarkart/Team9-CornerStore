@@ -34,7 +34,6 @@ def signup():
         password = form.password.data
         user = User(username, email)
         user.set_password(form.password.data)
-        user.set_agency(agency)
         db.session.add(user)
         db.session.commit()
         return redirect("/login")
@@ -67,8 +66,6 @@ def agencysignup():
         return redirect("/login")
     return render_template('agencysignup.html', form=form)
 
-
-
 @myapp_obj.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -86,7 +83,6 @@ def login():
             return redirect('/profile')
     return render_template('login.html', form = form)
 
-
 @myapp_obj.route("/profile")
 @login_required
 def profile():
@@ -94,13 +90,11 @@ def profile():
     agency = current_user.agency
     return render_template('profile.html', username = username, agency=agency)
 
-
 @myapp_obj.route("/agencyprofile")
 @login_required
 def agencyprofile():
     username = current_user.username
     return render_template('agencyprofile.html', username = username)
-
 
 @myapp_obj.route("/editprofile", methods=['GET', 'POST'])
 @login_required
@@ -132,7 +126,7 @@ def logout():
     logout_user()
     return render_template('home.html')
 
-@myapp_obj.route("/listitem")
+@myapp_obj.route("/createlisting")
 @login_required
 def itemsForSale():
     return render_template('listitem.html')
@@ -145,7 +139,10 @@ def listings():
 def adminprofile():
     return render_template('adminprofile.html')
 
+@myapp_obj.route('/freelistings')
+def freelistings():
+    return render_template('freelistings.html')
 
-
-
-
+@myapp_obj.route('/volunteer')
+def volunteer():
+    return render_template('VolunteerList.html')
