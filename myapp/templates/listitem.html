@@ -97,8 +97,59 @@
 <br><br>
 <div class = "centerx">
 <div class="containerx">
+    {% for item in a %}
+    <p> {{ item }}</p>
+    {% endfor %}
 
-    <form action="/action_page.php">
+    <form method="POST" action = "/createlisting">
+            {{ form.hidden_tag() }}
+<!--           <div class="form-group">
+            <div class="containerx"> -->
+            <fieldset>
+
+          <p style="text-align:left;"> {{ form.name.label }} <br>
+            {{ form.name(placeholder="Enter item name", style='width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;') }} </p> 
+        
+          <p style="text-align:left;"> {{ form.description.label }} <br>
+            {{ form.description(placeholder="Enter item description", style='width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;') }} </p> 
+        
+          <p style="text-align:left;"> {{ form.location.label }} <br>
+            {{ form.location(placeholder="Enter item description", style='width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;') }} </p> 
+
+            <p> {{ form.agency.label }} <br>
+                    {{ form.agency(class="form-control", value = "") }}</p>
+
+            <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>  
+
+            <p style="text-align:left;"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free() }}</p>  
+        
+        <p style="text-align:left;"> {{ form.trade.label(style='font-size: 15px;') }} {{ form.trade() }}</p>  
+
+
+        <p>{{ form.submit(class= "btn btn-primary")}}</p>
+
+
+        </fieldset>
+      </div>
+    <!-- <form action="/action_page.php">
         <div class="form-check mb-3">
             <label class="form-label" for="customFile">Select Images</label>
             <input type="file" class="form-control" id="customFile" />
@@ -127,7 +178,7 @@
             </label>
         </div>
 
-        <button type ="submit" class="button"> List Item </button>
+        <button type ="submit" class="button"> List Item </button> -->
 
     </form>
 </div>

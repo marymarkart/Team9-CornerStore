@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length)
 from flask_wtf.file import FileField, FileRequired
 
@@ -74,78 +74,90 @@ class EditProfile(FlaskForm):
     state = SelectField('State', choices = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'])
     submit = SubmitField('Save Changes')
 
-class ToDo(FlaskForm):
-        """
-        This class creates a todo list item form
 
-            Parameters:
-                    body (StringField): A single line text field for user to enter todo item
-                    status (SelectField): A list of Status' to choose from
-                    submit (SubmitField): Submit button
+class ListingForm(FlaskForm):
+    name = StringField('Item Name')
+    description = StringField('Item Description')
+    location = StringField('Enter Postal Code')
+    agency = SelectField('Enter Agency', choices=[])
+    warehouse = BooleanField('Add Premium Warehouse?')
+    free = BooleanField('List Item As Free')
+    trade = BooleanField('List Item For Trade')
+    submit = SubmitField('Create Listing')
 
-            Returns:
-                    Show a todo list form
-        """
-        body = StringField('To Do Item', validators=[DataRequired()])
-        status = SelectField('Status', choices = ['Todo', 'In Progress', 'Complete'])
-        submit = SubmitField('Submit')
 
-class SearchForm(FlaskForm):
-        """
-    This class creates a search form for the find-text-in-files feature
+# class ToDo(FlaskForm):
+#         """
+#         This class creates a todo list item form
 
-            Parameters:
-                    result (StringField): A single line of text
-                    sumbit (SubmitField): A submit button 
-            Returns:
-                    Show a search form for the find-text-in-files feature
-    """
-        result = StringField('Result', validators=[DataRequired()])
-        submit = SubmitField('Search')
+#             Parameters:
+#                     body (StringField): A single line text field for user to enter todo item
+#                     status (SelectField): A list of Status' to choose from
+#                     submit (SubmitField): Submit button
 
-class RenameForm(FlaskForm):    
-        """
-    This class creates a rename form for the rename-file feature
+#             Returns:
+#                     Show a todo list form
+#         """
+#         body = StringField('To Do Item', validators=[DataRequired()])
+#         status = SelectField('Status', choices = ['Todo', 'In Progress', 'Complete'])
+#         submit = SubmitField('Submit')
 
-            Parameters:
-                    file (FileField): A file
-            new_name(StringField): A single line of text
-                    sumbit (SubmitField): A submit button 
-            Returns:
-                    Show a rename form for the rename-file feature
-    """     
-        file = FileField('File', validators=[FileRequired()])
-        new_name = StringField('New name', validators=[DataRequired()])
-        submit = SubmitField('Rename')
+# class SearchForm(FlaskForm):
+#         """
+#     This class creates a search form for the find-text-in-files feature
 
-class MdToPdfForm(FlaskForm):
-        """
-    This class creates a markdown-to-pdf form for the markdown-to-pdf feature
+#             Parameters:
+#                     result (StringField): A single line of text
+#                     sumbit (SubmitField): A submit button 
+#             Returns:
+#                     Show a search form for the find-text-in-files feature
+#     """
+#         result = StringField('Result', validators=[DataRequired()])
+#         submit = SubmitField('Search')
 
-            Parameters:
-                    file (FileField): A file            
-                    sumbit (SubmitField): A submit button 
-            Returns:
-                    Show a markdown-to-pdf form for the markdown-to-pdf feature
-    """
-        file = FileField('File', validators=[FileRequired()])
-        submit = SubmitField('Convert')
+# class RenameForm(FlaskForm):    
+#         """
+#     This class creates a rename form for the rename-file feature
 
-class FlashCards(FlaskForm):
-        question = StringField()
-        answer = StringField(validators=[DataRequired()])
-        submit = SubmitField("Submit")
+#             Parameters:
+#                     file (FileField): A file
+#             new_name(StringField): A single line of text
+#                     sumbit (SubmitField): A submit button 
+#             Returns:
+#                     Show a rename form for the rename-file feature
+#     """     
+#         file = FileField('File', validators=[FileRequired()])
+#         new_name = StringField('New name', validators=[DataRequired()])
+#         submit = SubmitField('Rename')
 
-class AddTag(FlaskForm):
-        """
-    This class adds a tag to notes
+# class MdToPdfForm(FlaskForm):
+#         """
+#     This class creates a markdown-to-pdf form for the markdown-to-pdf feature
 
-            Parameters:
-                    tag (StringField): A tag            
-                    sumbit (SubmitField): A submit button 
-            Returns:
-                    Show a markdown-to-pdf form for the markdown-to-pdf feature
-    """
-        note = StringField ('Which Notes would you like to add a tag to?')
-        tag = StringField("Add a Tag")
-        submit = SubmitField("Submit")
+#             Parameters:
+#                     file (FileField): A file            
+#                     sumbit (SubmitField): A submit button 
+#             Returns:
+#                     Show a markdown-to-pdf form for the markdown-to-pdf feature
+#     """
+#         file = FileField('File', validators=[FileRequired()])
+#         submit = SubmitField('Convert')
+
+# class FlashCards(FlaskForm):
+#         question = StringField()
+#         answer = StringField(validators=[DataRequired()])
+#         submit = SubmitField("Submit")
+
+# class AddTag(FlaskForm):
+#         """
+#     This class adds a tag to notes
+
+#             Parameters:
+#                     tag (StringField): A tag            
+#                     sumbit (SubmitField): A submit button 
+#             Returns:
+#                     Show a markdown-to-pdf form for the markdown-to-pdf feature
+#     """
+#         note = StringField ('Which Notes would you like to add a tag to?')
+#         tag = StringField("Add a Tag")
+#         submit = SubmitField("Submit")

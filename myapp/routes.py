@@ -1,10 +1,10 @@
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm
 from flask import render_template, flash, redirect
 from flask import Flask
 
 from myapp import db
-from myapp.models import User, Profile
+from myapp.models import User, Profile, Listing
 from flask_login import current_user, login_user, logout_user, login_required
 
 
@@ -126,11 +126,32 @@ def logout():
     logout_user()
     return render_template('home.html')
 
-@myapp_obj.route("/createlisting")
+@myapp_obj.route("/createlisting", methods=['GET', 'POST'])
 @login_required
 def itemsForSale():
-    return render_template('listitem.html')
+    form = ListingForm()
+    user_id = current_user.id
+    a = User.query.filter(User.agency =='True')
+    form.agency.choices = a 
+    if form.validate_on_submit():
+        flash(f'Created!')
+        name = form.name.data
+        description = form.description.data
+        location = form.location.data
+        agency = form.agency.data
+        warehouse = form.warehouse.data
+        free = form.free.data
+        trade = form.trade.data
+        listing = Listing(name, description, location, agency, warehouse, free, trade, user_id)
+        db.session.add(listing)
+        db.session.commit()
+        return redirect("/createditem")
+    return render_template('listitem.html', a=a, form=form)
 
+@myapp_obj.route("/createditem")
+def itemTest():
+    items = Listing.query.all()
+    return render_template('testfile.html', items=items)
 @myapp_obj.route('/sale')
 def listings():
     return render_template('listings.html')

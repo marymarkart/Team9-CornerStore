@@ -35,6 +35,7 @@ class User(UserMixin, db.Model):
     admin = db.Column(db.String(10))
     agency = db.Column(db.String(10))
     profile = db.relationship('Profile', backref='users', lazy='dynamic')
+    listings = db.relationship('Listing', backref='users', lazy='dynamic')
 
     # def __init__(self, username, email):
     #     self.username = username
@@ -101,4 +102,26 @@ class Profile(db.Model):
 #     id = db.Column(db.Integer, primary_key = True)
 #     rating = db.Column(db.Float)
 #     user_id
+
+
+class Listing(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    description = db.Column(db.String(512))
+    location = db.Column(db.String(5))
+    agency = db.Column(db.String(128))
+    warehouse = db.Column(db.String(5))
+    free = db.Column(db.Boolean, default=False)
+    trade = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, name, description, location, agency, warehouse, free, trade, user_id):
+        self.name = name
+        self.description = description
+        self.location = location
+        self.agency = agency
+        self.warehouse = warehouse
+        self.free = free 
+        self.trade = trade
+        self.user_id = user_id 
 
