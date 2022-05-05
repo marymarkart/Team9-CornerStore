@@ -87,8 +87,10 @@ def login():
 @login_required
 def profile():
     username = current_user.username
+    user_id = current_user.id
     agency = current_user.agency
-    return render_template('profile.html', username = username, agency=agency)
+    listings = Listing.query.filter(Listing.user_id==user_id)
+    return render_template('profile.html', username = username, agency=agency, listings=listings)
 
 @myapp_obj.route("/agencyprofile")
 @login_required
