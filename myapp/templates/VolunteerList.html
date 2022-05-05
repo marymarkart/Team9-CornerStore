@@ -1,30 +1,53 @@
+{% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Corner Store</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         /* Remove the navbar's default rounded borders and increase the bottom margin */
-        .navbar {
-            margin-bottom: 50px;
-            border-radius: 0;
-        }
+        /*.navbar {*/
+        /*    margin-bottom: 50px;*/
+        /*    border-radius: 0;*/
+        /*}*/
 
         /* Remove the jumbotron's default bottom margin */
         .jumbotron {
             margin-bottom: 0;
             font-family: "Monaco", "Courier New", monospace;
+            background-color: white;
+            padding: 10px;
         }
 
         /* Add a gray background color and some padding to the footer */
-        footer {
+        /*footer {*/
+        /*    background-color: #f2f2f2;*/
+        /*    padding: 25px;*/
+        /*}*/
+        .h1 {
+            font-family: "Monaco", "Courier New", monospace;
+        }
+        button {
+
+            background-color: #5fa70d;
+
+            width: 100%;
+            color: black;
+            padding: 15px;
+            margin: 10px 0px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.7;
+        }
+        
+    </style>
+
+<body>
+{% block content %}
+
+<body>   
+    <style>
+                footer {
             background-color: #f2f2f2;
             padding: 25px;
         }
@@ -72,48 +95,11 @@
       .container {   
         padding: 25px;
      
-    }   
+    }
     </style>
-</head>
-<body>
-
-<div class="jumbotron">
-    <div class="container text-center">
-        <h1>Corner Store</h1>
-        <p>Buy, Sell, Trade, </p>
-    </div>
-</div>
-
-<nav class="navbar navbar-light" style="background-color: #F8E9C8;">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Logo</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">Deals</a></li>
-                <li><a href="#">Stores</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<body>   
     <center > <h1 style = "font-family: monaco; "> Volunteer List! </h1> </center>   
 
-    <div class="container" style="background-color:#ffffff; >
+    <div class="container" style="background-color:#ffffff;" >
       
       
       <label for="organization"><b>Organization Name</b></label>
@@ -141,6 +127,6 @@
   </form>  
 
 </div><br><br>
-
+{% endblock %}
 </body>
 </html>
