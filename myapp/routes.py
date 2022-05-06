@@ -1,10 +1,10 @@
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
 from flask import render_template, flash, redirect
 from flask import Flask
 
 from myapp import db
-from myapp.models import User, Profile, Listing
+from myapp.models import User, Profile, Listing, Volunteer
 from flask_login import current_user, login_user, logout_user, login_required
 
 
@@ -160,6 +160,7 @@ def itemsForSale():
 def itemTest():
     items = Listing.query.all()
     return render_template('testfile.html', items=items)
+
 @myapp_obj.route('/sale')
 def viewlistings():
     return render_template('listings.html')
@@ -167,6 +168,27 @@ def viewlistings():
 @myapp_obj.route('/adminprofile')
 def adminprofile():
     return render_template('adminprofile.html')
+
+@myapp_obj.route('/listvolunteer', methods=['GET', 'POST'])
+def listvolunteer():
+    user_id = current_user.id
+    form = VolunteerForm()
+    if form.validate_on_submit():
+        flash(f'Created!')
+        name = form.name.data
+        description = form.description.data
+        location = form.location.data
+        date = form.date.data
+        vol = Volunteer(name, description, location, date, user_id)
+        db.session.add(vol)
+        db.session.commit()
+        return redirect("/createdvol")
+    return render_template('listvolunteer.html', form=form)
+
+@myapp_obj.route("/createdvol")
+def volTest():
+    items = Volunteer.query.all()
+    return render_template('testfile.html', items=items)
 
 @myapp_obj.route('/freelistings')
 def freelistings():

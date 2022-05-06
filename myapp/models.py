@@ -36,6 +36,7 @@ class User(UserMixin, db.Model):
     agency = db.Column(db.String(10))
     profile = db.relationship('Profile', backref='users', lazy='dynamic')
     listings = db.relationship('Listing', backref='users', lazy='dynamic')
+    volunteer = db.relationship('Volunteer', backref='users', lazy='dynamic')
 
     # def __init__(self, username, email):
     #     self.username = username
@@ -129,4 +130,19 @@ class Listing(db.Model):
 
     def set_price(self, price):
         self.price = price
+
+class Volunteer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    description = db.Column(db.String(512))
+    location = db.Column(db.String(5))
+    date = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, name, description, location, date, user_id):
+        self.name = name
+        self.description = description
+        self.location = location
+        self.date = date 
+        self.user_id = user_id
 

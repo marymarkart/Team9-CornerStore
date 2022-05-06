@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional)
 from flask_wtf.file import FileField, FileRequired
 
@@ -85,6 +85,14 @@ class ListingForm(FlaskForm):
     price = FloatField('Item Price (leave blank if free)', validators=[Optional()])
     trade = BooleanField('List Item For Trade')
     submit = SubmitField('Create Listing')
+
+
+class VolunteerForm(FlaskForm):
+    name = StringField('Volunteer Opportunity Name')
+    description = StringField('Opportunity Description')
+    location = StringField('Enter Postal Code')
+    date = DateField('Enter Event Date', id='datepick', validators=[DataRequired()])
+    submit = SubmitField('Create Opportunity')
 
 
 # class ToDo(FlaskForm):
