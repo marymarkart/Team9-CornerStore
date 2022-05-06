@@ -18,15 +18,15 @@
   <div class="row content">
 
     <div class="col-sm-3 sidenav hidden-xs">
-      <h2>NAME </h2>
+      <h2> {{ item.name }} </h2>
     </div>
     <br>
     
     <div class="col-sm-9">
-      <div class="well">
-        <h4>Hello</h4>
+      
+        <h4>Add picture here! </h4>
         <p><br><br><br><br><br><br><br><br></p>
-      </div>
+      
       <br>
       <div class="row">
       <div class="col-sm-9">
@@ -38,31 +38,31 @@
       <br>
       <div class="row">
         <div class="col-sm-3">
-          <div class="well">
+          
             <h4> Donation item? </h4>
             {% if item.agency %}
             <p>Yes</p> 
             {% endif %}
-          </div>
+          
         </div>
         <div class="col-sm-3">
-          <div class="well">
+          
             <h4>Warehouse? </h4>
             {% if item.warehouse %}
             <p>Yes</p> 
             {% else %}
             <p> No </p>
             {% endif %}
-          </div>
+          
         </div>
         <div class="col-sm-3">
-          <div class="well">
+          
             <h4>Location</h4>
             <p>{{ item.location }}</p> 
-          </div>
+          
         </div>
         <div class="col-sm-3">
-          <div class="well">
+          
           	<h4>Price</h4>
           	{% if item.free == True %}
             <p> Free </p> 
@@ -71,7 +71,7 @@
             {% else %}
             <p> {{ item.price }}</p> 
             {% endif %}
-          </div>
+          
         </div>
       </div>
       <!-- <div class="row">
@@ -97,6 +97,7 @@
           </div>
         </div>
       </div> -->
+      <br><br><br>
       <div class="row" style="align-text: right;">
         <div class="col-sm-6" >
           
