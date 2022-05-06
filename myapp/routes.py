@@ -137,8 +137,7 @@ def profile():
         return redirect('/agencyprofile')
     if admin == 'True':
         return redirect('/adminprofile')
-    else:
-        return redirect('/profile')
+    
     listings = Listing.query.filter(Listing.user_id==user_id)
     return render_template('profile.html', username = username, agency=agency, listings=listings)
 
