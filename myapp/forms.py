@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
-from wtforms.validators import (DataRequired, Email, EqualTo, Length)
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField
+from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional)
 from flask_wtf.file import FileField, FileRequired
 
 class LoginForm(FlaskForm):
@@ -82,6 +82,7 @@ class ListingForm(FlaskForm):
     agency = SelectField('Enter Agency', choices=[])
     warehouse = BooleanField('Add Premium Warehouse?')
     free = BooleanField('List Item As Free')
+    price = FloatField('Item Price (leave blank if free)', validators=[Optional()])
     trade = BooleanField('List Item For Trade')
     submit = SubmitField('Create Listing')
 

@@ -137,9 +137,20 @@
             <p> {{ form.agency.label }} <br>
                     {{ form.agency(class="form-control", value = "") }}</p>
 
-            <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>  
+            <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>
+
+
 
             <p style="text-align:left;"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free() }}</p>  
+
+            <p style="text-align:left;"> {{ form.price.label }} <br>
+            {{ form.price(placeholder="Enter item description", style='width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;') }} </p> 
         
         <p style="text-align:left;"> {{ form.trade.label(style='font-size: 15px;') }} {{ form.trade() }}</p>  
 

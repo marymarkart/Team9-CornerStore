@@ -112,8 +112,10 @@ class Listing(db.Model):
     agency = db.Column(db.String(128))
     warehouse = db.Column(db.String(5))
     free = db.Column(db.Boolean, default=False)
+    price = db.Column(db.Float, default=0.00)
     trade = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    status = db.Column(db.String, default='For Sale')
 
     def __init__(self, name, description, location, agency, warehouse, free, trade, user_id):
         self.name = name
@@ -121,7 +123,10 @@ class Listing(db.Model):
         self.location = location
         self.agency = agency
         self.warehouse = warehouse
-        self.free = free 
+        self.free = free
         self.trade = trade
         self.user_id = user_id 
+
+    def set_price(self, price):
+        self.price = price
 

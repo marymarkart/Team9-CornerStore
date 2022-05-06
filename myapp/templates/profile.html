@@ -67,10 +67,34 @@
                 <div class="row mt-2">
                     
                     {% for i in listings %}
+                        {% if i.status == 'For Sale' %}
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <div class="col">{{ i.name }}</div>
+                        </div>
+                        <div class="panel-heading">
+                                <div class='col', style="text-align:right"> 
+                            {% if i.price==0.00 %}
+                                Free
+                            {% else %}
+                                {{i.price }} 
+                            {% endif %}
+                        </div>
+                    </div>
+                          <div class="panel-body">
+                            {{ i.description }} </div>
+                            
+                        </div>
+                        {% endif %}
+    
+                    {% endfor %}
+                    {% for i in listings %}
+                        {% if i.status == 'Sold' %}
                         <div class="panel panel-default">
                           <div class="panel-heading"> {{ i.name }}</div>
                           <div class="panel-body">{{ i.description }} </div>
                         </div>
+                        {% endif %}
     
                     {% endfor %}
                 </div>

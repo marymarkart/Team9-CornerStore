@@ -145,6 +145,12 @@ def itemsForSale():
         free = form.free.data
         trade = form.trade.data
         listing = Listing(name, description, location, agency, warehouse, free, trade, user_id)
+        if free is True:
+            listing.set_price(0.00)
+        elif trade is True:
+            listing.set_price(0.00)
+        else:
+            listing.set_price(form.price.data)
         db.session.add(listing)
         db.session.commit()
         return redirect("/createditem")
