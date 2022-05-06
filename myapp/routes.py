@@ -1,10 +1,10 @@
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
 from flask import render_template, flash, redirect
 from flask import Flask
 
 from myapp import db
-from myapp.models import User, Profile
+from myapp.models import User, Profile, Listing, Volunteer
 from flask_login import current_user, login_user, logout_user, login_required
 
 
@@ -13,6 +13,18 @@ from flask_login import current_user, login_user, logout_user, login_required
 def home():
 
 	return render_template('home.html')
+
+"""
+
+
+
+
+SIGN UP
+
+
+
+
+"""
 
 @ myapp_obj.route("/signup", methods=['GET', 'POST'])
 def signup():
@@ -66,6 +78,17 @@ def agencysignup():
         return redirect("/login")
     return render_template('agencysignup.html', form=form)
 
+
+"""
+
+
+
+LOGIN / LOGOUT
+
+
+
+"""
+
 @myapp_obj.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -83,12 +106,33 @@ def login():
             return redirect('/profile')
     return render_template('login.html', form = form)
 
+
+@myapp_obj.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return render_template('home.html')
+
+
+"""
+
+
+
+PROFILES
+
+
+
+
+"""
+
 @myapp_obj.route("/profile")
 @login_required
 def profile():
     username = current_user.username
+    user_id = current_user.id
     agency = current_user.agency
-    return render_template('profile.html', username = username, agency=agency)
+    listings = Listing.query.filter(Listing.user_id==user_id)
+    return render_template('profile.html', username = username, agency=agency, listings=listings)
 
 @myapp_obj.route("/agencyprofile")
 @login_required
@@ -120,29 +164,141 @@ def edit():
     profile = Profile.query.filter_by(user_id =current_user.id).first()
     return render_template('editprofile.html', form=form, username=username, profile=profile)
 
-@myapp_obj.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return render_template('home.html')
 
-@myapp_obj.route("/createlisting")
-@login_required
-def itemsForSale():
-    return render_template('listitem.html')
-
-@myapp_obj.route('/sale')
-def listings():
-    return render_template('listings.html')
 
 @myapp_obj.route('/adminprofile')
+@login_required
 def adminprofile():
     return render_template('adminprofile.html')
 
+
+"""
+
+
+
+CREATE AND LIST ITEMS
+
+
+
+"""
+
+from myapp import myapp_obj
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
+from flask import render_template, flash, redirect
+from flask import Flask
+
+from myapp import db
+from myapp.models import User, Profile, Listing, Volunteer
+from flask_login import current_user, login_user, logout_user, login_required
+
+@myapp_obj.route("/createlisting", methods=['GET', 'POST'])
+@login_required
+def itemsForSale():
+    form = ListingForm()
+    user_id = current_user.id
+    a = User.query.filter(User.agency =='True')
+    form.agency.choices = a 
+    if form.validate_on_submit():
+        flash(f'Created!')
+        name = form.name.data
+        description = form.description.data
+        location = form.location.data
+        agency = form.agency.data
+        warehouse = form.warehouse.data
+        free = form.free.data
+        trade = form.trade.data
+        listing = Listing(name, description, location, agency, warehouse, free, trade, user_id)
+        if free is True:
+            listing.set_price(0.00)
+        elif trade is True:
+            listing.set_price(0.00)
+        else:
+            listing.set_price(form.price.data)
+        db.session.add(listing)
+        db.session.commit()
+        return redirect("/createditem")
+    return render_template('listitem.html', a=a, form=form)
+
+@myapp_obj.route("/createditem")
+@login_required
+def itemTest():
+    items = Listing.query.all()
+    return render_template('testfile.html', items=items)
+
 @myapp_obj.route('/freelistings')
+@login_required
 def freelistings():
-    return render_template('freelistings.html')
+    sale = Listing.query.filter(Listing.free==True)
+    title = "Free Listings"
+    return render_template('listings.html', sale=sale, title=title)
+
+@myapp_obj.route('/tradelistings')
+@login_required
+def tradelistings():
+    sale = Listing.query.filter(Listing.trade==True)
+    title = "Trade Listings"
+    return render_template('listings.html', sale=sale, title=title)
+
+
+@myapp_obj.route('/listings')
+@login_required
+def listings():
+    sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
+    title = "Sale Listings"
+    return render_template('listings.html', sale=sale, title=title)
+
+@myapp_obj.route('/listings/<int:val>')
+@login_required
+def getListing(val):
+    listing_id = val
+    item = Listing.query.get(listing_id)
+    items = []
+    return render_template('testfile.html', items=items, item=item)
+
+"""
+
+
+
+VOLUNTEER
+
+
+
+
+"""
+
+@myapp_obj.route('/listvolunteer', methods=['GET', 'POST'])
+@login_required
+def listvolunteer():
+    user_id = current_user.id
+    form = VolunteerForm()
+    if form.validate_on_submit():
+        flash(f'Created!')
+        name = form.name.data
+        description = form.description.data
+        location = form.location.data
+        date = form.date.data
+        vol = Volunteer(name, description, location, date, user_id)
+        db.session.add(vol)
+        db.session.commit()
+        return redirect("/createdvol")
+    return render_template('listvolunteer.html', form=form)
+
+@myapp_obj.route("/createdvol")
+@login_required
+def volTest():
+    items = Volunteer.query.all()
+    return render_template('testfile.html', items=items)
+
+@myapp_obj.route('/vollistings')
+@login_required
+def vollistings():
+    sale = Volunteer.query.all()
+    title = "Volunteer Opportunities"
+    return render_template('listings.html', sale=sale, title=title)
+
+
 
 @myapp_obj.route('/volunteer')
+@login_required
 def volunteer():
     return render_template('VolunteerList.html')

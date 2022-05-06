@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <style>
         /* Remove the navbar's default rounded borders and increase the bottom margin */
         /*.navbar {*/
@@ -93,7 +96,7 @@
 </style>
 <body>
 <br>
-<center> <h1 style = "font-family: monaco;"> List Item For Sale! </h1> </center>
+<center> <h1 style = "font-family: monaco;"> List Volunteer Opportunity</h1> </center>
 <br><br>
 <div class = "centerx">
 <div class="containerx">
@@ -101,23 +104,31 @@
     <p> {{ item }}</p>
     {% endfor %}
 
-    <form method="POST" action = "/createlisting">
+    <form method="POST" action = "/listvolunteer">
             {{ form.hidden_tag() }}
 <!--           <div class="form-group">
             <div class="containerx"> -->
             <fieldset>
 
           <p style="text-align:left;"> {{ form.name.label }} <br>
-            {{ form.name(placeholder="Enter item name", style='width: 100%;
+            {{ form.name(placeholder="Enter Volunteer Opportunity", style='width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
             box-sizing: border-box;') }} </p> 
+
+            <p>
+        
+            {{ form.date.label }} <br>
+            <input id="date" class="form-control" type="date" name="date"/>
+            <span id="startDateSelected"></span>
+                    
+               </p>
         
           <p style="text-align:left;"> {{ form.description.label }} <br>
-            {{ form.description(placeholder="Enter item description", style='width: 100%;
+            {{ form.description(placeholder="Enter opportunity description", style='width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
@@ -126,7 +137,7 @@
             box-sizing: border-box;') }} </p> 
         
           <p style="text-align:left;"> {{ form.location.label }} <br>
-            {{ form.location(placeholder="Enter item description", style='width: 100%;
+            {{ form.location(placeholder="Enter opportunity location", style='width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
@@ -134,25 +145,6 @@
             border-radius: 10px;
             box-sizing: border-box;') }} </p> 
 
-            <p> {{ form.agency.label }} <br>
-                    {{ form.agency(class="form-control", value = "") }}</p>
-
-            <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>
-
-
-
-            <p style="text-align:left;"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free() }}</p>  
-
-            <p style="text-align:left;"> {{ form.price.label }} <br>
-            {{ form.price(placeholder="Enter item description", style='width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
-        
-        <p style="text-align:left;"> {{ form.trade.label(style='font-size: 15px;') }} {{ form.trade() }}</p>  
 
 
         <p>{{ form.submit(class= "btn btn-primary")}}</p>
@@ -194,6 +186,20 @@
     </form>
 </div>
 </div>
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript">
+let date = document.getElementById('date')
+
+
+date.addEventListener('change',(e)=>{
+  let startDateVal = e.target.value
+  document.getElementById('startDateSelected').innerText = startDateVal
+})
+
+
+  </script>
 {% endblock %}
 </body>
 </html>
