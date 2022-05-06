@@ -1,12 +1,13 @@
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice
 from flask import render_template, flash, redirect
 from flask import Flask
 
 from myapp import db
 from myapp.models import User, Profile, Listing, Volunteer
 from flask_login import current_user, login_user, logout_user, login_required
-
+import stripe
+import os
 
 
 @myapp_obj.route("/")
@@ -255,6 +256,31 @@ def getListing(val):
     items = []
     return render_template('testfile.html', items=items, item=item)
 
+
+@myapp_obj.route('/managelistings/<int:val>')
+@login_required
+def manageListing(val):
+    listing_id = val
+    item = Listing.query.get(listing_id)
+    
+    return render_template('managelisting.html',  item=item)
+
+
+@myapp_obj.route('/managelistings/newname/<int:val>')
+def newName(val):
+    item = Listing.query.get(val)
+    form = NewName()
+    if form.validate_on_submit():
+        flash(f'Changes Saved!')
+        name = form.name.data
+        
+        db.session.query(Listing).filter(
+        Listing.id == val).update({Listing.name: name})
+        
+        db.session.commit()
+        return redirect("/managelistings/<int:val>")
+    return render_template('newname.html', form=form, item=item)
+
 """
 
 
@@ -280,7 +306,7 @@ def listvolunteer():
         vol = Volunteer(name, description, location, date, user_id)
         db.session.add(vol)
         db.session.commit()
-        return redirect("/createdvol")
+        return redirect("/agencyprofile")
     return render_template('listvolunteer.html', form=form)
 
 @myapp_obj.route("/createdvol")
@@ -302,3 +328,45 @@ def vollistings():
 @login_required
 def volunteer():
     return render_template('VolunteerList.html')
+
+"""
+
+
+
+PAYMENTS
+
+
+
+"""
+
+YOUR_DOMAIN = 'http://127.0.0.1:5000'
+
+
+@myapp_obj.route('/purchase/<int:val>', methods=['POST'])
+def create_checkout_session(val):
+    item_id = val 
+    item = Listing.query.get(item_id)
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price_data': {
+                            'currency': 'usd',
+                            'product_data': {
+                              'name': 'T-shirt',
+                            },
+                    'unit_amount': item.price,
+                    'quantity': 1,
+                },
+                }
+            ],
+            mode='payment',
+            success_url=YOUR_DOMAIN + '/success.html',
+            cancel_url=YOUR_DOMAIN + '/cancel.html',
+        )
+    except Exception as e:
+        return str(e)
+
+    return redirect(checkout_session.url, code=303)
+

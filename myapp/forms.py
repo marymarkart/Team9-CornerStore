@@ -95,78 +95,14 @@ class VolunteerForm(FlaskForm):
     submit = SubmitField('Create Opportunity')
 
 
-# class ToDo(FlaskForm):
-#         """
-#         This class creates a todo list item form
+class NewName(FlaskForm):
+    name = StringField("Enter New Name")
+    submit = SubmitField("Save Changes")
 
-#             Parameters:
-#                     body (StringField): A single line text field for user to enter todo item
-#                     status (SelectField): A list of Status' to choose from
-#                     submit (SubmitField): Submit button
+class NewDesc(FlaskForm):
+    desc = StringField("Enter New Description")
+    submit = SubmitField("Save Changes")
 
-#             Returns:
-#                     Show a todo list form
-#         """
-#         body = StringField('To Do Item', validators=[DataRequired()])
-#         status = SelectField('Status', choices = ['Todo', 'In Progress', 'Complete'])
-#         submit = SubmitField('Submit')
-
-# class SearchForm(FlaskForm):
-#         """
-#     This class creates a search form for the find-text-in-files feature
-
-#             Parameters:
-#                     result (StringField): A single line of text
-#                     sumbit (SubmitField): A submit button 
-#             Returns:
-#                     Show a search form for the find-text-in-files feature
-#     """
-#         result = StringField('Result', validators=[DataRequired()])
-#         submit = SubmitField('Search')
-
-# class RenameForm(FlaskForm):    
-#         """
-#     This class creates a rename form for the rename-file feature
-
-#             Parameters:
-#                     file (FileField): A file
-#             new_name(StringField): A single line of text
-#                     sumbit (SubmitField): A submit button 
-#             Returns:
-#                     Show a rename form for the rename-file feature
-#     """     
-#         file = FileField('File', validators=[FileRequired()])
-#         new_name = StringField('New name', validators=[DataRequired()])
-#         submit = SubmitField('Rename')
-
-# class MdToPdfForm(FlaskForm):
-#         """
-#     This class creates a markdown-to-pdf form for the markdown-to-pdf feature
-
-#             Parameters:
-#                     file (FileField): A file            
-#                     sumbit (SubmitField): A submit button 
-#             Returns:
-#                     Show a markdown-to-pdf form for the markdown-to-pdf feature
-#     """
-#         file = FileField('File', validators=[FileRequired()])
-#         submit = SubmitField('Convert')
-
-# class FlashCards(FlaskForm):
-#         question = StringField()
-#         answer = StringField(validators=[DataRequired()])
-#         submit = SubmitField("Submit")
-
-# class AddTag(FlaskForm):
-#         """
-#     This class adds a tag to notes
-
-#             Parameters:
-#                     tag (StringField): A tag            
-#                     sumbit (SubmitField): A submit button 
-#             Returns:
-#                     Show a markdown-to-pdf form for the markdown-to-pdf feature
-#     """
-#         note = StringField ('Which Notes would you like to add a tag to?')
-#         tag = StringField("Add a Tag")
-#         submit = SubmitField("Submit")
+class NewPrice(FlaskForm):
+    price = StringField("Enter New Price")
+    submit = SubmitField("Save Changes")
