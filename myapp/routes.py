@@ -340,30 +340,27 @@ PAYMENTS
 """
 
 YOUR_DOMAIN = 'http://127.0.0.1:5000'
+stripe.api_key = 'sk_test_51KwJCGIVxGuZvYFf0YW5nfbMrKiW4fmwQZfpuOM1ai8b1y1CZb5OXKIFxbfGNhzW4DebQE2g7RC6ABu6Xq9NIC9D00eYLOFkSj'
 
-
-@myapp_obj.route('/purchase/<int:val>', methods=['POST'])
+@myapp_obj.route('/purchase/<int:val>', methods=['GET','POST'])
 def create_checkout_session(val):
     item_id = val 
     item = Listing.query.get(item_id)
     try:
         checkout_session = stripe.checkout.Session.create(
-            line_items=[
-                {
-                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    'price_data': {
-                            'currency': 'usd',
-                            'product_data': {
-                              'name': 'T-shirt',
-                            },
-                    'unit_amount': item.price,
-                    'quantity': 1,
-                },
-                }
-            ],
-            mode='payment',
-            success_url=YOUR_DOMAIN + '/success.html',
-            cancel_url=YOUR_DOMAIN + '/cancel.html',
+            line_items=[{
+                  'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                      'name': 'T-shirt',
+                    },
+                    'unit_amount': 2000,
+                  },
+                  'quantity': 1,
+                }],
+                mode='payment',
+                success_url='https://example.com/success',
+                cancel_url='https://example.com/cancel',
         )
     except Exception as e:
         return str(e)
