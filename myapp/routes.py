@@ -168,6 +168,7 @@ def edit():
 
 
 @myapp_obj.route('/adminprofile')
+@login_required
 def adminprofile():
     return render_template('adminprofile.html')
 
@@ -220,17 +221,20 @@ def itemsForSale():
     return render_template('listitem.html', a=a, form=form)
 
 @myapp_obj.route("/createditem")
+@login_required
 def itemTest():
     items = Listing.query.all()
     return render_template('testfile.html', items=items)
 
 @myapp_obj.route('/freelistings')
+@login_required
 def freelistings():
     sale = Listing.query.filter(Listing.free==True)
     title = "Free Listings"
     return render_template('listings.html', sale=sale, title=title)
 
 @myapp_obj.route('/tradelistings')
+@login_required
 def tradelistings():
     sale = Listing.query.filter(Listing.trade==True)
     title = "Trade Listings"
@@ -238,6 +242,7 @@ def tradelistings():
 
 
 @myapp_obj.route('/listings')
+@login_required
 def listings():
     sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
     title = "Sale Listings"
@@ -257,6 +262,7 @@ VOLUNTEER
 """
 
 @myapp_obj.route('/listvolunteer', methods=['GET', 'POST'])
+@login_required
 def listvolunteer():
     user_id = current_user.id
     form = VolunteerForm()
@@ -273,11 +279,13 @@ def listvolunteer():
     return render_template('listvolunteer.html', form=form)
 
 @myapp_obj.route("/createdvol")
+@login_required
 def volTest():
     items = Volunteer.query.all()
     return render_template('testfile.html', items=items)
 
 @myapp_obj.route('/vollistings')
+@login_required
 def vollistings():
     sale = Volunteer.query.all()
     title = "Volunteer Opportunities"
@@ -286,5 +294,6 @@ def vollistings():
 
 
 @myapp_obj.route('/volunteer')
+@login_required
 def volunteer():
     return render_template('VolunteerList.html')
