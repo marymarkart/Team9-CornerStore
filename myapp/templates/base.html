@@ -11,6 +11,7 @@
 
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='nav.css') }}">
     
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/javascript.js}"></script>
@@ -57,7 +58,7 @@
 
     <div class="container text-center">
 
-        <h1><img src="static/images/recyclebag.png" alt="recycle">Corner Store</h1>
+        <h1><img src="{{url_for('static', filename='recyclebag.png')}}" alt="recycle">Corner Store</h1>
         <p>Reduce waste by buying, selling, and trading used </p>
     </div>
 </div>

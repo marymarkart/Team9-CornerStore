@@ -247,7 +247,13 @@ def listings():
     title = "Sale Listings"
     return render_template('listings.html', sale=sale, title=title)
 
-
+@myapp_obj.route('/listings/<int:val>')
+@login_required
+def getListing(val):
+    listing_id = val
+    item = Listing.query.get(listing_id)
+    items = []
+    return render_template('testfile.html', items=items, item=item)
 
 """
 
