@@ -14,6 +14,19 @@ def home():
 
 	return render_template('home.html')
 
+
+"""
+
+
+
+
+SIGN UP
+
+
+
+
+"""
+
 @ myapp_obj.route("/signup", methods=['GET', 'POST'])
 def signup():
     """
@@ -66,6 +79,17 @@ def agencysignup():
         return redirect("/login")
     return render_template('agencysignup.html', form=form)
 
+
+"""
+
+
+
+LOGIN / LOGOUT
+
+
+
+"""
+
 @myapp_obj.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -82,6 +106,25 @@ def login():
         else:
             return redirect('/profile')
     return render_template('login.html', form = form)
+
+
+@myapp_obj.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return render_template('home.html')
+
+
+"""
+
+
+
+PROFILES
+
+
+
+
+"""
 
 @myapp_obj.route("/profile")
 @login_required
@@ -122,11 +165,31 @@ def edit():
     profile = Profile.query.filter_by(user_id =current_user.id).first()
     return render_template('editprofile.html', form=form, username=username, profile=profile)
 
-@myapp_obj.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return render_template('home.html')
+
+
+@myapp_obj.route('/adminprofile')
+def adminprofile():
+    return render_template('adminprofile.html')
+
+
+"""
+
+
+
+CREATE AND LIST ITEMS
+
+
+
+"""
+
+from myapp import myapp_obj
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
+from flask import render_template, flash, redirect
+from flask import Flask
+
+from myapp import db
+from myapp.models import User, Profile, Listing, Volunteer
+from flask_login import current_user, login_user, logout_user, login_required
 
 @myapp_obj.route("/createlisting", methods=['GET', 'POST'])
 @login_required
@@ -161,13 +224,37 @@ def itemTest():
     items = Listing.query.all()
     return render_template('testfile.html', items=items)
 
-@myapp_obj.route('/sale')
-def viewlistings():
-    return render_template('listings.html')
+@myapp_obj.route('/freelistings')
+def freelistings():
+    sale = Listing.query.filter(Listing.free==True)
+    title = "Free Listings"
+    return render_template('listings.html', sale=sale, title=title)
 
-@myapp_obj.route('/adminprofile')
-def adminprofile():
-    return render_template('adminprofile.html')
+@myapp_obj.route('/tradelistings')
+def tradelistings():
+    sale = Listing.query.filter(Listing.trade==True)
+    title = "Trade Listings"
+    return render_template('listings.html', sale=sale, title=title)
+
+
+@myapp_obj.route('/listings')
+def listings():
+    sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
+    title = "Sale Listings"
+    return render_template('listings.html', sale=sale, title=title)
+
+
+
+"""
+
+
+
+VOLUNTEER
+
+
+
+
+"""
 
 @myapp_obj.route('/listvolunteer', methods=['GET', 'POST'])
 def listvolunteer():
@@ -190,24 +277,13 @@ def volTest():
     items = Volunteer.query.all()
     return render_template('testfile.html', items=items)
 
-@myapp_obj.route('/freelistings')
-def freelistings():
-    sale = Listing.query.filter(Listing.free==True)
-    title = "Free Listings"
-    return render_template('listings.html', sale=sale, title=title)
-
-@myapp_obj.route('/tradelistings')
-def tradelistings():
-    sale = Listing.query.filter(Listing.trade==True)
-    title = "Trade Listings"
+@myapp_obj.route('/vollistings')
+def vollistings():
+    sale = Volunteer.query.all()
+    title = "Volunteer Opportunities"
     return render_template('listings.html', sale=sale, title=title)
 
 
-@myapp_obj.route('/listings')
-def listings():
-    sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
-    title = "Sale Listings"
-    return render_template('listings.html', sale=sale, title=title)
 
 @myapp_obj.route('/volunteer')
 def volunteer():
