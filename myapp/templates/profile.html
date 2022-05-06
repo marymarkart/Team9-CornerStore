@@ -68,12 +68,14 @@
                     
                     {% for i in listings %}
                         {% if i.status == 'For Sale' %}
+                        <a href="/managelistings/{{i.id}}">
                         <div class="panel panel-default">
                           <div class="panel-heading">
                             <div class="col">{{ i.name }}</div>
                         </div>
                         <div class="panel-heading">
                                 <div class='col', style="text-align:right"> 
+
                             {% if i.price==0.00 %}
                                 Free
                             {% else %}
@@ -85,6 +87,7 @@
                             {{ i.description }} </div>
                             
                         </div>
+                    </a>
                         {% endif %}
     
                     {% endfor %}

@@ -131,6 +131,12 @@ class Listing(db.Model):
     def set_price(self, price):
         self.price = price
 
+    def set_name(self, name):
+        self.name = name 
+
+    def set_desc(self, description):
+        self.description = description
+
 class Volunteer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
