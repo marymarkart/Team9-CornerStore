@@ -3,6 +3,7 @@
 
 {% block content %}
 <br><br>
+<h1 style="text-align: center; font: monospace; font-family: Monaco"> {{ title }} </h1>
 <div class = "container">
 <div class = "center">
 
@@ -18,14 +19,16 @@
 
 <div class="container">
 <div class="row">
+    {% for i in sale %}
         <div class="col-sm-4">
             <div class="panel panel-success">
-                <div class="panel-heading">Black Jacket</div>
+                <div class="panel-heading">{{ i.name }}</div>
                 <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Black jacket with logo</div>
+                <div class="panel-footer">{{ i.description }}</div>
             </div>
         </div>
-        <div class="col-sm-4">
+        {% endfor %}
+       <!--  <div class="col-sm-4">
             <div class="panel panel-success">
                 <div class="panel-heading">Item #2</div>
                 <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
@@ -40,9 +43,10 @@
             </div>
         </div>
     </div>
-</div><br>
-<div class="container">
+</div><br> -->
+<!-- <div class="container">
     <div class="row">
+
 
         <div class="col-sm-4">
             <div class="panel panel-success">
@@ -66,7 +70,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 </div><br><br>
 
 </body>

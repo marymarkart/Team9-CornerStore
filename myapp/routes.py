@@ -161,7 +161,7 @@ def itemTest():
     items = Listing.query.all()
     return render_template('testfile.html', items=items)
 @myapp_obj.route('/sale')
-def listings():
+def viewlistings():
     return render_template('listings.html')
 
 @myapp_obj.route('/adminprofile')
@@ -170,7 +170,22 @@ def adminprofile():
 
 @myapp_obj.route('/freelistings')
 def freelistings():
-    return render_template('freelistings.html')
+    sale = Listing.query.filter(Listing.free==True)
+    title = "Free Listings"
+    return render_template('listings.html', sale=sale, title=title)
+
+@myapp_obj.route('/tradelistings')
+def tradelistings():
+    sale = Listing.query.filter(Listing.trade==True)
+    title = "Trade Listings"
+    return render_template('listings.html', sale=sale, title=title)
+
+
+@myapp_obj.route('/listings')
+def listings():
+    sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
+    title = "Sale Listings"
+    return render_template('listings.html', sale=sale, title=title)
 
 @myapp_obj.route('/volunteer')
 def volunteer():
