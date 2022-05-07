@@ -1,3 +1,4 @@
+from sqlalchemy import null
 from myapp import myapp_obj
 from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice
 from flask import render_template, flash, redirect
@@ -193,12 +194,19 @@ CREATE AND LIST ITEMS
 
 from myapp import myapp_obj
 from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, url_for
 from flask import Flask
 
 from myapp import db
 from myapp.models import User, Profile, Listing, Volunteer
 from flask_login import current_user, login_user, logout_user, login_required
+
+
+def save_image(picture_file):
+    picture_name = picture_file.filename
+    picture_path = os.path.join(myapp_obj.root_path, 'static/listing_pics', picture_name)
+    picture_file.save(picture_path)
+    return picture_name
 
 @myapp_obj.route("/createlisting", methods=['GET', 'POST'])
 @login_required
@@ -219,7 +227,9 @@ def itemsForSale():
         warehouse = form.warehouse.data
         free = form.free.data
         trade = form.trade.data
-        listing = Listing(name, description, location, agency, warehouse, free, trade, user_id)
+        image_file = save_image(form.picture.data)
+        Listing.image_file = image_file
+        listing = Listing(image_file, name, description, location, agency, warehouse, free, trade, user_id)
         if free is True:
             listing.set_price(0.00)
         elif trade is True:
@@ -228,14 +238,15 @@ def itemsForSale():
             listing.set_price(form.price.data)
         db.session.add(listing)
         db.session.commit()
-        return redirect("/profile")
-    return render_template('listitem.html', a=a, form=form)
+        return redirect("/createditem")
+    image_url = url_for('static', filename='listing_pics/'+ Listing.image_file)
+    return render_template('listitem.html', a=a, form=form, image_url = image_url)
 
 @myapp_obj.route("/createditem")
 @login_required
 def itemTest():
-    items = Listing.query.all()
-    return render_template('testfile.html', items=items)
+    form = Listing.query.all()
+    return render_template('testfile.html', form = form)
 
 @myapp_obj.route('/freelistings')
 @login_required
@@ -272,9 +283,9 @@ def getListing(val):
 @login_required
 def manageListing(val):
     listing_id = val
-    item = Listing.query.get(listing_id)
+    items = Listing.query.get(listing_id)
     
-    return render_template('managelisting.html',  item=item)
+    return render_template('managelisting.html',  items=items)
 
 
 @myapp_obj.route('/managelistings/newname/<int:val>')
