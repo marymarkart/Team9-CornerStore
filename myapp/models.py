@@ -37,6 +37,7 @@ class User(UserMixin, db.Model):
     profile = db.relationship('Profile', backref='users', lazy='dynamic')
     listings = db.relationship('Listing', backref='users', lazy='dynamic')
     volunteer = db.relationship('Volunteer', backref='users', lazy='dynamic')
+    bevolunteer = db.relationship('BeVolunteer', backref='users', lazy='dynamic')
 
     # def __init__(self, username, email):
     #     self.username = username
@@ -146,6 +147,7 @@ class Volunteer(db.Model):
     location = db.Column(db.String(5))
     date = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    vol = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
 
     def __init__(self, name, description, location, date, user_id):
         self.name = name
@@ -153,4 +155,15 @@ class Volunteer(db.Model):
         self.location = location
         self.date = date 
         self.user_id = user_id
+
+
+class BeVolunteer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    vol_id = db.Column(db.Integer, db.ForeignKey('volunteer.id'))
+
+    def __init__(self, user_id, vol_id):
+        self.user_id = user_id
+        self.vol_id = vol_id
+
 

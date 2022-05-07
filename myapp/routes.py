@@ -2,10 +2,10 @@ from sqlalchemy import null
 from myapp import myapp_obj
 from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice
 from flask import render_template, flash, redirect
-from flask import Flask
+from flask import Flask, url_for
 
 from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer
+from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer
 from flask_login import current_user, login_user, logout_user, login_required
 import stripe
 import os
@@ -133,6 +133,12 @@ def profile():
     username = current_user.username
     user_id = current_user.id
     agency = current_user.agency
+    admin = current_user.admin
+    if agency == 'True':
+        return redirect('/agencyprofile')
+    if admin == 'True':
+        return redirect('/adminprofile')
+    
     listings = Listing.query.filter(Listing.user_id==user_id)
     return render_template('profile.html', username = username, agency=agency, listings=listings)
 
@@ -140,7 +146,9 @@ def profile():
 @login_required
 def agencyprofile():
     username = current_user.username
-    return render_template('agencyprofile.html', username = username)
+    user_id = current_user.id 
+    listings = Volunteer.query.filter(Volunteer.user_id==user_id)
+    return render_template('agencyprofile.html', username = username, listings=listings)
 
 @myapp_obj.route("/editprofile", methods=['GET', 'POST'])
 @login_required
@@ -205,8 +213,11 @@ def save_image(picture_file):
 def itemsForSale():
     form = ListingForm()
     user_id = current_user.id
-    a = User.query.filter(User.agency =='True')
-    form.agency.choices = a 
+    # a = User.query.with_entities(User.agency == 'True').all()
+    a = User.query.filter(User.agency =='True').all()
+    # form.agency.choices = [('0', 'None')] + a
+    form.agency.choices = a
+
     if form.validate_on_submit():
         flash(f'Created!')
         name = form.name.data
@@ -228,7 +239,7 @@ def itemsForSale():
         db.session.add(listing)
         db.session.commit()
         return redirect("/createditem")
-    image_url = url_for('static', filename='listing_pics/'+Listing.image_file)
+    image_url = url_for('static', filename='listing_pics/'+ Listing.image_file)
     return render_template('listitem.html', a=a, form=form, image_url = image_url)
 
 @myapp_obj.route("/createditem")
@@ -326,12 +337,12 @@ def volTest():
     items = Volunteer.query.all()
     return render_template('testfile.html', items=items)
 
-@myapp_obj.route('/vollistings')
+@myapp_obj.route('/vollisting')
 @login_required
 def vollistings():
     sale = Volunteer.query.all()
     title = "Volunteer Opportunities"
-    return render_template('listings.html', sale=sale, title=title)
+    return render_template('getvol.html', sale=sale, title=title)
 
 
 
@@ -339,6 +350,50 @@ def vollistings():
 @login_required
 def volunteer():
     return render_template('VolunteerList.html')
+
+@myapp_obj.route('/vollistings/<int:val>')
+@login_required
+def volListings(val):
+    listing_id = val
+    item = Volunteer.query.get(listing_id)
+    items = []
+    return render_template('vollistings.html', items=items, item=item)
+
+@myapp_obj.route('/bevolunteer/<int:val>', methods=['GET', 'POST'])
+@login_required
+def bevolunteer(val):
+    user = current_user.id
+    print(user)
+    vol_id = val
+    bevol = BeVolunteer(user, vol_id)
+    db.session.add(bevol)
+    db.session.commit()
+
+    return redirect(url_for('volListings', val=val))
+
+@myapp_obj.route('/managevol/<int:val>')
+@login_required
+def manageVol(val):
+    listing_id = val
+    item = Volunteer.query.get(listing_id)
+    vols = BeVolunteer.query.filter(BeVolunteer.vol_id == listing_id).all()
+    print(vols)
+    a = []
+    for i in vols:
+        us = get_username(i.user_id)
+        print(us)
+        a.append(us)
+    
+    # for c,i in db.session.query(User, BeVolunteer).filter(User.bevolunteer == vols.user_id):
+    #     user = get_username(c.id)
+    #     a.append(c.get_username())
+    
+    return render_template('managevol.html',  item=item, vols=vols, a=a)
+
+def get_username(user_id):
+    user_id = user_id
+    user = User.query.get(user_id)
+    return user
 
 """
 

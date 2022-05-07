@@ -105,5 +105,5 @@ class NewDesc(FlaskForm):
     submit = SubmitField("Save Changes")
 
 class NewPrice(FlaskForm):
-    price = StringField("Enter New Price")
+    price = FloatField("Enter New Price")
     submit = SubmitField("Save Changes")
