@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional)
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class LoginForm(FlaskForm):
         """
@@ -76,6 +76,7 @@ class EditProfile(FlaskForm):
 
 
 class ListingForm(FlaskForm):
+    picture = FileField(label="Add Item Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
     name = StringField('Item Name')
     description = StringField('Item Description')
     location = StringField('Enter Postal Code')
