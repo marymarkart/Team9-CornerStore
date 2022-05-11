@@ -140,10 +140,13 @@
             <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>
 
 
+            
+            <div id='free-item'>
+            <p style="text-align:left;" id="free-item"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free() }}</p>  
+            </div>
 
-            <p style="text-align:left;"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free() }}</p>  
-
-            <p style="text-align:left;"> {{ form.price.label }} <br>
+            <div id='price'>
+            <p style="text-align:left;" id="price"> {{ form.price.label }} <br>
             {{ form.price(placeholder="Enter item description", style='width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -151,6 +154,7 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             box-sizing: border-box;') }} </p> 
+        </div>
         
         <p style="text-align:left;"> {{ form.trade.label(style='font-size: 15px;') }} {{ form.trade() }}</p>  
 
@@ -194,6 +198,35 @@
     </form>
 </div>
 </div>
+<script >
+// function myFunction() {
+//   let box_value = document.getElementById("free").value;
+//   if (box_value === False) {
+//     document.getElementById("price").show()
+    
+//   } else {
+//     document.getElementById("price").hide()
+    
+//   }
+// }
+
+    $(document).ready(function() {
+    $("#free-time").change(function() {
+  if ($(this)  is False) {
+    $('#price').show();
+    
+  } else {
+    $('#price').hide();
+    
+  }
+    });
+});
+$("#free-item").trigger("change");
+
+</script>
 {% endblock %}
 </body>
+
+
 </html>
+

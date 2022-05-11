@@ -114,7 +114,7 @@ class Listing(db.Model):
     description = db.Column(db.String(512))
     location = db.Column(db.Integer)
     agency = db.Column(db.String(128))
-    warehouse = db.Column(db.String(5))
+    warehouse = db.Column(db.Boolean, default=False)
     free = db.Column(db.Boolean, default=False)
     price = db.Column(db.Float, default=0.00)
     trade = db.Column(db.Boolean, default=False)
