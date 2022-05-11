@@ -137,6 +137,16 @@ a:hover {
   background-color: #40700A;
   border-color: #345B08;
 }
+.btn-secondary {
+  color: #fff;
+  background-color: #A38945;
+  border-color: #A38945;
+}
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #40700A;
+  border-color: #345B08;
+}
 .btn-check:focus + .btn-primary, .btn-primary:focus {
   color: #fff;
   background-color: #0b5ed7;
@@ -156,6 +166,7 @@ a:hover {
   background-color: #0d6efd;
   border-color: #0d6efd;
   }
+
 @media (min-width: 800px) {
     #nav-wrapper {
         overflow: hidden;

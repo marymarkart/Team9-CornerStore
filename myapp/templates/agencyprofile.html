@@ -55,15 +55,36 @@
                 <br> <center><strong><span class="font-weight-bold"> {{ username }}</span></strong>
                 <br><span> Verified Status </span> <br><br>
                 <span><a href="/editprofile"> <button type="button" class="btn btn-primary">Edit Profile</button> </a></span><br><br>
-                <span><a href="/listing"><button type="button" class="btn btn-primary"> Add Volunteer Opportunity </button></a></span>
+                <span><a href="/listvolunteer"><button type="button" class="btn btn-primary"> Add Volunteer Opportunity </button></a></span>
             </center>
             </div>
         </div>
-        <div class="col-md-5 border-right">
+        <div class="col-md-8 border-right">
             <div class="p-3 py-5">
-
+                <h4 style='font-family: Monaco;'>Your Listings</h4>
                 <div class="row mt-2">
-                    <div class="col-md-12"><label class="labels">Volunteer Opportunities</label><input type="text" class="form-control" value=""></div>
+                    
+                    {% for i in listings %}
+                        
+                        <a href="/managevol/{{i.id}}">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <div class="col">{{ i.name }}</div>
+                        </div>
+                        <div class="panel-heading">
+                                <div class='col', style="text-align:right"> 
+
+                            
+                        </div>
+                    </div>
+                          <div class="panel-body">
+                            {{ i.description }} </div>
+                            
+                        </div>
+                    </a>
+                    
+                    
+                   {% endfor %} 
                 </div>
             </div>
         </div>

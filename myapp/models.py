@@ -35,6 +35,9 @@ class User(UserMixin, db.Model):
     admin = db.Column(db.String(10))
     agency = db.Column(db.String(10))
     profile = db.relationship('Profile', backref='users', lazy='dynamic')
+    listings = db.relationship('Listing', backref='users', lazy='dynamic')
+    volunteer = db.relationship('Volunteer', backref='users', lazy='dynamic')
+    bevolunteer = db.relationship('BeVolunteer', backref='users', lazy='dynamic')
 
     # def __init__(self, username, email):
     #     self.username = username
@@ -101,4 +104,66 @@ class Profile(db.Model):
 #     id = db.Column(db.Integer, primary_key = True)
 #     rating = db.Column(db.Float)
 #     user_id
+
+
+class Listing(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image_file = db.Column(db.String(20),nullable=False,default='default.jpg')
+    name = db.Column(db.String(64))
+    description = db.Column(db.String(512))
+    location = db.Column(db.String(5))
+    agency = db.Column(db.String(128))
+    warehouse = db.Column(db.String(5))
+    free = db.Column(db.Boolean, default=False)
+    price = db.Column(db.Float, default=0.00)
+    trade = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    status = db.Column(db.String, default='For Sale')
+
+    def __init__(self, image_file, name, description, location, agency, warehouse, free, trade, user_id):
+        self.image_file = image_file
+        self.name = name
+        self.description = description
+        self.location = location
+        self.agency = agency
+        self.warehouse = warehouse
+        self.free = free
+        self.trade = trade
+        self.user_id = user_id 
+
+    def set_price(self, price):
+        self.price = price
+
+    def set_name(self, name):
+        self.name = name 
+
+    def set_desc(self, description):
+        self.description = description
+
+class Volunteer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    description = db.Column(db.String(512))
+    location = db.Column(db.String(5))
+    date = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    vol = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
+
+    def __init__(self, name, description, location, date, user_id):
+        self.name = name
+        self.description = description
+        self.location = location
+        self.date = date 
+        self.user_id = user_id
+
+
+class BeVolunteer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    vol_id = db.Column(db.Integer, db.ForeignKey('volunteer.id'))
+
+    def __init__(self, user_id, vol_id):
+        self.user_id = user_id
+        self.vol_id = vol_id
+
 
