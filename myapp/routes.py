@@ -220,7 +220,7 @@ def itemsForSale():
         flash(f'Created!')
         name = form.name.data
         description = form.description.data
-        location = form.location.data
+        location = int(form.location.data)
         agency = form.agency.data
         warehouse = form.warehouse.data
         free = form.free.data
@@ -422,7 +422,7 @@ def create_checkout_session(val):
                 }],
                 mode='payment',
                 success_url='https://example.com/success',
-                cancel_url='https://example.com/cancel',
+                cancel_url=YOUR_DOMAIN+ '/listings/'+str(val),
         )
     except Exception as e:
         return str(e)

@@ -76,9 +76,9 @@ class EditProfile(FlaskForm):
 
 
 class ListingForm(FlaskForm):
-    name = StringField('Item Name')
+    name = StringField('Item Name', validators=[DataRequired()])
     description = StringField('Item Description')
-    location = StringField('Enter Postal Code')
+    location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5)])
     agency = SelectField('Enter Agency', choices=[])
     warehouse = BooleanField('Add Premium Warehouse?')
     free = BooleanField('List Item As Free')
@@ -90,7 +90,7 @@ class ListingForm(FlaskForm):
 class VolunteerForm(FlaskForm):
     name = StringField('Volunteer Opportunity Name')
     description = StringField('Opportunity Description')
-    location = StringField('Enter Postal Code')
+    location = IntegerField('Enter Postal Code')
     date = DateField('Enter Event Date', id='datepick', validators=[DataRequired()])
     submit = SubmitField('Create Opportunity')
 
