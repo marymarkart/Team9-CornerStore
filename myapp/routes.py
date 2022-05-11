@@ -1,10 +1,10 @@
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
 from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer
+from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating
 from flask_login import current_user, login_user, logout_user, login_required
 import stripe
 import os
@@ -179,6 +179,12 @@ def edit():
 @login_required
 def adminprofile():
     return render_template('adminprofile.html')
+
+@myapp_obj.route('/viewprofile/<int:val>')
+def viewProfile(val):
+    user = User.query.get(val)
+    print(user)
+    return render_template('viewprofile.html', user=user)
 
 
 """
@@ -401,15 +407,16 @@ stripe.api_key = 'sk_test_51KwJCGIVxGuZvYFf0YW5nfbMrKiW4fmwQZfpuOM1ai8b1y1CZb5OX
 def create_checkout_session(val):
     item_id = val 
     item = Listing.query.get(item_id)
+    integer_price = int(item.price * 100)
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
                   'price_data': {
                     'currency': 'usd',
                     'product_data': {
-                      'name': 'T-shirt',
+                      'name': item.name,
                     },
-                    'unit_amount': 2000,
+                    'unit_amount': integer_price,
                   },
                   'quantity': 1,
                 }],

@@ -106,3 +106,9 @@ class NewDesc(FlaskForm):
 class NewPrice(FlaskForm):
     price = FloatField("Enter New Price")
     submit = SubmitField("Save Changes")
+
+
+class ReviewForm(FlaskForm):
+    rating = FloatField('Give Seller Rating:')
+    review = StringField("Give Seller Review: ")
+    submit = SubmitField("Submit Rating")

@@ -71,6 +71,8 @@ class User(UserMixin, db.Model):
 
 
 
+
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -145,7 +147,7 @@ class Volunteer(db.Model):
     location = db.Column(db.String(5))
     date = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    vol = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
+    vol_id = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
 
     def __init__(self, name, description, location, date, user_id):
         self.name = name
@@ -164,4 +166,13 @@ class BeVolunteer(db.Model):
         self.user_id = user_id
         self.vol_id = vol_id
 
+class Rating(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Float(3), default=None)
+    review = db.Column(db.String(256))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    def __init__(self, rating, review, user_id):
+        self.rating = rating
+        self.review = review
+        self.user_id = user_id
