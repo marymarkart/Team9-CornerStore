@@ -76,7 +76,10 @@ class EditProfile(FlaskForm):
 
 
 class ListingForm(FlaskForm):
+<<<<<<< HEAD
     picture = FileField(label="Add Item Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
+=======
+>>>>>>> 8a854444f2a6e9a0d675ee5c7a9e96c8c77867dd
     name = StringField('Item Name', validators=[DataRequired()])
     description = StringField('Item Description')
     location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5)])
@@ -91,7 +94,7 @@ class ListingForm(FlaskForm):
 class VolunteerForm(FlaskForm):
     name = StringField('Volunteer Opportunity Name')
     description = StringField('Opportunity Description')
-    location = StringField('Enter Postal Code')
+    location = IntegerField('Enter Postal Code')
     date = DateField('Enter Event Date', id='datepick', validators=[DataRequired()])
     submit = SubmitField('Create Opportunity')
 
@@ -107,3 +110,9 @@ class NewDesc(FlaskForm):
 class NewPrice(FlaskForm):
     price = FloatField("Enter New Price")
     submit = SubmitField("Save Changes")
+
+
+class ReviewForm(FlaskForm):
+    rating = FloatField('Give Seller Rating:')
+    review = StringField("Give Seller Review: ")
+    submit = SubmitField("Submit Rating")

@@ -71,6 +71,8 @@ class User(UserMixin, db.Model):
 
 
 
+
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -84,7 +86,7 @@ class Profile(db.Model):
     phone = db.Column(db.String(64))
     address1 = db.Column(db.String(128))
     address2 = db.Column(db.String(128))
-    postal = db.Column(db.String(64))
+    postal = db.Column(db.Integer)
     state = db.Column(db.String(64))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
@@ -111,9 +113,9 @@ class Listing(db.Model):
     image_file = db.Column(db.String(20),nullable=False,default='default.jpg')
     name = db.Column(db.String(64))
     description = db.Column(db.String(512))
-    location = db.Column(db.String(5))
+    location = db.Column(db.Integer)
     agency = db.Column(db.String(128))
-    warehouse = db.Column(db.String(5))
+    warehouse = db.Column(db.Boolean, default=False)
     free = db.Column(db.Boolean, default=False)
     price = db.Column(db.Float, default=0.00)
     trade = db.Column(db.Boolean, default=False)
@@ -144,10 +146,10 @@ class Volunteer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     description = db.Column(db.String(512))
-    location = db.Column(db.String(5))
+    location = db.Column(db.Integer)
     date = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    vol = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
+    vol_id = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
 
     def __init__(self, name, description, location, date, user_id):
         self.name = name
@@ -166,4 +168,13 @@ class BeVolunteer(db.Model):
         self.user_id = user_id
         self.vol_id = vol_id
 
+class Rating(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Float(3), default=None)
+    review = db.Column(db.String(256))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    def __init__(self, rating, review, user_id):
+        self.rating = rating
+        self.review = review
+        self.user_id = user_id
