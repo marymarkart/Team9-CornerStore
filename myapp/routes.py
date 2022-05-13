@@ -138,7 +138,7 @@ def profile():
         return redirect('/agencyprofile')
     if admin == 'True':
         return redirect('/adminprofile')
-    
+
     listings = Listing.query.filter(Listing.user_id==user_id)
     return render_template('profile.html', username = username, agency=agency, listings=listings)
 
@@ -146,7 +146,7 @@ def profile():
 @login_required
 def agencyprofile():
     username = current_user.username
-    user_id = current_user.id 
+    user_id = current_user.id
     listings = Volunteer.query.filter(Volunteer.user_id==user_id)
     return render_template('agencyprofile.html', username = username, listings=listings)
 
@@ -155,7 +155,7 @@ def agencyprofile():
 def edit():
     username = current_user.username
     user_id = current_user.id
-    
+
     form = EditProfile()
     if form.validate_on_submit():
         flash(f'Changes Saved')
@@ -244,15 +244,16 @@ def itemsForSale():
             listing.set_price(form.price.data)
         db.session.add(listing)
         db.session.commit()
-        return redirect("/createditem")
+        return redirect('/listings/'+ str(listing.id))
     image_url = url_for('static', filename='listing_pics/'+ Listing.image_file)
     return render_template('listitem.html', a=a, form=form, image_url = image_url)
 
 @myapp_obj.route("/createditem")
 @login_required
 def itemTest():
-    form = Listing.query.all()
-    return render_template('testfile.html', form = form)
+	item = Listing.query.get(listing_id)
+    # form = Listing.query.all()
+	return render_template('testfile.html', item=item)
 
 @myapp_obj.route('/freelistings')
 @login_required
@@ -290,7 +291,7 @@ def getListing(val):
 def manageListing(val):
     listing_id = val
     items = Listing.query.get(listing_id)
-    
+
     return render_template('managelisting.html',  items=items)
 
 
@@ -301,10 +302,10 @@ def newName(val):
     if form.validate_on_submit():
         flash(f'Changes Saved!')
         name = form.name.data
-        
+
         db.session.query(Listing).filter(
         Listing.id == val).update({Listing.name: name})
-        
+
         db.session.commit()
         return redirect("/managelistings/<int:val>")
     return render_template('newname.html', form=form, item=item)
@@ -389,11 +390,11 @@ def manageVol(val):
         us = get_username(i.user_id)
         print(us)
         a.append(us)
-    
+
     # for c,i in db.session.query(User, BeVolunteer).filter(User.bevolunteer == vols.user_id):
     #     user = get_username(c.id)
     #     a.append(c.get_username())
-    
+
     return render_template('managevol.html',  item=item, vols=vols, a=a)
 
 def get_username(user_id):
@@ -416,7 +417,7 @@ stripe.api_key = 'sk_test_51KwJCGIVxGuZvYFf0YW5nfbMrKiW4fmwQZfpuOM1ai8b1y1CZb5OX
 
 @myapp_obj.route('/purchase/<int:val>', methods=['GET','POST'])
 def create_checkout_session(val):
-    item_id = val 
+    item_id = val
     item = Listing.query.get(item_id)
     integer_price = int(item.price * 100)
     try:
@@ -439,4 +440,3 @@ def create_checkout_session(val):
         return str(e)
 
     return redirect(checkout_session.url, code=303)
-
