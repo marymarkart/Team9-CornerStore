@@ -18,12 +18,8 @@
 
 {% block content %}
 <p>
-    <ul>
-    {% for i in items %}
-    <li> {{ i.name }}</li>
-    {% endfor %}
-</ul>
-  
+
+
 
 </head>
 <body>
@@ -37,25 +33,27 @@
       <h2> {{ item.name }} </h2>
       <br><br><br>
       <div>
-      <p> 
-        <a href ="/managelistings/newname/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"> <span class="glyphicon glyphicon-pencil"></span>             Edit Name </a></p><br><br><br>
+      <p>
+        <a href ="/newname/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"> <span class="glyphicon glyphicon-pencil"></span>             Edit Name </a></p><br><br><br>
         <p>
-        <a href ="/profile" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Description </a><br><br><br><br>
+        <a href ="/newprice/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Price </a><br><br><br><br>
         </p>
-        <p><a href ="/profile" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Price </a><br></p> 
+        <p><a href ="/profile" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Description </a><br></p>
+        </div>
+        <p><a href ="/delete/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-trash"></span>              Delete Listing </a><br></p>
         </div>
     </div>
     <br>
-    
+
     <div class="col-sm-9">
-      
+
         <h4>Add picture here! </h4>
         <p><br><br><br><br><br><br><br><br></p>
-      
+
       <br>
       <div class="row">
       <div class="col-sm-9">
-        
+
         <h4>Item Description</h4>
         <p> {{item.description }}</p>
       </div>
@@ -63,81 +61,80 @@
       <br>
       <div class="row">
         <div class="col-sm-3">
-          
+
             <h4> Donation item? </h4>
             {% if item.agency %}
-            <p>Yes</p> 
+            <p>Yes</p>
             {% endif %}
-          
+
         </div>
         <div class="col-sm-3">
-          
+
             <h4>Warehouse? </h4>
             {% if item.warehouse %}
-            <p>Yes</p> 
+            <p>Yes</p>
             {% else %}
             <p> No </p>
             {% endif %}
-          
+
         </div>
         <div class="col-sm-3">
-          
+
             <h4>Location</h4>
-            <p>{{ item.location }}</p> 
-          
+            <p>{{ item.location }}</p>
+
         </div>
         <div class="col-sm-3">
-          
+
             <h4>Price</h4>
             {% if item.free == True %}
-            <p> Free </p> 
+            <p> Free </p>
             {% elif item.trade == True %}
             <p> Trade </p>
             {% else %}
-            <p> {{ item.price }}</p> 
+            <p> {{ item.price }}</p>
             {% endif %}
-          
+
         </div>
       </div>
       <!-- <div class="row">
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>Text</p>
+            <p>Text</p>
+            <p>Text</p>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>Text</p>
+            <p>Text</p>
+            <p>Text</p>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>Text</p>
+            <p>Text</p>
+            <p>Text</p>
           </div>
         </div>
       </div> -->
       <br><br><br>
-      
-          
+      {% block text %}
+      {% endblock %}
+      {% block scripter %}
+
+      {% endblock %}
+
         </div>
       </div>
     </div>
   </div>
 </div>
 <!-- <script src="js/scripts.js"></script> -->
-{% block text %}
-{% endblock %}
-{% block scripter %}
 
-{% endblock %}
 
-<!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 
@@ -147,7 +144,6 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 
-</script>
 
 </body>
 </html>
