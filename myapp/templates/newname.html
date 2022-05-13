@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/javascript.js}"></script> -->
+    <!-- <script type="text/javascript" th:src={{ url_for('static', filename='/javascript.js')}}"></script> -->
     <style>
         /* Remove the navbar's default rounded borders and increase the bottom margin */
         /*.navbar {*/
@@ -92,7 +93,7 @@
 
 {% block text %}
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -103,10 +104,9 @@
     </a>
       </div>
       <div class="modal-body">
-        <form method="POST" action = "/signup">
+        <form method="POST" >
             {{ form.hidden_tag() }}
-<!--           <div class="form-group">
-            <div class="containerx"> -->
+
             <fieldset>
 
           <p style="text-align:left;"> {{ form.name.label }} <br>
@@ -116,13 +116,13 @@
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
-        
-          
+            box-sizing: border-box;') }} </p>
+
+
 
       <div class="modal-footer">
-        <a href="/"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></a>
-        
+        <a href="/managelistings/{{item.id}}"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></a>
+
         {{ form.submit(class="btn btn-primary") }}
 
         </fieldset>
@@ -133,18 +133,20 @@
 
 
 </div>
+</div>
+</div>
 
 {% endblock %}
+
 {% block scripter %}
 <script>
     $(document).ready(function(){
         console.log("window is loaded")
         $("#exampleModal").modal("show")
-    })
+    });
 </script>
 {% endblock %}
 
 </body>
 
 </html>
-

@@ -290,26 +290,49 @@ def getListing(val):
 @login_required
 def manageListing(val):
     listing_id = val
-    items = Listing.query.get(listing_id)
+    item = Listing.query.get(listing_id)
 
-    return render_template('managelisting.html',  items=items)
+    return render_template('managelisting.html',  item=item)
 
 
-@myapp_obj.route('/managelistings/newname/<int:val>')
+@myapp_obj.route('/newname/<int:val>', methods=['GET', 'POST'])
 def newName(val):
-    item = Listing.query.get(val)
-    form = NewName()
-    if form.validate_on_submit():
-        flash(f'Changes Saved!')
-        name = form.name.data
+	item = Listing.query.get(val)
+	form = NewName()
+	value=val
+	if form.validate_on_submit():
+		flash(f'Changes Saved!')
+		newname = form.name.data
+		item.name = newname
 
-        db.session.query(Listing).filter(
-        Listing.id == val).update({Listing.name: name})
+        # db.session.query(Listing).filter(
+        # Listing.id == val).update({Listing.name: name})
+		db.session.commit()
+		return redirect(url_for('manageListing', val=value))
+	return render_template('newname.html', form=form, item=item, val=val)
 
-        db.session.commit()
-        return redirect("/managelistings/<int:val>")
-    return render_template('newname.html', form=form, item=item)
+@myapp_obj.route('/newprice/<int:val>', methods=['GET', 'POST'])
+def newPrice(val):
+	item = Listing.query.get(val)
+	form = NewPrice()
+	value=val
+	if form.validate_on_submit():
+		flash(f'Changes Saved!')
+		newprice = form.price.data
+		item.price = newprice
 
+        # db.session.query(Listing).filter(
+        # Listing.id == val).update({Listing.name: name})
+		db.session.commit()
+		return redirect(url_for('manageListing', val=value))
+	return render_template('newprice.html', form=form, item=item, val=val)
+
+@myapp_obj.route('/delete/<int:val>')
+def deleteItem(val):
+	item = Listing.query.get(val)
+	db.session.delete(item)
+	db.session.commit()
+	return redirect(url_for('listings'))
 """
 
 
