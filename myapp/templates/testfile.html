@@ -3,12 +3,8 @@
 
 {% block content %}
 <p>
-	<ul>
-	{% for i in form %}
-	<li> {{ form.name }}</li>
-	{% endfor %}
-</ul>
-  
+
+
 
 </head>
 <body>
@@ -33,11 +29,11 @@
     </div>
 
         <p><br><br><br><br><br><br><br><br></p>
-      
+
       <br>
       <div class="row">
       <div class="col-sm-9">
-      	
+
       	<h4>Item Description</h4>
     	<p> {{form.description }}</p>
       </div>
@@ -45,82 +41,82 @@
       <br>
       <div class="row">
         <div class="col-sm-3">
-          
+
             <h4> Donation item? </h4>
             {% if form.agency %}
-            <p>Yes</p> 
+            <p>Yes</p>
             {% endif %}
-          
+
         </div>
         <div class="col-sm-3">
-          
+
             <h4>Warehouse? </h4>
             {% if form.warehouse %}
-            <p>Yes</p> 
+            <p>Yes</p>
             {% else %}
             <p> No </p>
             {% endif %}
-          
+
         </div>
         <div class="col-sm-3">
-          
+
             <h4>Location</h4>
-            <p>{{ form.location }}</p> 
-          
+            <p>{{ form.location }}</p>
+
         </div>
         <div class="col-sm-3">
-          
+
           	<h4>Price</h4>
           	{% if form.free == True %}
-            <p> Free </p> 
+            <p> Free </p>
             {% elif form.trade == True %}
             <p> Trade </p>
             {% else %}
-            <p> {{ form.price }}</p> 
+            <p> {{ form.price }}</p>
             {% endif %}
-          
+
         </div>
       </div>
       <!-- <div class="row">
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>Text</p>
+            <p>Text</p>
+            <p>Text</p>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>Text</p>
+            <p>Text</p>
+            <p>Text</p>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>Text</p>
+            <p>Text</p>
+            <p>Text</p>
           </div>
         </div>
       </div> -->
       <br><br><br>
       <div class="row" style="align-text: right;">
         <div class="col-sm-6" >
-          
+
             <a href="#" class="btn btn-secondary btn-lg">
           <span class="glyphicon glyphicon-tags"></span>  Bid on Item
         </a>
-          
+
         </div>
         <div class="col-sm-6" style="text-align: right;">
-          
-           
+
+
 
             <a href="/purchase/{{form.id}}" class="btn btn-primary btn-lg">
           <span class="glyphicon glyphicon-shopping-cart"></span> Buy Now
         </a>
-          
+
         </div>
       </div>
     </div>

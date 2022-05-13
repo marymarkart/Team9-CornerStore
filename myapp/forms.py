@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
             Parameters:
                     username (StringField): A single line of text for user to input name
                     password (PasswordField): A single line of text for users to enter password
-                    remember_me (BooleanField): a checkbox 
+                    remember_me (BooleanField): a checkbox
                     submit (SubmitField)
 
             Returns:
@@ -77,9 +77,9 @@ class EditProfile(FlaskForm):
 
 class ListingForm(FlaskForm):
     picture = FileField(label="Add Item Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
-    name = StringField('Item Name')
+    name = StringField('Item Name', validators=[DataRequired()])
     description = StringField('Item Description')
-    location = StringField('Enter Postal Code')
+    location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5)])
     agency = SelectField('Enter Agency', choices=[])
     warehouse = BooleanField('Add Premium Warehouse?')
     free = BooleanField('List Item As Free')

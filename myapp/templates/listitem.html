@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
+<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 
     <style>
         /* Remove the navbar's default rounded borders and increase the bottom margin */
@@ -107,7 +108,7 @@
             <div class="containerx"> -->
             <fieldset>
 
-        
+
                 <p style="text-align:left;"> {{ form.picture.label }} <br>
             {{ form.picture(placeholder="Enter Item Photo", style='width: 100%;
             padding: 12px 20px;
@@ -115,13 +116,13 @@
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;')}} 
+            box-sizing: border-box;')}}
             {%if form.picture.errors%}
                 {%for error in form.picture.errors %}
                     <span class="text-danger">{{error}}</span> <br>
                 {%endfor%}
             {%endif%}
-        </p> 
+        </p>
 
           <p style="text-align:left;"> {{ form.name.label }} <br>
             {{ form.name(placeholder="Enter item name", style='width: 100%;
@@ -130,8 +131,8 @@
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
-        
+            box-sizing: border-box;') }} </p>
+
           <p style="text-align:left;"> {{ form.description.label }} <br>
             {{ form.description(placeholder="Enter item description", style='width: 100%;
             padding: 12px 20px;
@@ -139,36 +140,39 @@
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
-        
+            box-sizing: border-box;') }} </p>
+
           <p style="text-align:left;"> {{ form.location.label }} <br>
-            {{ form.location(placeholder="Enter item description", style='width: 100%;
+            {{ form.location(placeholder="Enter item description", style='width: 20%;
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
+            box-sizing: border-box;') }} </p>
 
             <p> {{ form.agency.label }} <br>
                     {{ form.agency(class="form-control", value = "") }}</p>
 
             <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>
 
+            <div class="form-group" >
 
+            <p style="text-align:left;"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free(id="seeAnotherFieldGroup") }}</p>
 
-            <p style="text-align:left;"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free() }}</p>  
-
+            </div>
+            <div class="form-group" id="otherFieldDiv">
             <p style="text-align:left;"> {{ form.price.label }} <br>
-            {{ form.price(placeholder="Enter item description", style='width: 100%;
+            {{ form.price(placeholder="Enter item description", style='width: 20%;
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
-        
-        <p style="text-align:left;"> {{ form.trade.label(style='font-size: 15px;') }} {{ form.trade() }}</p>  
+            box-sizing: border-box;') }} </p>
+          </div>
+
+        <p style="text-align:left;"> {{ form.trade.label(style='font-size: 15px;') }} {{ form.trade() }}</p>
 
 
         <p>{{ form.submit(class= "btn btn-primary")}}</p>
@@ -206,6 +210,22 @@
         </div>
 
         <button type ="submit" class="button"> List Item </button> -->
+
+<script>
+
+$(document).ready(function () {
+  $('#otherFieldDiv').show();
+  $("#seeAnotherFieldGroup").change(function() {
+    var checked = document.getElementById('seeAnotherFieldGroup').checked
+  if (checked) {
+  $('#otherFieldDiv').hide();
+} else {
+  $('#otherFieldDiv').show();
+}
+});
+$("#seeAnotherFieldGroup").trigger("change");
+});
+</script>
 
     </form>
 </div>
