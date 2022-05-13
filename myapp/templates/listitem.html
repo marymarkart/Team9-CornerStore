@@ -101,11 +101,27 @@
     <p> {{ item }}</p>
     {% endfor %} -->
 
-    <form method="POST" action = "/createlisting">
+    <form method="POST" action = "/createlisting" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
 <!--           <div class="form-group">
             <div class="containerx"> -->
             <fieldset>
+
+        
+                <p style="text-align:left;"> {{ form.picture.label }} <br>
+            {{ form.picture(placeholder="Enter Item Photo", style='width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;')}} 
+            {%if form.picture.errors%}
+                {%for error in form.picture.errors %}
+                    <span class="text-danger">{{error}}</span> <br>
+                {%endfor%}
+            {%endif%}
+        </p> 
 
           <p style="text-align:left;"> {{ form.name.label }} <br>
             {{ form.name(placeholder="Enter item name", style='width: 100%;

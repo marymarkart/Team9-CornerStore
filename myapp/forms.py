@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional)
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class LoginForm(FlaskForm):
         """
@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
             Parameters:
                     username (StringField): A single line of text for user to input name
                     password (PasswordField): A single line of text for users to enter password
-                    remember_me (BooleanField): a checkbox 
+                    remember_me (BooleanField): a checkbox
                     submit (SubmitField)
 
             Returns:

@@ -110,6 +110,7 @@ class Profile(db.Model):
 
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    image_file = db.Column(db.String(20),nullable=False,default='default.jpg')
     name = db.Column(db.String(64))
     description = db.Column(db.String(512))
     location = db.Column(db.Integer)
@@ -121,7 +122,8 @@ class Listing(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     status = db.Column(db.String, default='For Sale')
 
-    def __init__(self, name, description, location, agency, warehouse, free, trade, user_id):
+    def __init__(self, image_file, name, description, location, agency, warehouse, free, trade, user_id):
+        self.image_file = image_file
         self.name = name
         self.description = description
         self.location = location
