@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
             Parameters:
                     username (StringField): A single line of text for user to input name
                     password (PasswordField): A single line of text for users to enter password
-                    remember_me (BooleanField): a checkbox 
+                    remember_me (BooleanField): a checkbox
                     submit (SubmitField)
 
             Returns:
@@ -76,10 +76,9 @@ class EditProfile(FlaskForm):
 
 
 class ListingForm(FlaskForm):
-    picture = FileField(label="Add Item Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
-    name = StringField('Item Name')
+    name = StringField('Item Name', validators=[DataRequired()])
     description = StringField('Item Description')
-    location = StringField('Enter Postal Code')
+    location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5)])
     agency = SelectField('Enter Agency', choices=[])
     warehouse = BooleanField('Add Premium Warehouse?')
     free = BooleanField('List Item As Free')
@@ -91,7 +90,7 @@ class ListingForm(FlaskForm):
 class VolunteerForm(FlaskForm):
     name = StringField('Volunteer Opportunity Name')
     description = StringField('Opportunity Description')
-    location = StringField('Enter Postal Code')
+    location = IntegerField('Enter Postal Code')
     date = DateField('Enter Event Date', id='datepick', validators=[DataRequired()])
     submit = SubmitField('Create Opportunity')
 
@@ -107,3 +106,9 @@ class NewDesc(FlaskForm):
 class NewPrice(FlaskForm):
     price = FloatField("Enter New Price")
     submit = SubmitField("Save Changes")
+
+
+class ReviewForm(FlaskForm):
+    rating = FloatField('Give Seller Rating:')
+    review = StringField("Give Seller Review: ")
+    submit = SubmitField("Submit Rating")
