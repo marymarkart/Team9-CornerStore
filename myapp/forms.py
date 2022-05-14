@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField
-from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional)
+from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional, Regexp)
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class LoginForm(FlaskForm):
@@ -79,8 +79,9 @@ class ListingForm(FlaskForm):
     picture = FileField(label="Add Item Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
     name = StringField('Item Name', validators=[DataRequired()])
     description = StringField('Item Description')
-    location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5)])
-    agency = SelectField('Enter Agency', choices=[])
+    location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5, message="Postal Code must be valid"), Regexp('\d{5}', message='No Good' )])
+
+    agency = SelectField('Enter Agency', choices=[], default='None', render_kw={"placeholder": "None"})
     warehouse = BooleanField('Add Premium Warehouse?')
     free = BooleanField('List Item As Free')
     price = FloatField('Item Price (leave blank if free)', validators=[Optional()])

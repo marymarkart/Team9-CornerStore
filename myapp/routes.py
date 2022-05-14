@@ -224,6 +224,7 @@ def itemsForSale():
     # form.agency.choices = [('0', 'None')] + a
 
     form.agency.choices = a
+    a.insert(0,None)
 	# form.agency.default = [('0', '-- select an option --')]
 
 

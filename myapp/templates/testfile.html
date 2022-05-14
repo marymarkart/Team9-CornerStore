@@ -37,12 +37,12 @@
 
     <br>
 
-		<div class='custom-picture'>
-    <div class="col-sm-9">
 
+    <div class="col-sm-9">
+			<div class='custom-picture'>
 			<img src="/static/listing_pics/{{item.image_file}}" style="width:50%; height:50%" >
 
-
+			</div>
 
 
 
@@ -66,8 +66,10 @@
         <div class="col-sm-3">
 
             <h4> Donation item? </h4>
-            {% if item.agency %}
-            <p>Yes</p>
+            {% if item.agency == "None" %}
+            <p>No</p>
+						{% else %}
+						<p>Yes</p>
             {% endif %}
 
         </div>

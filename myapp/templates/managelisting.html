@@ -38,7 +38,7 @@
         <p>
         <a href ="/newprice/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Price </a><br><br><br><br>
         </p>
-        <p><a href ="/profile" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Description </a><br></p>
+        <p><a href ="/profile" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Description </a><br><br><br><br></p>
         </div>
         <p><a href ="/delete/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-trash"></span>              Delete Listing </a><br></p>
         </div>
@@ -46,11 +46,12 @@
     <br>
 
 
-    <div class="col-sm-9">
+    <div class="col-sm-9" style='box-shadow:10px'>
 
+        <div class='custom-picture'>
+        <h4><img src='/static/listing_pics/{{item.image_file}}' style="width:50%; height:50%"></h4>
+        </div>
 
-        <h4><img src='/static/listing_pics/{{item.image_file}}'</h4>
-        <p><br><br><br><br><br><br><br><br></p>
 
       <br>
       <div class="row">
