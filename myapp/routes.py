@@ -1,11 +1,11 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
 from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating
+from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer
 from flask_login import current_user, login_user, logout_user, login_required
 import stripe
 import os
@@ -181,12 +181,6 @@ def edit():
 def adminprofile():
     return render_template('adminprofile.html')
 
-@myapp_obj.route('/viewprofile/<int:val>')
-def viewProfile(val):
-    user = User.query.get(val)
-    print(user)
-    return render_template('viewprofile.html', user=user)
-
 
 """
 
@@ -228,12 +222,13 @@ def itemsForSale():
         flash(f'Created!')
         name = form.name.data
         description = form.description.data
-        location = int(form.location.data)
+        location = form.location.data
         agency = form.agency.data
         warehouse = form.warehouse.data
         free = form.free.data
         trade = form.trade.data
         image_file = save_image(form.picture.data)
+        print(image_file)
         Listing.image_file = image_file
         listing = Listing(image_file, name, description, location, agency, warehouse, free, trade, user_id)
         if free is True:
@@ -251,8 +246,8 @@ def itemsForSale():
 @myapp_obj.route("/createditem")
 @login_required
 def itemTest():
-    form = Listing.query.all()
-    return render_template('testfile.html', form = form)
+    item = Listing.query.all()
+    return render_template('testfile.html', item = item)
 
 @myapp_obj.route('/freelistings')
 @login_required
@@ -418,22 +413,21 @@ stripe.api_key = 'sk_test_51KwJCGIVxGuZvYFf0YW5nfbMrKiW4fmwQZfpuOM1ai8b1y1CZb5OX
 def create_checkout_session(val):
     item_id = val 
     item = Listing.query.get(item_id)
-    integer_price = int(item.price * 100)
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
                   'price_data': {
                     'currency': 'usd',
                     'product_data': {
-                      'name': item.name,
+                      'name': 'T-shirt',
                     },
-                    'unit_amount': integer_price,
+                    'unit_amount': 2000,
                   },
                   'quantity': 1,
                 }],
                 mode='payment',
                 success_url='https://example.com/success',
-                cancel_url=YOUR_DOMAIN+ '/listings/'+str(val),
+                cancel_url='https://example.com/cancel',
         )
     except Exception as e:
         return str(e)

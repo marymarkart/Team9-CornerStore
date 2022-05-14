@@ -77,6 +77,7 @@ class EditProfile(FlaskForm):
 
 class ListingForm(FlaskForm):
     name = StringField('Item Name', validators=[DataRequired()])
+    picture = FileField(label="Insert Item Photo", validators=[FileAllowed(['jpg','png']),FileRequired()])
     description = StringField('Item Description')
     location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5)])
     agency = SelectField('Enter Agency', choices=[])

@@ -4,8 +4,8 @@
 {% block content %}
 <p>
 	<ul>
-	{% for i in form %}
-	<li> {{ form.name }}</li>
+	{% for i in items %}
+	<li> {{ item.name }}</li>
 	{% endfor %}
 </ul>
 
@@ -19,17 +19,14 @@
   <div class="row content">
 
     <div class="col-sm-3 sidenav hidden-xs">
-      <h2> {{ form.name }} </h2>
+      <h2> {{ item.name }} </h2>
     </div>
     <br>
 
 
     <div class = "container w-50">
-      <img src ="{{image_url}}" alt="Image">
-    </div>
-
-    <div class = "container w-50">
       <form method="POST" action="" enctype="multipart/form-data"> </form>
+      <img src = "{{ image_url }}'">
     </div>
 
         <p><br><br><br><br><br><br><br><br></p>
@@ -39,7 +36,7 @@
       <div class="col-sm-9">
 
       	<h4>Item Description</h4>
-    	<p> {{form.description }}</p>
+    	<p> {{item.description }}</p>
       </div>
   </div>
       <br>
@@ -47,7 +44,7 @@
         <div class="col-sm-3">
 
             <h4> Donation item? </h4>
-            {% if form.agency %}
+            {% if item.agency %}
             <p>Yes</p>
             {% endif %}
 
@@ -55,7 +52,7 @@
         <div class="col-sm-3">
 
             <h4>Warehouse? </h4>
-            {% if form.warehouse %}
+            {% if item.warehouse %}
             <p>Yes</p>
             {% else %}
             <p> No </p>
@@ -65,18 +62,18 @@
         <div class="col-sm-3">
 
             <h4>Location</h4>
-            <p>{{ form.location }}</p>
+            <p>{{ item.location }}</p>
 
         </div>
         <div class="col-sm-3">
 
           	<h4>Price</h4>
-          	{% if form.free == True %}
+          	{% if item.free == True %}
             <p> Free </p>
-            {% elif form.trade == True %}
+            {% elif item.trade == True %}
             <p> Trade </p>
             {% else %}
-            <p> {{ form.price }}</p>
+            <p> {{ item.price }}</p>
             {% endif %}
 
         </div>
@@ -117,7 +114,7 @@
 
 
 
-            <a href="/purchase/{{form.id}}" class="btn btn-primary btn-lg">
+            <a href="/purchase/{{item.id}}" class="btn btn-primary btn-lg">
           <span class="glyphicon glyphicon-shopping-cart"></span> Buy Now
         </a>
 
