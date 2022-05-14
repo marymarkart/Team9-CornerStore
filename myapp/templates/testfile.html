@@ -1,36 +1,59 @@
-{% extends "base.html" %}
 
+{% extends "base.html" %}
+<html>
+<!-- <style>
+	    img{
+	        max-width: 100%;
+	        max-height: 100%;
+	        display: block; /* remove extra space below image */
+	    }
+	    .box{
+	        width: 250px;
+	        border: 5px solid black;
+	    }
+	    .box.large{
+	        height: 300px;
+	    }
+	    .box.small{
+	        height: 100px;
+	    }
+	</style> -->
 
 {% block content %}
 <p>
 
 
 
-</head>
+
 <body>
 
 
 
 <div class="container-fluid" style="width:80%">
   <div class="row content">
-
     <div class="col-sm-3 sidenav hidden-xs">
       <h2> {{ item.name }} </h2>
     </div>
+
     <br>
-    </div>
 
-    <div class = "container w-50">
-      <img src ="{{image_url}}" alt="Image">
-    </div>
+		<div class='custom-picture'>
+    <div class="col-sm-9">
 
-    <div class = "container w-50">
+			<img src="/static/listing_pics/{{item.image_file}}" style="width:50%; height:50%" >
+
+
+
+
+
+    <!-- <div class = "container w-50">
       <form method="POST" action="" enctype="multipart/form-data"> </form>
-    </div>
+    </div> -->
 
-        <p><br><br><br><br><br><br><br><br></p>
+        <!-- <p><br><br><br><br><br><br><br><br></p> -->
 
       <br>
+
       <div class="row">
       <div class="col-sm-9">
 
@@ -109,7 +132,7 @@
         </a>
 
         </div>
-        <div class="col-sm-6" style="text-align: right;">
+        <div class="col-sm-4" style="text-align: right;">
 
 
 
@@ -121,7 +144,7 @@
       </div>
     </div>
   </div>
-</div>
+
 
 
 {% block text %}
