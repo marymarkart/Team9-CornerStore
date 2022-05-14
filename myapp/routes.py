@@ -249,8 +249,16 @@ def itemsForSale():
         db.session.add(listing)
         db.session.commit()
         return redirect('/managelistings/'+ str(listing.id))
+    # else:
+    #     return redirect('/createerror')
     image_url = url_for('static', filename='listing_pics/'+ Listing.image_file)
     return render_template('listitem.html', a=a, form=form, image_url = image_url)
+
+@myapp_obj.route("/createerror")
+@login_required
+def createerror():
+	form = ListingForm()
+	return render_template('createerror.html', form=form)
 
 @myapp_obj.route("/createditem")
 @login_required
@@ -387,6 +395,13 @@ def vollistings():
     sale = Volunteer.query.all()
     title = "Volunteer Opportunities"
     return render_template('getvol.html', sale=sale, title=title)
+
+@myapp_obj.route('/deletevol/<int:val>')
+def deleteVol(val):
+	item = Volunteer.query.get(val)
+	db.session.delete(item)
+	db.session.commit()
+	return redirect(url_for('listings'))
 
 
 
