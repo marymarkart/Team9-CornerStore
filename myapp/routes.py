@@ -222,7 +222,10 @@ def itemsForSale():
     # a = User.query.with_entities(User.agency == 'True').all()
     a = User.query.filter(User.agency =='True').all()
     # form.agency.choices = [('0', 'None')] + a
+
     form.agency.choices = a
+	# form.agency.default = [('0', '-- select an option --')]
+
 
     if form.validate_on_submit():
         flash(f'Created!')
@@ -244,7 +247,7 @@ def itemsForSale():
             listing.set_price(form.price.data)
         db.session.add(listing)
         db.session.commit()
-        return redirect('/listings/'+ str(listing.id))
+        return redirect('/managelistings/'+ str(listing.id))
     image_url = url_for('static', filename='listing_pics/'+ Listing.image_file)
     return render_template('listitem.html', a=a, form=form, image_url = image_url)
 
@@ -284,6 +287,16 @@ def getListing(val):
     item = Listing.query.get(listing_id)
     items = []
     return render_template('testfile.html', items=items, item=item)
+
+@myapp_obj.route('/bought/<int:val>')
+@login_required
+def bought(val):
+	listing_id = val
+	item = Listing.query.get(listing_id)
+	item.status="Sold"
+	db.session.commit()
+	return redirect('/listings')
+	# return render_template('testfile.html', items=items, item=item)
 
 
 @myapp_obj.route('/managelistings/<int:val>')
@@ -456,7 +469,7 @@ def create_checkout_session(val):
                   'quantity': 1,
                 }],
                 mode='payment',
-                success_url='https://example.com/success',
+                success_url=YOUR_DOMAIN+ '/bought/'+str(val),
                 cancel_url=YOUR_DOMAIN+ '/listings/'+str(val),
         )
     except Exception as e:

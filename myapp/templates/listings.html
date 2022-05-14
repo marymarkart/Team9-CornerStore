@@ -21,13 +21,14 @@
 <div class="row">
     {% for i in sale %}
         <div class="col-sm-4">
+          {% if i.status == "For Sale" %}
             <a href="/listings/{{i.id}}">
             <div class="panel panel-success">
-                
+
                 <div class="panel-heading">{{ i.name }}</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-body"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
                 <div class="panel-footer">{{ i.description }}</div>
-            
+                {% endif %}
             </div>
         </a>
         </div>

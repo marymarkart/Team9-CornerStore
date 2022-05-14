@@ -142,17 +142,62 @@
             border-radius: 10px;
             box-sizing: border-box;') }} </p>
 
-          <p style="text-align:left;"> {{ form.location.label }} <br>
-            {{ form.location(placeholder="Enter item description", style='width: 20%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-sizing: border-box;') }} </p>
+            <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Country</label>
+                <div class="col-sm-5">
+                    <select class="form-control" name="country" style="width:60%">
+                        <option value="US">United States</option>
+                        <option value="AT">Austria</option>
+                        <option value="BG">Bulgaria</option>
+                        <option value="BR">Brazil</option>
+                        <option value="CA">Canada</option>
+                        <option value="CZ">Czech Republic</option>
+                        <option value="DK">Denmark</option>
+                        <option value="FR">French</option>
+                        <option value="DE">Germany</option>
+                        <option value="IN">India</option>
+                        <option value="IT">Italy</option>
+                        <option value="IE">Ireland</option>
+                        <option value="MA">Morocco</option>
+                        <option value="NL">Netherlands</option>
+                        <option value="PL">Poland</option>
+                        <option value="PT">Portugal</option>
+                        <option value="RO">Romania</option>
+                        <option value="RU">Russia</option>
+                        <option value="SG">Singapore</option>
+                        <option value="SK">Slovakia</option>
+                        <option value="ES">Spain</option>
+                        <option value="SE">Sweden</option>
+                        <option value="CH">Switzerland</option>
+                        <option value="GB">United Kingdom</option>
+                    </select>
+                  </div>
+                </div>
 
+                <div class="form-group row">
+                <label class="col-sm-3 col-form-label">{{form.location.label}}</label>
+                <div class="col-sm-5">
+                  {{ form.location(placeholder="Enter Postal Code", style='width: 60%;
+                  padding: 12px 20px;
+                  margin: 8px 0;
+                  display: inline-block;
+                  border: 1px solid #ccc;
+                  border-radius: 10px;
+                  box-sizing: border-box;') }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+            <label class="col-sm-3 col-form-label">{{form.agency.label}}</label>
+            <div class="col-sm-5">
+              {{ form.agency(class="form-control", value = "", placeholder="Enter Agency", style='width: 60%;') }}
+            </div>
+          </div>
+
+
+<!--
             <p> {{ form.agency.label }} <br>
-                    {{ form.agency(class="form-control", value = "") }}</p>
+                    {{ form.agency(class="form-control", value = "") }}</p> -->
 
             <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>
 
