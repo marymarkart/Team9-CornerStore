@@ -25,6 +25,17 @@ def app():
 
     # Can add cleanup here
 
+@pytest.fixture(scope="function")
+def db(app):
+    from app import db
+    from app.models import User
+    user = Role(name='user')
+    
+    db.session.add(user)
+    
+
+    db.session.commit()
+    return db
 
 
 @pytest.fixture()
