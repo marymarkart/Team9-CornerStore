@@ -4,7 +4,11 @@ A eco-friendly marketplace app for buying, selling, and trading used goods and s
 
 ## To Run
 
-run `pip3 install -r requirements.txt`
+### Install python libraries
+
+`pip3 install -r requirements.txt`
+
+### Run application via Terminal
 
 `python3 run.py`
 
