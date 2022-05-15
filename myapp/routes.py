@@ -388,7 +388,7 @@ def listvolunteer():
         vol = Volunteer(name, description, location, date, user_id)
         db.session.add(vol)
         db.session.commit()
-        return redirect("/agencyprofile")
+        return redirect('/managevol/'+ str(vol.id))
     return render_template('listvolunteer.html', form=form)
 
 @myapp_obj.route("/createdvol")
@@ -410,6 +410,11 @@ def deleteVol(val):
 	db.session.delete(item)
 	db.session.commit()
 	return redirect(url_for('listings'))
+
+@myapp_obj.route('/volsuccess/<int:val>')
+def volsuccess(val):
+    vol = Volunteer.query.get(val)
+    return render_template('volsuccess.html', item=vol)
 
 
 
@@ -435,8 +440,8 @@ def bevolunteer(val):
     bevol = BeVolunteer(user, vol_id)
     db.session.add(bevol)
     db.session.commit()
-
-    return redirect(url_for('volListings', val=val))
+    # return redirect('/volsuccess')
+    return redirect(url_for('volsuccess', val=val))
 
 @myapp_obj.route('/managevol/<int:val>')
 @login_required
