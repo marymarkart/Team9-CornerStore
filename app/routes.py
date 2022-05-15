@@ -200,13 +200,13 @@ CREATE AND LIST ITEMS
 
 """
 
-from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
+from app import myapp_obj
+from app.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm
 from flask import render_template, flash, redirect, url_for
 from flask import Flask
 
-from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer
+from app import db
+from app.models import User, Profile, Listing, Volunteer
 from flask_login import current_user, login_user, logout_user, login_required
 
 
