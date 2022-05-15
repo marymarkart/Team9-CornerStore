@@ -9,7 +9,7 @@ from app.models import User
 def test_signup(client):
     with client:
         response = client.get('/')
-        assert response.status_code == 302  # successfully reached the test
+        assert response.status_code == 200  # successfully reached the test
 
 
 # def test_merchant_register(db, client):
