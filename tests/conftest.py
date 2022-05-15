@@ -29,7 +29,7 @@ def app():
 def db(app):
     from app import db
     from app.models import User
-    user = Role(name='user')
+    user = User(name='user')
     
     db.session.add(user)
     
