@@ -299,6 +299,27 @@ def getListing(val):
     items = []
     return render_template('testfile.html', items=items, item=item)
 
+@myapp_obj.route('/freelistings/<int:val>')
+@login_required
+def free(val):
+    listing_id = val
+    item = Listing.query.get(listing_id)
+    items = []
+    return render_template('freeitem.html', items=items, item=item)
+
+@myapp_obj.route('/getitfree/<int:val>')
+@login_required
+def getitfree(val):
+    listing_id = val
+    user_id = current_user.id
+    listings = Listing.query.filter(Listing.user_id==user_id)
+    count = Listing.query.filter(Listing.user_id==user_id).count()
+    sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+
+    item = Listing.query.get(listing_id)
+    items = []
+    return render_template('getitfree.html', items=items, item=item, count=count, sold=sold, listings= listings)
+
 @myapp_obj.route('/bought/<int:val>')
 @login_required
 def bought(val):
