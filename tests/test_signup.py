@@ -8,7 +8,7 @@ from app.models import User
 
 def test_signup(client):
     with client:
-        response = client.get('/signup')
+        response = client.get('/')
         assert response.status_code == 302  # successfully reached the test
 
 
