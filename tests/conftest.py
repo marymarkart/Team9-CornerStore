@@ -28,13 +28,7 @@ def app():
 @pytest.fixture(scope="function")
 def db(app):
     from app import db
-    from app.models import User
-    user = User(name='user')
     
-    db.session.add(user)
-    
-
-    db.session.commit()
     return db
 
 
