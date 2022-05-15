@@ -16,7 +16,7 @@ jobs:
           pkg-manager: pip
       - run:
           name: install dependencies
-          command: pip install -r requirements.txt
+          command: pip install .
       - run:
           name: Run tests
           command: python -m pytest
