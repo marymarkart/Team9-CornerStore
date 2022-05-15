@@ -140,7 +140,9 @@ def profile():
         return redirect('/adminprofile')
 
     listings = Listing.query.filter(Listing.user_id==user_id)
-    return render_template('profile.html', username = username, agency=agency, listings=listings)
+    count = Listing.query.filter(Listing.user_id==user_id).count()
+    sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+    return render_template('profile.html', username = username, agency=agency, listings=listings, count=count, sold=sold)
 
 @myapp_obj.route("/agencyprofile")
 @login_required
@@ -302,10 +304,16 @@ def getListing(val):
 def bought(val):
 	listing_id = val
 	item = Listing.query.get(listing_id)
+	name = item.name
 	item.status="Sold"
 	db.session.commit()
-	return redirect('/listings')
+	return redirect(url_for('success', name=name))
 	# return render_template('testfile.html', items=items, item=item)
+
+@myapp_obj.route('/success/<string:name>')
+@login_required
+def success(name):
+	return render_template('success.html', name=name)
 
 
 @myapp_obj.route('/managelistings/<int:val>')
