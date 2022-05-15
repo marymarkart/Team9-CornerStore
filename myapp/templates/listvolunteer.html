@@ -96,13 +96,24 @@
 </style>
 <body>
 <br>
+{% for item in a %}
+<p> {{ item }}</p>
+{% endfor %}
+{% for field, errors in form.errors.items() %}
+
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        {{ ', '.join(errors) }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="text-align:right" >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
 <center> <h1 style = "font-family: monaco;"> List Volunteer Opportunity</h1> </center>
 <br><br>
+
 <div class = "centerx">
 <div class="containerx">
-    {% for item in a %}
-    <p> {{ item }}</p>
-    {% endfor %}
+
 
     <form method="POST" action = "/listvolunteer">
             {{ form.hidden_tag() }}
@@ -117,16 +128,16 @@
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
+            box-sizing: border-box;') }} </p>
 
             <p>
-        
+
             {{ form.date.label }} <br>
             <input id="date" class="form-control" type="date" name="date"/>
             <span id="startDateSelected"></span>
-                    
+
                </p>
-        
+
           <p style="text-align:left;"> {{ form.description.label }} <br>
             {{ form.description(placeholder="Enter opportunity description", style='width: 100%;
             padding: 12px 20px;
@@ -134,8 +145,8 @@
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
-        
+            box-sizing: border-box;') }} </p>
+
           <p style="text-align:left;"> {{ form.location.label }} <br>
             {{ form.location(placeholder="Enter opportunity location", style='width: 100%;
             padding: 12px 20px;
@@ -143,7 +154,7 @@
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-sizing: border-box;') }} </p> 
+            box-sizing: border-box;') }} </p>
 
 
 

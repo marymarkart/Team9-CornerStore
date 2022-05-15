@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional, Regexp, ValidationError)
 from flask_wtf.file import FileField, FileRequired, FileAllowed
+from datetime import datetime
 
 class LoginForm(FlaskForm):
         """
@@ -99,9 +100,15 @@ class ListingForm(FlaskForm):
 class VolunteerForm(FlaskForm):
     name = StringField('Volunteer Opportunity Name', validators=[DataRequired()])
     description = StringField('Opportunity Description')
-    location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5, message="Postal Code must be valid"), Regexp('\d{5}', message='No Good' )])
+    location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5, message="Postal Code must be valid"), Regexp('\d{5}', message='Enter a valid Postal Code' )])
     date = DateField('Enter Event Date', id='datepick', validators=[DataRequired()])
     submit = SubmitField('Create Opportunity')
+
+    def validate_date(form, date):
+        right_now = datetime.now()
+        right = datetime.date(right_now)
+        if date.data < right:
+            raise ValidationError("The date you have entered has already passed")
 
 
 class NewName(FlaskForm):
