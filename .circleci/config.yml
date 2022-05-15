@@ -13,7 +13,10 @@ jobs:
     steps:
       - checkout
       - python/install-packages:
-          pkg-manager: pip install -r requirements.txt
+          pkg-manager: pip
+      - run:
+          name: install dependencies
+          command: pip install .
       - run:
           name: Run tests
           command: python -m pytest
