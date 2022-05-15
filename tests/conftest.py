@@ -1,7 +1,7 @@
 import pytest
 from flask_login import FlaskLoginClient
 
-from myapp import myapp_obj
+from app import myapp_obj
 
 
 @pytest.fixture()
@@ -18,7 +18,7 @@ def app():
     # holds context of the app for testing
     with app.app_context():
         # get the database object and create the tables inside the memory test-database
-        from myapp import db
+        from app import db
         db.init_app(app)  # relink it to the app to get the updated uri
         db.create_all()
     yield app

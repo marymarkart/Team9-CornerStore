@@ -3,7 +3,7 @@ import datetime
 
 from sqlalchemy.orm import sessionmaker
 
-from myapp.models import User
+from app.models import User
 
 
 def test_signup(client):

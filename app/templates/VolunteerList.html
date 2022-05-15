@@ -39,13 +39,13 @@
         button:hover {
             opacity: 0.7;
         }
-
+        
     </style>
 
 <body>
 {% block content %}
 
-<body>
+<body>   
     <style>
                 footer {
             background-color: #f2f2f2;
@@ -54,54 +54,54 @@
         .h1 {
             font-family: "Monaco", "Courier New", monospace;
         }
-
-       form {
-        border: 3px solid #f1f1f1;
-    }
- Body {
-  font-family: Calibri, Helvetica, sans-serif;
-  background-color: #f2f2f2;
-}
- button {
-       background-color: #F8E9C8;
-       width: 100%;
-        color: black;
-        padding: 15px;
-        margin: 10px 0px;
-        border: none;
-        cursor: pointer;
-         }
-
-  form {
-        border: 3px solid #f2f2f2;
-    }
- input[type=text], input[type=password] {
-        width: 100%;
-        margin: 8px 0;
-        padding: 12px 20px;
-        display: inline-block;
-        border: 2px solid #F8E9C8;
-        box-sizing: border-box;
-    }
- button:hover {
-        opacity: 0.7;
-    }
-  .cancelbtn {
-        width: auto;
-        padding: 10px 18px;
-        margin: 10px 5px;
-    }
-
-      .container {
+      
+       form {   
+        border: 3px solid #f1f1f1;   
+    }  
+ Body {  
+  font-family: Calibri, Helvetica, sans-serif;  
+  background-color: #f2f2f2;  
+}  
+ button {   
+       background-color: #F8E9C8;   
+       width: 100%;  
+        color: black;   
+        padding: 15px;   
+        margin: 10px 0px;   
+        border: none;   
+        cursor: pointer;   
+         }   
+      
+  form {   
+        border: 3px solid #f2f2f2;   
+    }   
+ input[type=text], input[type=password] {   
+        width: 100%;   
+        margin: 8px 0;  
+        padding: 12px 20px;   
+        display: inline-block;   
+        border: 2px solid #F8E9C8;   
+        box-sizing: border-box;   
+    }  
+ button:hover {   
+        opacity: 0.7;   
+    }   
+  .cancelbtn {   
+        width: auto;   
+        padding: 10px 18px;  
+        margin: 10px 5px;  
+    }   
+        
+      .container {   
         padding: 25px;
-
+     
     }
     </style>
-    <center > <h1 style = "font-family: monaco; "> Volunteer List! </h1> </center>
+    <center > <h1 style = "font-family: monaco; "> Volunteer List! </h1> </center>   
 
     <div class="container" style="background-color:#ffffff;" >
-
-
+      
+      
       <label for="organization"><b>Organization Name</b></label>
       <input type="text" placeholder="Enter organization name" name="organization" required>
 
@@ -110,10 +110,10 @@
 
       <label for="date"><b>Date to Opportunity</b></label>
       <input type="password" placeholder="MM/DD/YYYY" name="date" required>
-
+      
                                                                              <label for="listing"><b>Opportunity Listing</b></label>
       <input type="password" placeholder="List donate items ..." name="listing" required>
-
+                                                                       
       <label>
         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> I have read and agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a> for donations.
       </label>
@@ -124,7 +124,7 @@
         <button type="submit" class="signupbtn" >Submit</button>
       </div>
     </div>
-  </form>
+  </form>  
 
 </div><br><br>
 {% endblock %}

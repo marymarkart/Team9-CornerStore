@@ -18,11 +18,7 @@
 
 {% block content %}
 <p>
-    <ul>
-    {% for i in items %}
-    <li> {{ i.name }}</li>
-    {% endfor %}
-</ul>
+
 
 
 </head>
@@ -38,17 +34,23 @@
       <br><br><br>
       <div>
       <p>
-        <a href ="/managelistings/newname/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"> <span class="glyphicon glyphicon-pencil"></span>             Edit Name </a></p><br><br><br>
+        <a href ="/newname/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"> <span class="glyphicon glyphicon-pencil"></span>             Edit Name </a></p><br><br><br>
         <p>
-        <a href ="/profile" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Description </a><br><br><br><br>
+        <a href ="/newprice/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Price </a><br><br><br><br>
         </p>
-        <p><a href ="/deletevol/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-trash"></span>              Delete Listing </a><br></p>
+        <p><a href ="/profile" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-pencil"></span>              Edit Description </a><br><br><br><br></p>
         </div>
-    </div>
+        <p><a href ="/delete/{{item.id}}" class = "btn btn-primary" style="width: 200px; color:white"><span class="glyphicon glyphicon-trash"></span>              Delete Listing </a><br></p>
+        </div>
+
     <br>
 
-    <div class="col-sm-9">
 
+    <div class="col-sm-9" style='box-shadow:10px'>
+
+        <div class='custom-picture'>
+        <h4><img src='/static/listing_pics/{{item.image_file}}' style="width:50%; height:50%"></h4>
+        </div>
 
 
       <br>
@@ -62,18 +64,21 @@
       <br>
       <div class="row">
         <div class="col-sm-3">
-          <h4> Users Signed Up </h4>
-          <ul>
-          {% for i in a %}
-            <li> {{ i.username }} </li>
-            {% endfor %}
-          </ul>
 
-          <!-- {{ item.vol_id}} -->
+            <h4> Donation item? </h4>
+            {% if item.agency %}
+            <p>Yes</p>
+            {% endif %}
+
         </div>
         <div class="col-sm-3">
 
-
+            <h4>Warehouse? </h4>
+            {% if item.warehouse %}
+            <p>Yes</p>
+            {% else %}
+            <p> No </p>
+            {% endif %}
 
         </div>
         <div class="col-sm-3">
@@ -84,8 +89,14 @@
         </div>
         <div class="col-sm-3">
 
-            <h4>Date</h4>
-            <p> {{ item.date }}
+            <h4>Price</h4>
+            {% if item.free == True %}
+            <p> Free </p>
+            {% elif item.trade == True %}
+            <p> Trade </p>
+            {% else %}
+            <p> {{ item.price }}</p>
+            {% endif %}
 
         </div>
       </div>
@@ -113,7 +124,11 @@
         </div>
       </div> -->
       <br><br><br>
+      {% block text %}
+      {% endblock %}
+      {% block scripter %}
 
+      {% endblock %}
 
         </div>
       </div>
@@ -121,13 +136,8 @@
   </div>
 </div>
 <!-- <script src="js/scripts.js"></script> -->
-{% block text %}
-{% endblock %}
-{% block scripter %}
 
-{% endblock %}
 
-<!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 
@@ -137,7 +147,6 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 
-</script>
 
 </body>
 </html>

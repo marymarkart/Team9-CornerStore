@@ -85,7 +85,7 @@ body {
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
   background-color: var(--bs-body-bg);
-  background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+  background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), 
 url('images/Background.png');
   background-repeat: no-repeat;
   background-position: center;
