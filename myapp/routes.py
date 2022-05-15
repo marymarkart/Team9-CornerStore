@@ -334,7 +334,11 @@ def bought(val):
 @myapp_obj.route('/success/<string:name>')
 @login_required
 def success(name):
-	return render_template('success.html', name=name)
+	user_id = current_user.id
+	listings = Listing.query.filter(Listing.user_id==user_id)
+	count = Listing.query.filter(Listing.user_id==user_id).count()
+	sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+	return render_template('success.html', name=name, listings=listings, sold=sold, count=count)
 
 
 @myapp_obj.route('/managelistings/<int:val>')
