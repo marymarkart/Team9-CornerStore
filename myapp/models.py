@@ -38,6 +38,7 @@ class User(UserMixin, db.Model):
     listings = db.relationship('Listing', backref='users', lazy='dynamic')
     volunteer = db.relationship('Volunteer', backref='users', lazy='dynamic')
     bevolunteer = db.relationship('BeVolunteer', backref='users', lazy='dynamic')
+    report = db.relationship('Report', backref='users', lazy='dynamic')
 
     # def __init__(self, username, email):
     #     self.username = username
@@ -46,7 +47,7 @@ class User(UserMixin, db.Model):
     def __init__(self, username, email):
         self.username = username
         self.email = email
-        
+
 
     def __repr__(self):
         return f'{self.username}'
@@ -82,7 +83,7 @@ class Profile(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     first = db.Column(db.String(64))
     last = db.Column(db.String(64))
-    
+
     phone = db.Column(db.String(64))
     address1 = db.Column(db.String(128))
     address2 = db.Column(db.String(128))
@@ -131,13 +132,13 @@ class Listing(db.Model):
         self.warehouse = warehouse
         self.free = free
         self.trade = trade
-        self.user_id = user_id 
+        self.user_id = user_id
 
     def set_price(self, price):
         self.price = price
 
     def set_name(self, name):
-        self.name = name 
+        self.name = name
 
     def set_desc(self, description):
         self.description = description
@@ -155,7 +156,7 @@ class Volunteer(db.Model):
         self.name = name
         self.description = description
         self.location = location
-        self.date = date 
+        self.date = date
         self.user_id = user_id
 
 
@@ -178,3 +179,12 @@ class Rating(db.Model):
         self.rating = rating
         self.review = review
         self.user_id = user_id
+
+class Report(db.Model):
+    id =  db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    reason = db.Column(db.String(256))
+
+    def __init__(self, user_id, reason):
+        self.user_id = user_id
+        self.reason = reason

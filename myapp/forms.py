@@ -128,3 +128,7 @@ class ReviewForm(FlaskForm):
     rating = FloatField('Give Seller Rating:')
     review = StringField("Give Seller Review: ")
     submit = SubmitField("Submit Rating")
+
+class ReportUser(FlaskForm):
+    reason = StringField("Reason For Reporting")
+    submit = SubmitField("Submit")

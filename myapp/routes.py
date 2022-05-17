@@ -5,7 +5,7 @@ from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
 from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating
+from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating, Report
 from flask_login import current_user, login_user, logout_user, login_required
 import stripe
 import os
@@ -185,9 +185,13 @@ def adminprofile():
 
 @myapp_obj.route('/viewprofile/<int:val>')
 def viewProfile(val):
+    user_id = val
     user = User.query.get(val)
     print(user)
-    return render_template('viewprofile.html', user=user)
+    listings = Listing.query.filter(Listing.user_id==user_id)
+    count = Listing.query.filter(Listing.user_id==user_id).count()
+    sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+    return render_template('viewprofile.html', user=user, count=count, sold=sold, listings=listings)
 
 
 """
@@ -505,3 +509,26 @@ def create_checkout_session(val):
         return str(e)
 
     return redirect(checkout_session.url, code=303)
+
+
+
+"""
+
+
+
+REPORT USERS
+
+
+
+"""
+
+@myapp_obj.route('/report/<int:val>')
+def report(val):
+    user_id = val
+    form = Report()
+    user = User.query.get(val)
+
+    listings = Listing.query.filter(Listing.user_id==user_id)
+    count = Listing.query.filter(Listing.user_id==user_id).count()
+    sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+    return render_template('viewprofile.html', user=user, count=count, sold=sold, listings=listings)
