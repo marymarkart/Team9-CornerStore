@@ -57,7 +57,7 @@
                    <p> {{ agency }}</p>
                 <br><span> User Rating: </span> <br><br>
                 <span><a href="/listings"> <button type="button" class="btn btn-primary">Message Seller</button> </a></span><br><br>
-                <span><a href="/listings"><button type="button" class="btn btn-primary">Report Seller</button></a></span>
+                <span><a href="/report/{{user.id}}"><button type="button" class="btn btn-primary">Report Seller</button></a></span>
             </center>
             </div>
         </div>
@@ -142,8 +142,12 @@
 
 </div>
 </div>
-</div>
+{% block text %}
+{% endblock %}
+{% block script %}
+{% endblock %}
 </main>
+
 {% endblock %}
 </body>
 </html>

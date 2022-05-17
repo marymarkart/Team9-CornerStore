@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField, TextField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional, Regexp, ValidationError)
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from datetime import datetime
@@ -129,6 +129,6 @@ class ReviewForm(FlaskForm):
     review = StringField("Give Seller Review: ")
     submit = SubmitField("Submit Rating")
 
-class ReportUser(FlaskForm):
-    reason = StringField("Reason For Reporting")
+class ReportForm(FlaskForm):
+    reason = TextField("Reason For Reporting")
     submit = SubmitField("Submit")

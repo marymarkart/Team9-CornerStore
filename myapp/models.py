@@ -40,6 +40,7 @@ class User(UserMixin, db.Model):
     bevolunteer = db.relationship('BeVolunteer', backref='users', lazy='dynamic')
     report = db.relationship('Report', backref='users', lazy='dynamic')
 
+
     # def __init__(self, username, email):
     #     self.username = username
     #     self.email = email
@@ -183,8 +184,10 @@ class Rating(db.Model):
 class Report(db.Model):
     id =  db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    username = db.Column(db.String)
     reason = db.Column(db.String(256))
 
-    def __init__(self, user_id, reason):
+    def __init__(self, user_id, reason, username):
         self.user_id = user_id
         self.reason = reason
+        self.username = username

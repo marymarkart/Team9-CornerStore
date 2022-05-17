@@ -1,6 +1,6 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
@@ -96,6 +96,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
+
         if user is None or not user.check_password(form.password.data):
             flash('Incorrect username or password!', 'error')
             return redirect('/login')
@@ -181,7 +182,8 @@ def edit():
 @myapp_obj.route('/adminprofile')
 @login_required
 def adminprofile():
-    return render_template('adminprofile.html')
+    fraud = Report.query.all()
+    return render_template('adminprofile.html', fraud=fraud)
 
 @myapp_obj.route('/viewprofile/<int:val>')
 def viewProfile(val):
@@ -547,13 +549,46 @@ REPORT USERS
 
 """
 
-@myapp_obj.route('/report/<int:val>')
+@myapp_obj.route('/report/<int:val>', methods=['GET','POST'])
 def report(val):
     user_id = val
-    form = Report()
-    user = User.query.get(val)
-
+    form = ReportForm()
     listings = Listing.query.filter(Listing.user_id==user_id)
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
-    return render_template('viewprofile.html', user=user, count=count, sold=sold, listings=listings)
+
+    user = User.query.get(val)
+    if form.validate_on_submit():
+        reason= form.reason.data
+        user_id = val
+        name = user.username
+        report = Report(user_id, reason, name)
+        db.session.add(report)
+        db.session.commit()
+
+        return redirect(url_for('viewProfile', val=val, listings=listings, sold=sold, count=count, user=user))
+
+
+    return render_template('report.html', val=val, form=form, user=user, count=count, sold=sold, listings=listings)
+
+
+@myapp_obj.route('/report/deleteuser/<int:val>/<int:rep>')
+@login_required
+def foundFraud(val, rep):
+	user = User.query.get(val)
+	report = Report.query.get(rep)
+
+	db.session.delete(user)
+	db.session.delete(report)
+	db.session.commit()
+	fraud = Report.query.all()
+	return redirect(url_for('adminprofile', fraud=fraud))
+
+@myapp_obj.route('/report/deletereport/<int:val>')
+@login_required
+def delReport(val):
+	report = Report.query.get(val)
+	db.session.delete(report)
+	db.session.commit()
+	fraud = Report.query.all()
+	return redirect(url_for('adminprofile', fraud=fraud))
