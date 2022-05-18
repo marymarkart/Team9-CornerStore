@@ -132,3 +132,12 @@ class ReviewForm(FlaskForm):
 class ReportForm(FlaskForm):
     reason = TextField("Reason For Reporting")
     submit = SubmitField("Submit")
+        
+class Adddonations(FlaskForm):
+    name = StringField('Name')
+    phone = StringField('Contact Number')
+    email = StringField('Email')
+    account = StringField('Account Number')
+    date = StringField("Issue Date")
+    submit = SubmitField('Add Donations')
+
