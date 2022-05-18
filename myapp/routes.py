@@ -694,14 +694,15 @@ def review(val):
 		if rat > 0:
 			rating = (rat + rating)/2
 			item.set_rating(rating)
+			rev = Review(review, temp, name, user_id)
+			db.session.add(rev)
 		else:
 			ratin = Rating(rating, user_id)
 			db.session.add(ratin)
+			rev = Review(review, temp, name, user_id)
+			db.session.add(rev)
 
-		rev = Review(review, temp, name, user_id)
 
-
-		db.session.add(rev)
 		db.session.commit()
 		rating = Rating.query.filter(user_id==val).first()
 		a = Review.query.filter(Review.user_id==val).all()
