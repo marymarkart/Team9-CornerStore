@@ -1,6 +1,6 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
@@ -462,10 +462,13 @@ def volListings(val):
     items = []
     return render_template('vollistings.html', items=items, item=item)
 
-@myapp_obj.route("/adddonations")
+@myapp_obj.route("/adddonations", methods=['GET', 'POST'])
 @login_required
 def adddonations():
     user_id = current_user.id
+    username = current_user.username
+
+    listings = Volunteer.query.filter(Volunteer.user_id==user_id)
     form = Adddonations()
     if form.validate_on_submit():
         flash("Successfully created a new book")
@@ -477,7 +480,7 @@ def adddonations():
         db.session.commit()
 
         return redirect("/agencyprofile")
-    return render_template('adddonations.html', form=form)
+    return render_template('adddonations.html', form=form, username=username, user_id=user_id, listings=listings)
 
 @myapp_obj.route('/bevolunteer/<int:val>', methods=['GET', 'POST'])
 @login_required

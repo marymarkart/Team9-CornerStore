@@ -159,7 +159,7 @@ class Volunteer(db.Model):
         self.location = location
         self.date = date
         self.user_id = user_id
-        
+
 class Adddonations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
@@ -174,7 +174,7 @@ class Adddonations(db.Model):
         self.phone = phone
         self.email = email
         self.account = account
-        self.date = date 
+        self.date = date
         self.user_id = user_id
 
 

@@ -1,111 +1,134 @@
-{% extends "base.html" %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "agencyprofile.html" %}
 
-    <style>
-        /* Remove the navbar's default rounded borders and increase the bottom margin */
-        /*.navbar {*/
-        /*    margin-bottom: 50px;*/
-        /*    border-radius: 0;*/
-        /*}*/
 
-        /* Remove the jumbotron's default bottom margin */
-        .jumbotron {
-            margin-bottom: 0;
-            font-family: "Monaco", "Courier New", monospace;
-            background-color: white;
-            padding: 10px;
-        }
+    {% block text %}
 
-        /* Add a gray background color and some padding to the footer */
-        /*footer {*/
-        /*    background-color: #f2f2f2;*/
-        /*    padding: 25px;*/
-        /*}*/
-        .h1 {
-            font-family: "Monaco", "Courier New", monospace;
-        }
-        button {
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign Up for Corner Store</h5>
+            <a href="/"><button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </a>
+          </div>
+          <div class="modal-body">
+            <form method="POST" >
+                {{ form.hidden_tag() }}
 
-            background-color: green;
+                <fieldset>
 
-            width: 100%;
-            color: black;
-            padding: 15px;
-            margin: 10px 0px;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            opacity: 0.7;
-        }
-        
-    </style>
+              <p style="text-align:left;"> {{ form.name.label }} <br>
+                {{ form.name(placeholder="Enter New Name", style='width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                box-sizing: border-box;') }} </p>
 
-<body>
-{% block content %}
 
-<body>   
-    <style>
-                footer {
-            background-color: #f2f2f2;
-            padding: 25px;
-        }
-        .h1 {
-            font-family: "Monaco", "Courier New", monospace;
-        }
-      
-       form {   
-        border: 3px solid #f1f1f1;   
-    }  
- Body {  
-  font-family: Calibri, Helvetica, sans-serif;  
-  background-color: #f2f2f2;  
-}  
- button {   
-       background-color: #5fa70d;   
-       width: 100%;  
-        color: black;   
-        padding: 15px;   
-        margin: 10px 0px;   
-        border: none;   
-        cursor: pointer;   
-         }   
-      
-  form {   
-        border: 3px solid #f2f2f2;   
-    }   
- input[type=text], input[type=password] {   
-        width: 100%;   
-        margin: 8px 0;  
-        padding: 12px 20px;   
-        display: inline-block;   
-        border: 2px solid #F8E9C8;   
-        box-sizing: border-box;   
-    }  
- button:hover {   
-        opacity: 0.7;   
-    }   
-  .cancelbtn {  
+                <p style="text-align:left;"> {{ form.phone.label }} <br>
+                  <input type="text" id='phone' placeholder="Enter Phone Number" style='width: 100%;
+                  padding: 12px 20px;
+                  margin: 8px 0;
+                  display: inline-block;
+                  border: 1px solid #ccc;
+                  border-radius: 10px;
+                  box-sizing: border-box;')</p>
 
-        width: auto;   
-        padding: 10px 18px;  
-        margin: 10px 5px; 
-        background: #5fa70d; 
-    }   
-        
-      .container {   
-        padding: 25px;
-     
-    }
-    </style>
-    <center > <h1 style = "font-family: monaco; "> Add Donations</h1> </center>   
+
+
+                <p style="text-align:left;"> {{ form.email.label }} <br>
+                  {{ form.email(placeholder="Enter Email", style='width: 100%;
+                  padding: 12px 20px;
+                  margin: 8px 0;
+                  display: inline-block;
+                  border: 1px solid #ccc;
+                  border-radius: 10px;
+                  box-sizing: border-box;') }} </p>
+
+
+                  <p style="text-align:left;"> {{ form.account.label }} <br>
+                    {{ form.account(placeholder="Enter Account Number", style='width: 100%;
+                    padding: 12px 20px;
+                    margin: 8px 0;
+                    display: inline-block;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    box-sizing: border-box;') }} </p>
+
+                    <p>
+
+                    {{ form.date.label }} <br>
+                    <input id="date" class="form-control" type="date" name="date"/>
+                    <span id="startDateSelected"></span>
+
+                       </p>
+
+          <div class="modal-footer">
+            <label>
+              <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> I have read and agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a> for donations.
+            </label>
+            <br>
+            <a href="/agencyprofile"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></a>
+
+            {{ form.submit(class="btn btn-primary") }}
+
+            </fieldset>
+          </div>
+
+    </form>
+      </div>
+
+
+    </div>
+    </div>
+
+
+    {% endblock %}
+
+    {% block scripter %}
+
+
+    <script>
+        $(document).ready(function(){
+            console.log("window is loaded")
+            $("#exampleModal").modal("show")
+        });
+        let date = document.getElementById('date')
+
+
+        date.addEventListener('change',(e)=>{
+          let startDateVal = e.target.value
+          document.getElementById('startDateSelected').innerText = startDateVal
+        })
+</script>
+    <script src="/static/jquery-input-mask-phone-number.js"></script>
+<script>
+        $(document).ready(function () {
+    $('#phone').usPhoneFormat({
+        format: '(xxx) xxx-xxxx',
+    });
+});
+
+
+    </script>
+    {% endblock %}
+    <!-- <center > <h1 style = "font-family: monaco; "> Add Donations</h1> </center>
 
     <div class="container" style="background-color:#ffff;" >
-      
-      
-      <label for="name"><b>Name</b></label>
-      <input type="text" placeholder="Enter your name" name="name" required>
+
+
+      <p style="text-align:left;"> {{ form.name.label }} <br>
+        {{ form.name(placeholder="Enter New Name", style='width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-sizing: border-box;') }} </p>
 
       <label for="phone"><b>Contact Number</b></label>
       <input type="text" placeholder="Phone Number " name="phone" required>
@@ -118,23 +141,17 @@
 
       <label for="date"><b>Issue Date</b></label>
       <input type="text" placeholder="mm/yyyy" name="date" required>
-      <br><br> 
-                                                                       
+      <br><br>
+
       <label>
         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> I have read and agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a> for donations.
       </label>
 
 
       <div class="clearfix">
-        <button type="button" 
+        <button type="button"
         onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" >Cancel</button>
         <button type="submit" class="signupbtn" >Submit</button>
       </div>
     </div>
-  </form>  
-
-</div><br><br>
-{% endblock %}
-</body>
-</html>
-</html>
+  </form> -->

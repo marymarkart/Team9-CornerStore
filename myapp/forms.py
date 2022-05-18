@@ -4,6 +4,7 @@ from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional, 
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from datetime import datetime
 
+
 class LoginForm(FlaskForm):
         """
     This class creates a user login form
@@ -132,12 +133,11 @@ class ReviewForm(FlaskForm):
 class ReportForm(FlaskForm):
     reason = TextField("Reason For Reporting")
     submit = SubmitField("Submit")
-        
-class Adddonations(FlaskForm):
-    name = StringField('Name')
-    phone = StringField('Contact Number')
-    email = StringField('Email')
-    account = StringField('Account Number')
-    date = StringField("Issue Date")
-    submit = SubmitField('Add Donations')
 
+class Adddonations(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    phone = StringField('Contact Number', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    account = IntegerField('Account Number',validators=[DataRequired()])
+    date = StringField("Issue Date", validators=[DataRequired()])
+    submit = SubmitField('Add Donations')
