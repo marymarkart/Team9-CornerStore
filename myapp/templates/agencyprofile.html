@@ -53,9 +53,20 @@
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
                 <br> <center><strong><span class="font-weight-bold"> {{ username }}</span></strong>
-                <br><span> Verified Status </span> <br><br>
+                <br>
+                {% if user.verified == "True" %}
+                <span> Verified Status: Verified</span> <br><br>
                 <span><a href="/editprofile"> <button type="button" class="btn btn-primary">Edit Profile</button> </a></span><br><br>
                 <span><a href="/listvolunteer"><button type="button" class="btn btn-primary"> Add Volunteer Opportunity </button></a></span>
+                <br>
+                {% else %}
+                <span> Verified Status: No</span> <br><br>
+                <span><a href="/editprofile"> <button type="button" class="btn btn-primary">Edit Profile</button> </a></span><br><br>
+                <span><a href="/adddonations"><button type="button" class="btn btn-primary"> Apply for Verification </button></a></span>
+                <br><br>
+                <p> With verification you can receive donations from CornerStore buyers and list volunteer opportunities in your area!</p>
+                {% endif %}
+
             </center>
             </div>
         </div>

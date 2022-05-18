@@ -34,6 +34,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128))
     admin = db.Column(db.String(10))
     agency = db.Column(db.String(10))
+    verified = db.Column(db.String(10))
     profile = db.relationship('Profile', backref='users', lazy='dynamic')
     listings = db.relationship('Listing', backref='users', lazy='dynamic')
     volunteer = db.relationship('Volunteer', backref='users', lazy='dynamic')
@@ -65,6 +66,9 @@ class User(UserMixin, db.Model):
 
     def set_agency(self, agency):
         self.agency = agency
+
+    def set_verified(self, verified):
+        self.verified = verified
 
     def set_admin(self, admin):
         self.admin = admin
@@ -154,6 +158,7 @@ class Volunteer(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     vol_id = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
 
+
     def __init__(self, name, description, location, date, user_id):
         self.name = name
         self.description = description
@@ -161,7 +166,7 @@ class Volunteer(db.Model):
         self.date = date
         self.user_id = user_id
 
-class Adddonations(db.Model):
+class AddDonations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     phone = db.Column(db.String(5))

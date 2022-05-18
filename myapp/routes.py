@@ -5,7 +5,7 @@ from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
 from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating, Report
+from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating, Report, AddDonations
 from flask_login import current_user, login_user, logout_user, login_required
 import stripe
 import os
@@ -72,9 +72,11 @@ def agencysignup():
         email = form.email.data
         password = form.password.data
         agency = 'True'
+        verified = 'False'
         user = User(username, email)
         user.set_password(form.password.data)
         user.set_agency(agency)
+        user.set_verified(verified)
         db.session.add(user)
         db.session.commit()
         return redirect("/login")
@@ -149,9 +151,10 @@ def profile():
 @login_required
 def agencyprofile():
     username = current_user.username
+    user = current_user
     user_id = current_user.id
     listings = Volunteer.query.filter(Volunteer.user_id==user_id)
-    return render_template('agencyprofile.html', username = username, listings=listings)
+    return render_template('agencyprofile.html', username = username, listings=listings, user=user)
 
 @myapp_obj.route("/editprofile", methods=['GET', 'POST'])
 @login_required
@@ -183,7 +186,10 @@ def edit():
 @login_required
 def adminprofile():
     fraud = Report.query.all()
-    return render_template('adminprofile.html', fraud=fraud)
+    apps = AddDonations.query.all()
+    count = Report.query.count()
+    count2 = AddDonations.query.count()
+    return render_template('adminprofile.html', fraud=fraud, apps=apps, count=count, count2=count2 )
 
 @myapp_obj.route('/viewprofile/<int:val>')
 def viewProfile(val):
@@ -472,15 +478,18 @@ def adddonations():
     form = Adddonations()
     if form.validate_on_submit():
         flash("Successfully")
-        name = form.name.data
-        phone = form.name.data
-        account = form.name.data
-        date = form.name.data
-        email = form.name.data
+        name = current_user.username
+        email = current_user.email
+        phone = form.phone.data
+        account = form.account.data
+        date = form.date.data
+        user_id = current_user.id
+        application = AddDonations(name, phone, email, account, date, user_id)
+        db.session.add(application)
         db.session.commit()
 
-        return redirect("/agencyprofile")
-    return render_template('adddonations.html', form=form, username=username, user_id=user_id, listings=listings)
+        return redirect(url_for('agencyprofile', username=username, user_id=user_id, listings=listings, user=current_user))
+    return render_template('adddonations.html', form=form, username=username, user_id=user_id, listings=listings, user=current_user)
 
 @myapp_obj.route('/bevolunteer/<int:val>', methods=['GET', 'POST'])
 @login_required
@@ -597,12 +606,15 @@ def report(val):
 def foundFraud(val, rep):
 	user = User.query.get(val)
 	report = Report.query.get(rep)
+	apps = AddDonations.query.all()
+	count2 = AddDonations.query.count()
 
 	db.session.delete(user)
 	db.session.delete(report)
 	db.session.commit()
 	fraud = Report.query.all()
-	return redirect(url_for('adminprofile', fraud=fraud))
+	count = Report.query.count()
+	return redirect(url_for('adminprofile', fraud=fraud, apps=apps, count=count, count2=count2))
 
 @myapp_obj.route('/report/deletereport/<int:val>')
 @login_required
@@ -611,4 +623,35 @@ def delReport(val):
 	db.session.delete(report)
 	db.session.commit()
 	fraud = Report.query.all()
-	return redirect(url_for('adminprofile', fraud=fraud))
+	count = Report.query.count()
+	apps = AddDonations.query.all()
+	count2 = AddDonations.query.count()
+	return redirect(url_for('adminprofile', fraud=fraud, apps=apps, count=count, count2=count2))
+
+
+@myapp_obj.route('/approve/<int:val>/<int:appl>')
+@login_required
+def approve(val, appl):
+	user = User.query.get(val)
+	verified = "True"
+	user.set_verified(verified)
+	appl = AddDonations.query.get(appl)
+	db.session.delete(appl)
+	db.session.commit()
+	fraud = Report.query.all()
+	count = Report.query.count()
+	apps = AddDonations.query.all()
+	count2 = AddDonations.query.count()
+	return redirect(url_for('adminprofile', fraud=fraud, apps=apps, count=count, count2=count2))
+
+@myapp_obj.route('/deny/<int:val>')
+@login_required
+def deny(val):
+	application = AddDonations.query.get(val)
+	db.session.delete(application)
+	db.session.commit()
+	fraud = Report.query.all()
+	count = Report.query.count()
+	apps = AddDonations.query.all()
+	count2 = AddDonations.query.count()
+	return redirect(url_for('adminprofile', fraud=fraud, apps=apps, count=count, count2=count2))
