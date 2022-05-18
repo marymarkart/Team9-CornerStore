@@ -215,12 +215,15 @@ class Rating(db.Model):
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-
+    rating = db.Column(db.Float)
+    name = db.Column(db.String)
     review = db.Column(db.String(256))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, review, user_id):
+    def __init__(self, review, rating, name, user_id):
         self.review = review
+        self.rating = rating
+        self.name = name
         self.user_id = user_id
 
 class Report(db.Model):

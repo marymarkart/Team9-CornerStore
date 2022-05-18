@@ -50,19 +50,19 @@
 <br><br>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
-        <div class="col-md-3 border-right">
+        <div class="col-md-2 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
                 <br> <center><strong><span class="font-weight-bold"> {{ user.username}}</span></strong>
                    <p> {{ agency }}</p>
-                <br><span> User Rating: </span> <br><br>
+                <br><span> User Rating: {{rating.rating}}</span> <br><br>
                 <span><a href="/listings"> <button type="button" class="btn btn-primary">Message Seller</button> </a></span><br><br>
-                <span><a href="/report/{{user.id}}"><button type="button" class="btn btn-primary">Report Seller</button></a></span>
+                <span><a href="/report/{{user.id}}"><button type="button" class="btn btn-primary">Report Seller</button></a></span><br><br>
                 <span><a href="/reviewthis/{{user.id}}"><button type="button" class="btn btn-primary">Review Seller</button></a></span>
             </center>
             </div>
         </div>
-        <div class="col-md-8 border-right">
+        <div class="col-md-7 border-right">
             <div class="p-3 py-5">
                 <h4 style='font-family: Monaco;'>{{ user.username}}'s Listings</h4>
                 <div class="row mt-2">
@@ -140,6 +140,25 @@
 
         </div>
     </div>
+    <div class="col-md-3 border-left">
+
+      <h4 style='font-family: Monaco;'>Seller Reviews</h4>
+
+
+<!-- HTML -->
+<div class="plzwork" style="overflow-y:auto; height:300px">
+  {% for x in a %}
+  <div class="p-3 py-5">
+    <div class="panel panel-primary">
+      <div class="panel-heading" style="background-color:#5fa70d">{{ x.name }}</div>
+      <div class="panel-body">{{x.review}}</div>
+      <div class="panel-footer" style="text-align:right; backgroud-color:white;">Rating: {{ x.rating }}</div>
+
+</div>
+</div>
+{% endfor %}
+
+</div>
 
 </div>
 </div>

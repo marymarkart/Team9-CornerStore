@@ -198,9 +198,11 @@ def viewProfile(val):
     user = User.query.get(val)
     print(user)
     listings = Listing.query.filter(Listing.user_id==user_id)
+    rating = Rating.query.filter(user_id==val).first()
+    a = Review.query.filter(Review.user_id==current_user.id).all()
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
-    return render_template('viewprofile.html', user=user, count=count, sold=sold, listings=listings)
+    return render_template('viewprofile.html', rating=rating, user=user, count=count, sold=sold, listings=listings, a=a)
 
 
 """
@@ -671,18 +673,20 @@ REVIEW:
 def review(val):
 	listings = Listing.query.filter(Listing.user_id==val)
 	user_id = val
+	name = current_user.username
 	count = Listing.query.filter(Listing.user_id==val).count()
 	sold = Listing.query.filter(Listing.user_id==val and Listing.status=='Sold').count()
 	form = ReviewForm()
 	user = User.query.get(val)
 	a = Rating.query.filter(user_id == val).all()
+	rat = 0
 	for i in a:
 		rat = i.rating
 		item = i
-
 	if form.validate_on_submit():
 		rating = int(form.rating.data)
-		review = form.review.data + '		\n \n Rating : ' + str(rating)
+		temp = rating
+		review = form.review.data
 		if rat > 0:
 			rating = (rat + rating)/2
 			item.set_rating(rating)
@@ -690,7 +694,7 @@ def review(val):
 			ratin = Rating(rating, user_id)
 			db.session.add(ratin)
 
-		rev = Review(review, user_id)
+		rev = Review(review, temp, name, user_id)
 
 
 		db.session.add(rev)
