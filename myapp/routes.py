@@ -462,6 +462,23 @@ def volListings(val):
     items = []
     return render_template('vollistings.html', items=items, item=item)
 
+@myapp_obj.route("/adddonations")
+@login_required
+def adddonations():
+    user_id = current_user.id
+    form = Adddonations()
+    if form.validate_on_submit():
+        flash("Successfully created a new book")
+        name = form.name.data
+        phone = form.name.data
+        account = form.name.data
+        date = form.name.data
+        email = form.name.data
+        db.session.commit()
+
+        return redirect("/agencyprofile")
+    return render_template('adddonations.html', form=form)
+
 @myapp_obj.route('/bevolunteer/<int:val>', methods=['GET', 'POST'])
 @login_required
 def bevolunteer(val):
