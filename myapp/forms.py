@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField, TextField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField, TextField, RadioField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional, Regexp, ValidationError)
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from datetime import datetime
@@ -126,7 +126,7 @@ class NewPrice(FlaskForm):
 
 
 class ReviewForm(FlaskForm):
-    rating = FloatField('Give Seller Rating:')
+    rating = RadioField('Give Seller Rating:', choices=[('5','5'),('4','4'),('3','3'),('2', '2'), ('1', '1')])
     review = StringField("Give Seller Review: ")
     submit = SubmitField("Submit Rating")
 

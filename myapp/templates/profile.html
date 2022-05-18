@@ -3,6 +3,16 @@
 <html lang="en">
 
     <style>
+    span.stars, span.stars span {
+  display: block;
+  background: url('images/stars.png') 0 -16px repeat-x;
+  width: 80px;
+  height: 16px;
+}
+
+span.stars span {
+  background-position: 0 0;
+}
         /* Remove the navbar's default rounded borders and increase the bottom margin */
         /*.navbar {*/
         /*    margin-bottom: 50px;*/
@@ -48,6 +58,8 @@
       background: #88ba1c;
       }
 
+
+
         /* Add a gray background color and some padding to the footer */
         /*footer {*/
         /*    background-color: #f2f2f2;*/
@@ -88,7 +100,9 @@
                 <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
                 <br> <center><strong><span class="font-weight-bold"> {{ username }}</span></strong>
                    <p> {{ agency }}</p>
-                <br><span> User Rating: </span> <br><br>
+                <br><span> User Rating: </span><span class="stars">{{rating.rating}}</span>
+
+<br><br>
                 <span><a href="/editprofile"> <button type="button" class="btn btn-primary">Edit Profile</button> </a></span><br><br>
                 <span><a href="/createlisting"><button type="button" class="btn btn-primary">Create Item Listing</button></a></span>
             </center>
@@ -193,6 +207,13 @@
 
 <!-- HTML -->
 <div class="plzwork" style="overflow-y:auto; height:300px">
+  {% for x in a %}
+  <div class="p-3 py-5">
+    <div class="panel panel-default">
+{{ x.review }}
+</div>
+</div>
+{% endfor %}
 This is where your reviews would go wpsoasdopasopdaopsdopasdpoasodopasdopaopsdoapsdoasodasodopasdoasodoasdopasodpaosdoasdoasdop
 <br>
 Hello
@@ -233,6 +254,13 @@ Hello
 {% block script %}
 {% endblock %}
 </main>
+<script>
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
+</script>
 
 
 

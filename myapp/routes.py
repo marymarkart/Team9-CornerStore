@@ -5,7 +5,7 @@ from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
 from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating, Report, AddDonations
+from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating, Report, AddDonations, Review
 from flask_login import current_user, login_user, logout_user, login_required
 import stripe
 import os
@@ -141,11 +141,12 @@ def profile():
         return redirect('/agencyprofile')
     if admin == 'True':
         return redirect('/adminprofile')
-
+    a = Review.query.filter(Review.user_id==current_user.id).all()
+    rating = Rating.query.filter(user_id==current_user.id).first()
     listings = Listing.query.filter(Listing.user_id==user_id)
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
-    return render_template('profile.html', username = username, agency=agency, listings=listings, count=count, sold=sold)
+    return render_template('profile.html', username = username, agency=agency, listings=listings, count=count, sold=sold, user=current_user, a=a, rating=rating)
 
 @myapp_obj.route("/agencyprofile")
 @login_required
@@ -655,3 +656,46 @@ def deny(val):
 	apps = AddDonations.query.all()
 	count2 = AddDonations.query.count()
 	return redirect(url_for('adminprofile', fraud=fraud, apps=apps, count=count, count2=count2))
+
+
+"""
+
+
+
+REVIEW:
+
+
+"""
+
+@myapp_obj.route('/reviewthis/<int:val>', methods=['GET','POST'])
+def review(val):
+	listings = Listing.query.filter(Listing.user_id==val)
+	user_id = val
+	count = Listing.query.filter(Listing.user_id==val).count()
+	sold = Listing.query.filter(Listing.user_id==val and Listing.status=='Sold').count()
+	form = ReviewForm()
+	user = User.query.get(val)
+	a = Rating.query.filter(user_id == val).all()
+	for i in a:
+		rat = i.rating
+		item = i
+
+	if form.validate_on_submit():
+		rating = int(form.rating.data)
+		review = form.review.data + '		\n \n Rating : ' + str(rating)
+		if rat > 0:
+			rating = (rat + rating)/2
+			item.set_rating(rating)
+		else:
+			ratin = Rating(rating, user_id)
+			db.session.add(ratin)
+
+		rev = Review(review, user_id)
+
+
+		db.session.add(rev)
+		db.session.commit()
+		return redirect(url_for('viewProfile', val=val, user=user, count=count, sold=sold, listings=listings))
+
+
+	return render_template('review.html', form=form, user=user, count=count, sold=sold, listings=listings)
