@@ -234,7 +234,7 @@ def itemsForSale():
     form = ListingForm()
     user_id = current_user.id
     # a = User.query.with_entities(User.agency == 'True').all()
-    a = User.query.filter(User.agency =='True').all()
+    a = User.query.filter(User.verified =='True').all()
     # form.agency.choices = [('0', 'None')] + a
 
     form.agency.choices = a
