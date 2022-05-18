@@ -68,28 +68,21 @@
                   {% if count > 0 %}
 
                     {% for i in listings %}
+                    <div class="col-sm-6">
                         {% if i.status == 'For Sale' %}
                         <a href="/managelistings/{{i.id}}">
-                        <div class="panel panel-default">
-                          <div class="panel-heading">
-                            <div class="col">{{ i.name }}</div>
-                        </div>
-                        <div class="panel-heading">
-                                <div class='col', style="text-align:right">
+                              <div class="panel panel-success">
 
-                            {% if i.price==0.00 %}
-                                Free
-                            {% else %}
-                                {{i.price }}
-                            {% endif %}
-                        </div>
-                    </div>
-                          <div class="panel-body">
-                            {{ i.description }} </div>
+                                  <div class="panel-heading">{{ i.name }}</div>
+                                  <div class="panel-body" style="max-height: 350px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
+                                  <div class="panel-footer" style="height: 50px;overflow-y: scroll;">{{ i.description }}</div>
 
-                        </div>
-                    </a>
+
+                            </div>
+                          </div>
+                        </a>
                         {% endif %}
+
 
                     {% endfor %}
                     {% else %}
@@ -105,6 +98,7 @@
                     {% for i in listings %}
                         {% if i.status == 'Sold' %}
                         <a href="/managelistings/{{i.id}}">
+
                         <div class="panel panel-default">
                           <div class="panel-heading">
                             <div class="col">{{ i.name }}</div>
