@@ -209,40 +209,15 @@ span.stars span {
 <div class="plzwork" style="overflow-y:auto; height:300px">
   {% for x in a %}
   <div class="p-3 py-5">
-    <div class="panel panel-default">
-{{ x.review }}
+    <div class="panel panel-primary">
+      <div class="panel-heading" style="background-color:#5fa70d">{{ x.name }}</div>
+      <div class="panel-body">{{x.review}}</div>
+      <div class="panel-footer" style="text-align:right; backgroud-color:white;">Rating: {{ x.rating }}</div>
+
 </div>
 </div>
 {% endfor %}
-This is where your reviews would go wpsoasdopasopdaopsdopasdpoasodopasdopaopsdoapsdoasodasodopasdoasodoasdopasodpaosdoasdoasdop
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
-<br>
-Hello
+
 </div>
 
 </div>
@@ -257,7 +232,14 @@ Hello
 <script>
 $.fn.stars = function() {
     return $(this).each(function() {
-        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+        // Get the value
+        var val = parseFloat($(this).html());
+        // Make sure that the value is in 0 - 5 range, multiply to get width
+        var size = Math.max(0, (Math.min(5, val))) * 16;
+        // Create stars holder
+        var $span = $('<span />').width(size);
+        // Replace the numerical value with stars
+        $(this).html($span);
     });
 }
 </script>
