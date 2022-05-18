@@ -471,7 +471,7 @@ def adddonations():
     listings = Volunteer.query.filter(Volunteer.user_id==user_id)
     form = Adddonations()
     if form.validate_on_submit():
-        flash("Successfully created a new book")
+        flash("Successfully")
         name = form.name.data
         phone = form.name.data
         account = form.name.data
