@@ -241,9 +241,9 @@ $.fn.stars = function() {
         // Get the value
         var val = parseFloat($(this).html());
         // Make sure that the value is in 0 - 5 range, multiply to get width
-        var size = Math.max(0, (Math.min(5, val))) * 37;
+        var size = Math.max(0, (Math.min(5, val))) * 35;
         // Create stars holder
-        var $span = $('<span />').width(size).height(37);
+        var $span = $('<span />').width(size).height(35);
         // Replace the numerical value with stars
         $(this).html($span);
     });
