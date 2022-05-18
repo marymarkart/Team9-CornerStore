@@ -159,6 +159,23 @@ class Volunteer(db.Model):
         self.location = location
         self.date = date
         self.user_id = user_id
+        
+class Adddonations(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    phone = db.Column(db.String(5))
+    email = db.Column(db.String(512))
+    account = db.Column(db.String(512))
+    date = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, name, phone,email, account, date, user_id):
+        self.name = name
+        self.phone = phone
+        self.email = email
+        self.account = account
+        self.date = date 
+        self.user_id = user_id
 
 
 class BeVolunteer(db.Model):
