@@ -353,7 +353,9 @@ def success(name):
 	listings = Listing.query.filter(Listing.user_id==user_id)
 	count = Listing.query.filter(Listing.user_id==user_id).count()
 	sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
-	return render_template('success.html', name=name, listings=listings, sold=sold, count=count)
+	rating = Rating.query.filter(user_id==current_user).first()
+	a = Review.query.filter(Review.user_id==current_user).all()
+	return render_template('success.html', name=name, listings=listings, sold=sold, count=count, rating=rating, a=a)
 
 
 @myapp_obj.route('/managelistings/<int:val>')
@@ -588,7 +590,8 @@ def report(val):
     listings = Listing.query.filter(Listing.user_id==user_id)
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
-
+    rating = Rating.query.filter(user_id==val).first()
+    a = Review.query.filter(Review.user_id==val).all()
     user = User.query.get(val)
     if form.validate_on_submit():
         reason= form.reason.data
@@ -598,10 +601,10 @@ def report(val):
         db.session.add(report)
         db.session.commit()
 
-        return redirect(url_for('viewProfile', val=val, listings=listings, sold=sold, count=count, user=user))
+        return redirect(url_for('viewProfile', val=val, listings=listings, sold=sold, count=count, user=user, rating=rating, a=a))
 
 
-    return render_template('report.html', val=val, form=form, user=user, count=count, sold=sold, listings=listings)
+    return render_template('report.html', val=val, form=form, user=user, count=count, sold=sold, listings=listings, rating=rating, a=a)
 
 
 @myapp_obj.route('/report/deleteuser/<int:val>/<int:rep>')
