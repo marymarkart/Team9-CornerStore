@@ -4,15 +4,16 @@
 
     <style>
     span.stars, span.stars span {
-  display: block;
-  background: url('images/stars.png') 0 -16px repeat-x;
-  width: 80px;
-  height: 16px;
-}
+        display: block;
+        background: url('images/star_small.png') 0 -40px repeat-x;
+        width: 185px;
+        height: 40px;
+    }
 
-span.stars span {
-  background-position: 0 0;
-}
+    span.stars span {
+        background-position: 0 0;
+    }
+
         /* Remove the navbar's default rounded borders and increase the bottom margin */
         /*.navbar {*/
         /*    margin-bottom: 50px;*/
@@ -100,7 +101,7 @@ span.stars span {
                 <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
                 <br> <center><strong><span class="font-weight-bold"> {{ username }}</span></strong>
                    <p> {{ agency }}</p>
-                <br><span> User Rating: </span><span class="stars">{{rating.rating}}</span>
+                <br><span> User Rating: <br><br></span></center><span class="stars">{{rating.rating}}</span>
 
 <br><br>
                 <span><a href="/editprofile"> <button type="button" class="btn btn-primary">Edit Profile</button> </a></span><br><br>
@@ -231,14 +232,17 @@ span.stars span {
 {% endblock %}
 </main>
 <script>
+$(function() {
+    $('span.stars').stars();
+});
 $.fn.stars = function() {
     return $(this).each(function() {
         // Get the value
         var val = parseFloat($(this).html());
         // Make sure that the value is in 0 - 5 range, multiply to get width
-        var size = Math.max(0, (Math.min(5, val))) * 16;
+        var size = Math.max(0, (Math.min(5, val))) * 37;
         // Create stars holder
-        var $span = $('<span />').width(size);
+        var $span = $('<span />').width(size).height(37);
         // Replace the numerical value with stars
         $(this).html($span);
     });
