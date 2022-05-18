@@ -73,6 +73,12 @@ class User(UserMixin, db.Model):
     def set_admin(self, admin):
         self.admin = admin
 
+    def set_rating(self, rating):
+        self.rating = ratings
+
+    def set_review(self, review):
+        self.review = review
+
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
@@ -199,10 +205,13 @@ class Rating(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, rating, review, user_id):
+    def __init__(self, rating, user_id):
         self.rating = rating
 
         self.user_id = user_id
+
+    def set_rating(self, rating):
+        self.rating = rating
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
