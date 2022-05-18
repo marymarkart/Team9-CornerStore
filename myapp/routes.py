@@ -468,7 +468,7 @@ def adddonations():
     user_id = current_user.id
     form = Adddonations()
     if form.validate_on_submit():
-        flash("Successfully created a new book")
+        flash("Successfully")
         name = form.name.data
         phone = form.name.data
         account = form.name.data
