@@ -55,7 +55,7 @@
                 <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
                 <br> <center><strong><span class="font-weight-bold"> {{ user.username}}</span></strong>
                    <p> {{ agency }}</p>
-                <br><span> User Rating: {{rating.rating}}</span> <br><br>
+                <br><span> User Rating: </span> <br><br></center><span class="stars">{{rating.rating}}</span><br><br>
                 <span><a href="/listings"> <button type="button" class="btn btn-primary">Message Seller</button> </a></span><br><br>
                 <span><a href="/report/{{user.id}}"><button type="button" class="btn btn-primary">Report Seller</button></a></span><br><br>
                 <span><a href="/reviewthis/{{user.id}}"><button type="button" class="btn btn-primary">Review Seller</button></a></span>
@@ -180,7 +180,23 @@
 {% block script %}
 {% endblock %}
 </main>
-
+<script>
+$(function() {
+    $('span.stars').stars();
+});
+$.fn.stars = function() {
+    return $(this).each(function() {
+        // Get the value
+        var val = parseFloat($(this).html());
+        // Make sure that the value is in 0 - 5 range, multiply to get width
+        var size = Math.max(0, (Math.min(5, val))) * 37;
+        // Create stars holder
+        var $span = $('<span />').width(size).height(37);
+        // Replace the numerical value with stars
+        $(this).html($span);
+    });
+}
+</script>
 {% endblock %}
 </body>
 </html>
