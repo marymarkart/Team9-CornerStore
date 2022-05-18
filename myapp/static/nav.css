@@ -544,5 +544,14 @@ a:hover {
 .rate-area > label:hover ~ input:checked ~ label {
 	color: gold;
 }
+span.stars, span.stars span {
+    display: block;
+    background: url('images/stars.png') 0 -40px repeat-x;
+    background-color: transparent;
+    width: 185px;
+    height: 40px;
+}
 
-
+span.stars span {
+    background-position: 0 0;
+}
