@@ -135,9 +135,9 @@ class ReportForm(FlaskForm):
     submit = SubmitField("Submit")
 
 class Adddonations(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    phone = StringField('Contact Number', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
+
+    phone = StringField('Contact Number')
+
     account = IntegerField('Account Number',validators=[DataRequired()])
-    date = StringField("Issue Date", validators=[DataRequired()])
+    date = DateField("Issue Date", validators=[DataRequired()])
     submit = SubmitField('Add Donations')
