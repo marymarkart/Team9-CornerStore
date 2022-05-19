@@ -146,3 +146,9 @@ class Adddonations(FlaskForm):
     account = IntegerField('Account Number',validators=[DataRequired()])
     date = DateField("Issue Date", validators=[DataRequired()])
     submit = SubmitField('Add Donations')
+
+class ChangePassword(FlaskForm):
+    password = PasswordField('Enter Old Password', validators=[DataRequired()])
+    newpassword = PasswordField('Enter New Password', validators=[DataRequired(), Length(min=6, message='Select a stronger password.')])
+    confirm = PasswordField('Confirm your new password', validators=[DataRequired(), EqualTo('newpassword', message='Passwords must match.')])
+    submit = SubmitField('Change Password')

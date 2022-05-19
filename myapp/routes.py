@@ -1,6 +1,6 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture, ChangePassword
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
@@ -149,6 +149,32 @@ def profile():
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
     return render_template('profile.html', username = username, agency=agency, listings=listings, count=count, sold=sold, user=current_user, a=a, rating=rating)
+
+@myapp_obj.route("/changepassword", methods=['GET', 'POST'])
+@login_required
+def changepassword():
+	user_id = current_user.id
+	user = User.query.get(user_id)
+	username = user.username
+	a = Review.query.filter(Review.user_id==current_user.id).all()
+	rating = Rating.query.filter(user_id==current_user.id).first()
+	listings = Listing.query.filter(Listing.user_id==user_id)
+	count = Listing.query.filter(Listing.user_id==user_id).count()
+	sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+	form = ChangePassword()
+	if form.validate_on_submit():
+		user = User.query.filter(User.id == user_id).first()
+		if user is not user.check_password(form.password.data):
+			print(form.password.data)
+			flash('Incorrect username or password!', 'error')
+			return redirect('/login')
+		user.set_password(form.newpassword.data)
+		db.session.commit()
+		return redirect('/profile')
+	return render_template('changepassword.html',username = username, listings=listings, count=count, sold=sold, user=current_user, a=a, rating=rating, form=form )
+
+
+
 
 @myapp_obj.route("/agencyprofile")
 @login_required
@@ -503,6 +529,7 @@ def listvolunteer():
         location = form.location.data
         date = form.date.data
         image_file = save_image(form.picture.data)
+        Volunteer.image_file = image_file
         vol = Volunteer(image_file, name, description, location, date, user_id)
         db.session.add(vol)
         db.session.commit()
