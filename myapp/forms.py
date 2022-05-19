@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField, TextField, RadioField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, FloatField, DateField, RadioField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional, Regexp, ValidationError)
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from datetime import datetime
@@ -67,6 +67,7 @@ class AgencySignupForm(FlaskForm):
 
 
 class EditProfile(FlaskForm):
+    picture = FileField(label="Add Profile Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
     first = StringField('First Name')
     last = StringField('Last Name')
     phone = StringField('Phone Number')
@@ -131,7 +132,7 @@ class ReviewForm(FlaskForm):
     submit = SubmitField("Submit Rating")
 
 class ReportForm(FlaskForm):
-    reason = TextField("Reason For Reporting")
+    reason = StringField("Reason For Reporting")
     submit = SubmitField("Submit")
 
 class Adddonations(FlaskForm):

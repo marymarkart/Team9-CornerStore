@@ -157,6 +157,12 @@ def agencyprofile():
     listings = Volunteer.query.filter(Volunteer.user_id==user_id)
     return render_template('agencyprofile.html', username = username, listings=listings, user=user)
 
+def profile_image(profile_file):
+    pic_name = profile_file.filename
+    picture_path = os.path.join(myapp_obj.root_path, 'static/profile_pics', pic_name)
+    profile_file.save(picture_path)
+    return pic_name
+
 @myapp_obj.route("/editprofile", methods=['GET', 'POST'])
 @login_required
 def edit():
@@ -166,6 +172,8 @@ def edit():
     form = EditProfile()
     if form.validate_on_submit():
         flash(f'Changes Saved')
+        image_file = profile_image(form.picture.data)
+        current_user.image_file = image_file
         first = form.first.data
         last = form.last.data
         phone = form.phone.data
@@ -178,8 +186,9 @@ def edit():
         db.session.add(profile)
         db.session.commit()
         return redirect('/profile')
+    image_url = url_for('static', filename='profile_pics/' + current_user.image_file)
     profile = Profile.query.filter_by(user_id =current_user.id).first()
-    return render_template('editprofile.html', form=form, username=username, profile=profile)
+    return render_template('editprofile.html', form=form, username=username, profile=profile, image_url = image_url)
 
 
 
