@@ -32,6 +32,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(128), unique=True)
     password = db.Column(db.String(128))
+    image_file = db.Column(db.String(20),nullable=False,default='default.jpg')
     admin = db.Column(db.String(10))
     agency = db.Column(db.String(10))
     verified = db.Column(db.String(10))
