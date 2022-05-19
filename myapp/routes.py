@@ -175,6 +175,7 @@ def edit():
     form = EditProfile()
     if form.validate_on_submit():
         flash(f'Changes Saved')
+        user = User.query.get(current_user.id)
 
 
         first = form.first.data
@@ -341,8 +342,9 @@ def listings():
 def getListing(val):
     listing_id = val
     item = Listing.query.get(listing_id)
+    user = User.query.get(item.user_id)
     items = []
-    return render_template('testfile.html', items=items, item=item)
+    return render_template('testfile.html', items=items, item=item, user=user)
 
 @myapp_obj.route('/freelistings/<int:val>')
 @login_required
@@ -351,6 +353,14 @@ def free(val):
     item = Listing.query.get(listing_id)
     items = []
     return render_template('freeitem.html', items=items, item=item)
+
+@myapp_obj.route('/tradelistings/<int:val>')
+@login_required
+def trade(val):
+    listing_id = val
+    item = Listing.query.get(listing_id)
+    items = []
+    return render_template('tradeitem.html', items=items, item=item)
 
 @myapp_obj.route('/getitfree/<int:val>')
 @login_required
@@ -413,6 +423,22 @@ def newName(val):
 		return redirect(url_for('manageListing', val=value))
 	return render_template('newname.html', form=form, item=item, val=val)
 
+@myapp_obj.route('/newdesc/<int:val>', methods=['GET', 'POST'])
+def newDesc(val):
+	item = Listing.query.get(val)
+	form = NewDesc()
+	value=val
+	if form.validate_on_submit():
+		flash(f'Changes Saved!')
+		newdesc = form.desc.data
+		item.description = newdesc
+
+        # db.session.query(Listing).filter(
+        # Listing.id == val).update({Listing.name: name})
+		db.session.commit()
+		return redirect(url_for('manageListing', val=value))
+	return render_template('newdesc.html', form=form, item=item, val=val)
+
 @myapp_obj.route('/newprice/<int:val>', methods=['GET', 'POST'])
 def newPrice(val):
 	item = Listing.query.get(val)
@@ -422,6 +448,8 @@ def newPrice(val):
 		flash(f'Changes Saved!')
 		newprice = form.price.data
 		item.price = newprice
+		if item.free is True:
+			item.free = False
 
         # db.session.query(Listing).filter(
         # Listing.id == val).update({Listing.name: name})
@@ -562,6 +590,47 @@ def get_username(user_id):
     user = User.query.get(user_id)
     return user
 
+@myapp_obj.route('/volname/<int:val>', methods=['GET', 'POST'])
+def volName(val):
+	item = Volunteer.query.get(val)
+	form = NewName()
+	value=val
+	vols = BeVolunteer.query.filter(BeVolunteer.vol_id == val).all()
+	a = []
+	for i in vols:
+		us = get_username(i.user_id)
+		a.append(us)
+	if form.validate_on_submit():
+		flash(f'Changes Saved!')
+		newname = form.name.data
+		item.name = newname
+
+        # db.session.query(Listing).filter(
+        # Listing.id == val).update({Listing.name: name})
+		db.session.commit()
+		return redirect(url_for('manageVol', val=value, item=item, vols=vols, a=a))
+	return render_template('volname.html', form=form, item=item, val=val)
+
+@myapp_obj.route('/voldesc/<int:val>', methods=['GET', 'POST'])
+def volDesc(val):
+	item = Volunteer.query.get(val)
+	form = NewDesc()
+	value=val
+	vols = BeVolunteer.query.filter(BeVolunteer.vol_id == val).all()
+	a = []
+	for i in vols:
+		us = get_username(i.user_id)
+		a.append(us)
+	if form.validate_on_submit():
+		flash(f'Changes Saved!')
+		newdesc = form.desc.data
+		item.description = newdesc
+
+        # db.session.query(Listing).filter(
+        # Listing.id == val).update({Listing.name: name})
+		db.session.commit()
+		return redirect(url_for('manageVol', val=value, item=item, vols=vols, a=a))
+	return render_template('voldesc.html', form=form, item=item, val=val)
 """
 
 
@@ -644,7 +713,9 @@ def foundFraud(val, rep):
 	report = Report.query.get(rep)
 	apps = AddDonations.query.all()
 	count2 = AddDonations.query.count()
-
+	listings = Listing.query.filter(Listing.user_id == val).all()
+	for i in listings:
+		db.session.delete(i)
 	db.session.delete(user)
 	db.session.delete(report)
 	db.session.commit()
