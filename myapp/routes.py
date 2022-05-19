@@ -502,7 +502,8 @@ def listvolunteer():
         description = form.description.data
         location = form.location.data
         date = form.date.data
-        vol = Volunteer(name, description, location, date, user_id)
+        image_file = save_image(form.picture.data)
+        vol = Volunteer(image_file, name, description, location, date, user_id)
         db.session.add(vol)
         db.session.commit()
         return redirect('/managevol/'+ str(vol.id))

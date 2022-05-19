@@ -68,7 +68,7 @@ class AgencySignupForm(FlaskForm):
 class EditPicture(FlaskForm):
     picture = FileField(label="Add Profile Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
     submit = SubmitField('Save Changes')
-    
+
 class EditProfile(FlaskForm):
 
     first = StringField('First Name')
@@ -103,6 +103,7 @@ class ListingForm(FlaskForm):
 
 
 class VolunteerForm(FlaskForm):
+    picture = FileField(label="Add Item Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
     name = StringField('Volunteer Opportunity Name', validators=[DataRequired()])
     description = StringField('Opportunity Description')
     location = StringField('Enter Postal Code', validators=[DataRequired(), Length(min=5,max=5, message="Postal Code must be valid"), Regexp('\d{5}', message='Enter a valid Postal Code' )])

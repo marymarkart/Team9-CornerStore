@@ -182,6 +182,7 @@ class Listing(db.Model):
 
 class Volunteer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    image_file = db.Column(db.String(20),nullable=False,default='default.jpg')
     name = db.Column(db.String(64))
     description = db.Column(db.String(512))
     location = db.Column(db.Integer)
@@ -190,7 +191,8 @@ class Volunteer(db.Model):
     vol_id = db.relationship('BeVolunteer', backref='volunteer', lazy='dynamic')
 
 
-    def __init__(self, name, description, location, date, user_id):
+    def __init__(self, image_file, name, description, location, date, user_id):
+        self.image_file = image_file
         self.name = name
         self.description = description
         self.location = location
