@@ -1,4 +1,4 @@
-{% extends "managelisting.html" %}
+{% extends "managevol.html" %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,7 +110,7 @@
             <fieldset>
 
           <p style="text-align:left;"> {{ form.desc.label }} <br>
-            {{ form.desc(placeholder="Enter New Name", style='width: 100%;
+            {{ form.desc(placeholder="Enter New Description", style='width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
@@ -121,7 +121,7 @@
 
 
       <div class="modal-footer">
-        <a href="/managelistings/{{item.id}}"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></a>
+        <a href="/managevol/{{item.id}}"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></a>
 
         {{ form.submit(class="btn btn-primary") }}
 

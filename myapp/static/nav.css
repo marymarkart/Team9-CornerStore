@@ -546,9 +546,9 @@ a:hover {
 }
 span.stars, span.stars span {
     display: block;
-    background: url('images/stars.png') 0 -16px repeat-x;
+    background: url('images/stars.png') 0 -40px repeat-x;
     background-color: transparent;
-    width: 80px;
+    width: 10px;
     height: 16px;
 }
 
