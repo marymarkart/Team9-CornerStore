@@ -84,6 +84,12 @@
         button:hover {
             opacity: 0.7;
         }
+        .edit-button {
+          border: 2px lightblue;
+
+        }
+
+}
 
     </style>
 
@@ -99,10 +105,25 @@
     <div class="row">
         <div class="col-md-2 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img src="/static/profile_pics/{{ image_url }}" style ="width:50%; height:50%">
+
+                <img class="rounded-circle mt-5" width="150px" src="/static/profile_pics/{{ user.image_file}}">
+                <div class='edit-button' style='position: absolute;
+                top: 0px;
+                left: 130px;
+                font-size: 30px;
+                 color: lightblue;
+
+                 border-radius: 50%;
+                 background-color:#5fa70d'>
+                <a href='/editpic'><button type="button" class="btn btn-link"><span ><span class="glyphicon glyphicon glyphicon-pencil" style="font-size: 23px; color:white"></span></span></button></a>
+              </div>
                 <br> <center><strong><span class="font-weight-bold"> {{ username }}</span></strong>
-                   <p> {{ agency }}</p>
-                <br><span> User Rating: <br><br></span></center><span class="stars">{{rating.rating}}</span>
+
+                <br><span> User Rating: <br><br></span></center>
+                {% if rating.rating %}<span class="stars">{{rating.rating}}</span>
+                {% else %}
+                <p>No Ratings</p>
+                {% endif %}
 
 <br><br>
                 <span><a href="/editprofile"> <button type="button" class="btn btn-primary">Edit Profile</button> </a></span><br><br>
@@ -113,7 +134,7 @@
         <div class="col-md-7 border-right">
             <div class="p-3 py-5">
                 <h4 style='font-family: Monaco;'>Your Listings</h4>
-                <div class="row mt-2">
+                <div class="row mt-2" style="padding:30px">
                   {% if count > 0 %}
 
                     {% for i in listings %}
@@ -162,7 +183,7 @@
                   </div>
 
                     <h4 style='font-family: Monaco;'>Sold</h4>
-                    <div class="row mt-2">
+                    <div class="row mt-2" style="padding:30px">
                     {% if sold > 0 %}
                     {% for i in listings %}
                         {% if i.status == 'Sold' %}
@@ -199,9 +220,7 @@
             </div>
 
         </div>
-        <div class="col-md-4">
-        </div>
-    </div>
+
 <div class="col-md-3 border-left" style="padding-left:40px">
 
   <h4 style='font-family: Monaco;'>Your Reviews</h4>

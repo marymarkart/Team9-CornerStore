@@ -65,9 +65,12 @@ class AgencySignupForm(FlaskForm):
         confirm = PasswordField('Confirm yor password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
         submit = SubmitField('Register')
 
-
-class EditProfile(FlaskForm):
+class EditPicture(FlaskForm):
     picture = FileField(label="Add Profile Photo", validators=[FileAllowed(['jpg','png']), FileRequired()])
+    submit = SubmitField('Save Changes')
+    
+class EditProfile(FlaskForm):
+
     first = StringField('First Name')
     last = StringField('Last Name')
     phone = StringField('Phone Number')

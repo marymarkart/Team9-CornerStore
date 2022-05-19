@@ -1,6 +1,6 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
@@ -48,6 +48,7 @@ def signup():
         password = form.password.data
         user = User(username, email)
         user.set_password(form.password.data)
+
         db.session.add(user)
         db.session.commit()
         return redirect("/login")
@@ -142,8 +143,9 @@ def profile():
     if admin == 'True':
         return redirect('/adminprofile')
     a = Review.query.filter(Review.user_id==current_user.id).all()
-    rating = Rating.query.filter(user_id==current_user.id).first()
-    listings = Listing.query.filter(Listing.user_id==user_id)
+    rating = Rating.query.filter(Rating.user_id==current_user.id).first()
+    listings = Listing.query.filter(Listing.user_id==current_user.id)
+
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
     return render_template('profile.html', username = username, agency=agency, listings=listings, count=count, sold=sold, user=current_user, a=a, rating=rating)
@@ -168,12 +170,13 @@ def profile_image(profile_file):
 def edit():
     username = current_user.username
     user_id = current_user.id
+    user = User.query.get(user_id)
 
     form = EditProfile()
     if form.validate_on_submit():
         flash(f'Changes Saved')
-        image_file = profile_image(form.picture.data)
-        current_user.image_file = image_file
+
+
         first = form.first.data
         last = form.last.data
         phone = form.phone.data
@@ -188,9 +191,27 @@ def edit():
         return redirect('/profile')
     image_url = url_for('static', filename='profile_pics/' + current_user.image_file)
     profile = Profile.query.filter_by(user_id =current_user.id).first()
-    return render_template('editprofile.html', form=form, username=username, profile=profile, image_url = image_url)
+    return render_template('editprofile.html', user=user, form=form, username=username, profile=profile, image_url = image_url)
 
-
+@myapp_obj.route('/editpic', methods=['GET', 'POST'])
+@login_required
+def editpic():
+	user_id = current_user.id
+	user = User.query.get(user_id)
+	username = current_user.username
+	form = EditPicture()
+	a = Review.query.filter(Review.user_id==current_user.id).all()
+	rating = Rating.query.filter(user_id==current_user.id).first()
+	listings = Listing.query.filter(Listing.user_id==user_id)
+	count = Listing.query.filter(Listing.user_id==user_id).count()
+	sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+	if form.validate_on_submit():
+		image_file = profile_image(form.picture.data)
+		user.set_image_file(image_file)
+		print(user.image_file)
+		db.session.commit()
+		return redirect('/profile')
+	return render_template("editpic.html",username = username, listings=listings, count=count, sold=sold, user=current_user, a=a, rating=rating, form=form)
 
 @myapp_obj.route('/adminprofile')
 @login_required
