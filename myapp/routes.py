@@ -228,7 +228,7 @@ def viewProfile(val):
     user = User.query.get(val)
     print(user)
     listings = Listing.query.filter(Listing.user_id==user_id)
-    rating = Rating.query.filter(user_id==val).first()
+    rating = Rating.query.filter(Rating.user_id==val).first()
     a = Review.query.filter(Review.user_id==val).all()
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
@@ -620,7 +620,7 @@ def report(val):
     listings = Listing.query.filter(Listing.user_id==user_id)
     count = Listing.query.filter(Listing.user_id==user_id).count()
     sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
-    rating = Rating.query.filter(user_id==val).first()
+    rating = Rating.query.filter(Rating.user_id==val).first()
     a = Review.query.filter(Review.user_id==val).all()
     user = User.query.get(val)
     if form.validate_on_submit():
@@ -712,7 +712,7 @@ def review(val):
 	sold = Listing.query.filter(Listing.user_id==val and Listing.status=='Sold').count()
 	form = ReviewForm()
 	user = User.query.get(val)
-	b = Rating.query.filter(user_id == val).all()
+	b = Rating.query.filter(Rating.user_id == val).all()
 	rat = 0
 	for i in b:
 		rat = i.rating
@@ -734,10 +734,10 @@ def review(val):
 
 
 		db.session.commit()
-		rating = Rating.query.filter(user_id==val).first()
+		rating = Rating.query.filter(Rating.user_id==val).first()
 		a = Review.query.filter(Review.user_id==val).all()
 		return redirect(url_for('viewProfile', val=val, user=user, count=count, sold=sold, listings=listings, rating=rating, a=a))
 
-	rating = Rating.query.filter(user_id==val).first()
+	rating = Rating.query.filter(Rating.user_id==val).first()
 	a = Review.query.filter(Review.user_id==val).all()
 	return render_template('review.html', form=form, user=user, count=count, sold=sold, listings=listings, rating=rating, a=a)
