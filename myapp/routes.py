@@ -176,8 +176,6 @@ def edit():
     if form.validate_on_submit():
         flash(f'Changes Saved')
         user = User.query.get(current_user.id)
-
-
         first = form.first.data
         last = form.last.data
         phone = form.phone.data
@@ -186,12 +184,25 @@ def edit():
         postal = form.postal.data
         state = form.state.data
         user_id = current_user.id
-        profile = Profile(first, last, phone, address1, address2, postal, state, user_id)
-        db.session.add(profile)
+        profile = Profile.query.get(user.id)
+        print(profile)
+        if profile is None:
+            prof = Profile(first, last, phone, address1, address2, postal, state, user_id)
+            db.session.add(prof)
+        else:
+            profile.set_first(first)
+            profile.set_last(last)
+            profile.set_phone(phone)
+            profile.set_address1(address1)
+            profile.set_address2(address2)
+            profile.set_postal(postal)
+            profile.set_state(state)
+
+
         db.session.commit()
         return redirect('/profile')
     image_url = url_for('static', filename='profile_pics/' + current_user.image_file)
-    profile = Profile.query.filter_by(user_id =current_user.id).first()
+    profile = Profile.query.get(user_id)
     return render_template('editprofile.html', user=user, form=form, username=username, profile=profile, image_url = image_url)
 
 @myapp_obj.route('/editpic', methods=['GET', 'POST'])
@@ -312,8 +323,10 @@ def createerror():
 @login_required
 def itemTest():
 	item = Listing.query.get(listing_id)
+	user_id = current_user.id
+	user = User.query.get(user_id)
     # form = Listing.query.all()
-	return render_template('testfile.html', item=item)
+	return render_template('testfile.html', item=item, user=user)
 
 @myapp_obj.route('/freelistings')
 @login_required
@@ -352,7 +365,9 @@ def free(val):
     listing_id = val
     item = Listing.query.get(listing_id)
     items = []
-    return render_template('freeitem.html', items=items, item=item)
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    return render_template('freeitem.html', items=items, item=item, user=user)
 
 @myapp_obj.route('/tradelistings/<int:val>')
 @login_required
@@ -360,7 +375,9 @@ def trade(val):
     listing_id = val
     item = Listing.query.get(listing_id)
     items = []
-    return render_template('tradeitem.html', items=items, item=item)
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    return render_template('tradeitem.html', items=items, item=item, user=user)
 
 @myapp_obj.route('/getitfree/<int:val>')
 @login_required
@@ -495,7 +512,9 @@ def listvolunteer():
 @login_required
 def volTest():
     items = Volunteer.query.all()
-    return render_template('testfile.html', items=items)
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    return render_template('testfile.html', items=items, user=user)
 
 @myapp_obj.route('/vollisting')
 @login_required

@@ -118,6 +118,27 @@ class Profile(db.Model):
         self.state = state
         self.user_id = user_id
 
+    def set_first(self, first):
+        self.first = first
+
+    def set_last(self, last):
+        self.last = last
+
+    def set_phone(self, phone):
+        self.phone = phone
+
+    def set_address1(self, address1):
+        self.address1 = address1
+
+    def set_address2(self, address2):
+        self.address2 = address2
+
+    def set_postal(self, postal):
+        self.postal = postal
+
+    def set_state(self, state):
+        self.state = state
+
 # class Rating(db.Model):
 #     __tablename__ = 'ratings'
 #     id = db.Column(db.Integer, primary_key = True)
