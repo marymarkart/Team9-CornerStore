@@ -138,8 +138,9 @@
                   {% if count > 0 %}
 
                     {% for i in listings %}
+                    {% if i.status == 'For Sale' %}
                     <div class="col-sm-6">
-                        {% if i.status == 'For Sale' %}
+
                         <a href="/managelistings/{{i.id}}">
                           {% if i.price > 0.0 %}
                               <div class="panel panel-success">
@@ -172,9 +173,10 @@
 
                         </a>
                         {% endif %}
+                        {% endfor %}
 
 </div>
-                    {% endfor %}
+
                     {% else %}
 
                     <div class='well'>
