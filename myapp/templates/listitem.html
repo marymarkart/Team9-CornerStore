@@ -112,7 +112,7 @@
               </button>
           </div>
           {% endfor %}
-    
+
 <br>
 <center> <h1 style = "font-family: monaco;"> List Item For Sale! </h1> </center>
 <br><br>
@@ -167,8 +167,10 @@
             box-sizing: border-box;') }} </p>
             <div class="form-group" >
 
-            <p style="text-align:left;"> {{ form.free.label(style='font-size: 15px;') }} {{ form.free(id="seeAnotherFieldGroup") }}</p>
+            <p style="text-align:left;"> {{ form.free.label(id ='free-label', style='font-size: 15px;') }} {{ form.free(id="seeAnotherFieldGroup") }}</p>
 
+                <p style="text-align:left;"> {{ form.trade.label(id ='trade-label', style='font-size: 15px;') }} {{ form.trade(id='trade') }}</p>
+                
             </div>
             <div class="form-group row" id="otherField">
             <label class="col-sm-3 col-form-label">{{form.agency.label}}</label>
@@ -197,11 +199,11 @@
             <p> {{ form.agency.label }} <br>
                     {{ form.agency(class="form-control", value = "") }}</p> -->
 
-            <p style="text-align:left;"> {{ form.warehouse.label(style='font-size: 15px;') }} {{ form.warehouse() }}</p>
+            <p style="text-align:left;"> {{ form.warehouse.label(id = 'warehouse-label', style='font-size: 15px;') }} {{ form.warehouse(id = 'warehouse') }}</p>
 
 
 
-            <p style="text-align:left;"> {{ form.trade.label(style='font-size: 15px;') }} {{ form.trade() }}</p>
+
 
 
             <div class="form-group" id="otherFieldDiv">
@@ -264,12 +266,44 @@ $(document).ready(function () {
   if (checked) {
   $('#otherFieldDiv').hide();
   $('#otherField').hide();
+  $('#trade').hide();
+  $('#trade-label').hide();
+  $('#warehouse').hide();
+  $('#warehouse-label').hide();
 } else {
   $('#otherFieldDiv').show();
   $('#otherField').show();
+  $('#trade').show();
+  $('#trade-label').show();
+  $('#warehouse').show();
+  $('#warehouse-label').show();
 }
 });
 $("#seeAnotherFieldGroup").trigger("change");
+});
+</script>
+<script>
+$(document).ready(function () {
+  $('#otherFieldDiv').show();
+  $("#trade").change(function() {
+    var checked = document.getElementById('trade').checked
+  if (checked) {
+  $('#otherFieldDiv').hide();
+  $('#otherField').hide();
+  $('#warehouse').hide();
+  $('#warehouse-label').hide();
+  $('#free-label').hide();
+  $("#seeAnotherFieldGroup").hide()
+} else {
+  $('#otherFieldDiv').show();
+  $('#otherField').show();
+  $('#warehouse').show();
+  $('#warehouse-label').show();
+  $('#free-label').show();
+  $("#seeAnotherFieldGroup").show()
+}
+});
+$("#trade").trigger("change");
 });
 </script>
 
