@@ -550,12 +550,12 @@ def volTest():
     user = User.query.get(user_id)
     return render_template('testfile.html', items=items, user=user)
 
-@myapp_obj.route('/vollisting')
-@login_required
-def vollistings():
-    sale = Volunteer.query.all()
-    title = "Volunteer Opportunities"
-    return render_template('getvol.html', sale=sale, title=title)
+# @myapp_obj.route('/vollisting')
+# @login_required
+# def vollistings():
+#     sale = Volunteer.query.all()
+#     title = "Volunteer Opportunities"
+#     return render_template('getvol.html', sale=sale, title=title)
 
 @myapp_obj.route('/deletevol/<int:val>')
 def deleteVol(val):
@@ -981,3 +981,44 @@ def tradesearch():
 		return render_template('listings.html', sale=sale, title=title, form=form, count=count)
 
 	return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+
+@myapp_obj.route('/vollisting', methods=['GET','POST'])
+def volsearch():
+	sale = Volunteer.query.all()
+	title = "Volunteer Opportunities"
+	good = False
+
+	count = Volunteer.query.count()
+
+	form = SearchForm()
+	ret = []
+	print(form.search.data)
+	search = form.search.data
+	print(search)
+	if search is not None:
+		words = search.split(" ")
+		for word in words:
+			name = Volunteer.query.filter(Volunteer.name.contains(word)).all()
+
+			if len(name) == 0:
+				print(len(name))
+				desc = Volunteer.query.filter(Volunteer.description.contains(word)).all()
+				name.extend(desc)
+			print(name)
+			ret = name
+			res = []
+			for i in ret:
+				if i not in res:
+					res.append(i)
+			sale = res
+			print(sale)
+			good = True
+
+			if len(sale) == 0:
+				count = 0
+				good = False
+
+
+		return render_template('getvol.html', sale=sale, title=title, form=form, count=count, good=good)
+
+	return render_template('getvol.html', sale=sale, title=title, form=form, count=count, good=good)
