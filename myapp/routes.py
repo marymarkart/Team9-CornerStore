@@ -416,7 +416,13 @@ def getitfree(val):
 
     item = Listing.query.get(listing_id)
     items = []
-    return render_template('getitfree.html', items=items, item=item, count=count, sold=sold, listings= listings)
+    user = User.query.get(user_id)
+    item.status="Sold"
+    db.session.commit()
+    a = Review.query.filter(Review.user_id==current_user.id).all()
+    rating = Rating.query.filter(Rating.user_id==current_user.id).first()
+
+    return render_template('getitfree.html', items=items, item=item, count=count, sold=sold, listings= listings, user=user, rating=rating)
 
 @myapp_obj.route('/bought/<int:val>')
 @login_required
