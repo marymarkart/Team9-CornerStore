@@ -66,8 +66,10 @@
         <div class="col-sm-3">
 
             <h4> Donation item? </h4>
-            {% if item.agency %}
+            {% if item.agency != "None" %}
             <p>Yes</p>
+            {% else%}
+            <p> No </p>
             {% endif %}
 
         </div>

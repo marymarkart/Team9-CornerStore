@@ -75,7 +75,7 @@
         <div class="col-sm-3">
 
             <h4> Donation item? </h4>
-            {% if item.agency == "None" %}
+            {% if item.agency is not valid %}
             <p>No</p>
 						{% else %}
 						<p>Yes</p>
