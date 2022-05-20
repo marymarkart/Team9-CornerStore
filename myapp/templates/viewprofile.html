@@ -137,26 +137,27 @@
                         {% if i.status == 'Sold' %}
                         <a href="/managelistings/{{i.id}}">
 
-                        <div class="panel panel-default">
-                          <div class="panel-heading">
-                            <div class="col">{{ i.name }}</div>
-                        </div>
-                        <div class="panel-heading">
-                                <div class='col', style="text-align:right">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              {{i.name }}
 
-                            {% if i.price==0.00 %}
-                                Free
-                            {% else %}
-                                {{i.price }}
-                            {% endif %}
-                        </div>
-                    </div>
-                          <div class="panel-body">
-                            {{ i.description }} </div>
+                          <span style="float:right;">
 
-                        </div>
-                    </a>
-                        {% endif %}
+                              {% if i.price==0.00 %}
+                                  Free
+                              {% else %}
+                                  {{i.price }}
+                              {% endif %}
+                              </span>
+                            </div>
+
+
+                            <div class="panel-body">
+                              {{ i.description }} </div>
+
+                          </div>
+                      </a>
+                          {% endif %}
 
                     {% endfor %}
                     {% else %}

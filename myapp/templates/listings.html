@@ -6,11 +6,18 @@
 <h1 style="text-align: center; font: monospace; font-family: Monaco"> {{ title }} </h1>
 <div class = "container">
 <div class = "center">
+  {% for item in a %}
+  <p> {{ item }}</p>
+  {% endfor %}
+  {% for field, errors in form.errors.items() %}
+  {% endfor %}
 
     <!-- Actual search box -->
     <div class="form-group has-feedback has-search">
-        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-        <input type="text" class="form-control" placeholder="Search for Items">
+      <form method="POST">
+        <span id = 'submit' name = 'submit' class="glyphicon glyphicon-search form-control-feedback"></span>
+        <input id = 'search' type="text" class="form-control" name = 'search' placeholder="Search for Items">
+      </form>
     </div>
 </div>
 </div>
@@ -19,6 +26,7 @@
 
 <div class="container">
 <div class="row">
+  {% if count > 0 %}
     {% for i in sale %}
         <div class="col-sm-4">
           {% if i.status == "For Sale" %}
@@ -50,6 +58,9 @@
         </a>
         </div>
         {% endfor %}
+        {% else %}
+        <h1>Your Search found no results</h1>
+        {% endif %}
        <!--  <div class="col-sm-4">
             <div class="panel panel-success">
                 <div class="panel-heading">Item #2</div>

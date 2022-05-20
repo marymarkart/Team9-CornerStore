@@ -1,6 +1,6 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture, ChangePassword
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture, ChangePassword, SearchForm
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 
@@ -354,27 +354,27 @@ def itemTest():
     # form = Listing.query.all()
 	return render_template('testfile.html', item=item, user=user)
 
-@myapp_obj.route('/freelistings')
-@login_required
-def freelistings():
-    sale = Listing.query.filter(Listing.free==True)
-    title = "Free Listings"
-    return render_template('listings.html', sale=sale, title=title)
-
-@myapp_obj.route('/tradelistings')
-@login_required
-def tradelistings():
-    sale = Listing.query.filter(Listing.trade==True)
-    title = "Trade Listings"
-    return render_template('listings.html', sale=sale, title=title)
-
-
-@myapp_obj.route('/listings')
-@login_required
-def listings():
-    sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
-    title = "Sale Listings"
-    return render_template('listings.html', sale=sale, title=title)
+# @myapp_obj.route('/freelistings')
+# @login_required
+# def freelistings():
+#     sale = Listing.query.filter(Listing.free==True)
+#     title = "Free Listings"
+#     return render_template('listings.html', sale=sale, title=title)
+#
+# @myapp_obj.route('/tradelistings')
+# @login_required
+# def tradelistings():
+#     sale = Listing.query.filter(Listing.trade==True)
+#     title = "Trade Listings"
+#     return render_template('listings.html', sale=sale, title=title)
+#
+#
+# @myapp_obj.route('/listings')
+# @login_required
+# def listings():
+#     sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
+#     title = "Sale Listings"
+#     return render_template('listings.html', sale=sale, title=title)
 
 @myapp_obj.route('/listings/<int:val>')
 @login_required
@@ -865,3 +865,119 @@ def review(val):
 	rating = Rating.query.filter(Rating.user_id==val).first()
 	a = Review.query.filter(Review.user_id==val).all()
 	return render_template('review.html', form=form, user=user, count=count, sold=sold, listings=listings, rating=rating, a=a)
+
+
+@myapp_obj.route('/listings', methods=['GET','POST'])
+def search():
+	sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
+	title = "Sale Listings"
+	count = Listing.query.filter(Listing.free==False, Listing.trade==False).count()
+
+	form = SearchForm()
+	ret = []
+	print(form.search.data)
+	search = form.search.data
+	print(search)
+	if search is not None:
+		words = search.split(" ")
+		for word in words:
+			name = Listing.query.filter(Listing.free==False, Listing.trade==False, Listing.name.contains(word)).all()
+
+			if len(name) == 0:
+				print(len(name))
+				desc = Listing.query.filter(Listing.free==False, Listing.trade==False, Listing.description.contains(word)).all()
+				name.extend(desc)
+			print(name)
+			ret = name
+			res = []
+			for i in ret:
+				if i not in res:
+					res.append(i)
+			sale = res
+			print(sale)
+
+			if len(sale) == 0:
+				count = 0
+
+		return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+
+	return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+
+@myapp_obj.route('/freelistings', methods=['GET','POST'])
+def freesearch():
+	sale = Listing.query.filter(Listing.free==True, Listing.trade==False)
+	title = "Free Listings"
+	count = Listing.query.filter(Listing.free==True, Listing.trade==False).count()
+
+	form = SearchForm()
+	ret = []
+	print(form.search.data)
+	search = form.search.data
+	print(search)
+	if search is not None:
+		words = search.split(" ")
+		for word in words:
+			name = Listing.query.filter(Listing.free==True, Listing.name.contains(word)).all()
+
+			if len(name) == 0:
+				print(len(name))
+				desc = Listing.query.filter(Listing.free==True, Listing.description.contains(word)).all()
+				name.extend(desc)
+			print(name)
+			ret = name
+			res = []
+			for i in ret:
+				if i not in res:
+					res.append(i)
+			sale = res
+			print(sale)
+
+			if len(sale) == 0:
+				count = 0
+
+			if len(sale) == 0:
+				count = 0
+
+		return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+
+	return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+
+@myapp_obj.route('/tradelistings', methods=['GET','POST'])
+def tradesearch():
+	sale = Listing.query.filter(Listing.trade==True)
+	title = "Trade Listings"
+	count = Listing.query.filter(Listing.trade==True).count()
+
+	form = SearchForm()
+	ret = []
+	print(form.search.data)
+	search = form.search.data
+	print(search)
+	if search is not None:
+		words = search.split(" ")
+		for word in words:
+			names = Listing.query.filter(Listing.trade==True).all()
+
+
+			name = Listing.query.filter(Listing.trade==True, Listing.name.contains(word)).all()
+
+			if len(name) == 0:
+				print(len(name))
+				desc = Listing.query.filter(Listing.trade==True, Listing.description.contains(word)).all()
+				name.extend(desc)
+			print(name)
+			ret = name
+			res = []
+			for i in ret:
+				if i not in res:
+					res.append(i)
+			sale = res
+			print(sale)
+
+			if len(sale) == 0:
+				count = 0
+
+
+		return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+
+	return render_template('listings.html', sale=sale, title=title, form=form, count=count)

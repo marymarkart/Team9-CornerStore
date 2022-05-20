@@ -152,3 +152,8 @@ class ChangePassword(FlaskForm):
     newpassword = PasswordField('Enter New Password', validators=[DataRequired(), Length(min=6, message='Select a stronger password.')])
     confirm = PasswordField('Confirm your new password', validators=[DataRequired(), EqualTo('newpassword', message='Passwords must match.')])
     submit = SubmitField('Change Password')
+
+
+class SearchForm(FlaskForm):
+    search = StringField("Search Listings")
+    submit = SubmitField("Submit")
