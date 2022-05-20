@@ -60,7 +60,7 @@
                 {% else %}
                 <p>No Ratings</p>
                 {% endif %}
-                <br><br><br>
+                <br><br><br><br>
                 <span><a href="/listings"> <button type="button" class="btn btn-primary">Message Seller</button> </a></span><br><br>
                 <span><a href="/report/{{user.id}}"><button type="button" class="btn btn-primary">Report Seller</button></a></span><br><br>
                 <span><a href="/reviewthis/{{user.id}}"><button type="button" class="btn btn-primary">Review Seller</button></a></span>
@@ -81,7 +81,7 @@
                               <div class="panel panel-success">
 
                                   <div class="panel-heading">{{ i.name }}</div>
-                                  <div class="panel-body" style="height:350px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
+                                  <div class="panel-body" style="height:300px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
                                   <div class="panel-footer" style="height: 50px;overflow-y: scroll;">{{ i.description }}</div>
 
 
@@ -90,7 +90,7 @@
                             <div class="panel panel-info">
 
                                 <div class="panel-heading">{{ i.name }}</div>
-                                <div class="panel-body" style="height:350px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
+                                <div class="panel-body" style="height:300px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
                                 <div class="panel-footer" style="height: 50px;overflow-y: scroll;">{{ i.description }}</div>
 
 
@@ -99,7 +99,7 @@
                           <div class="panel panel-warning">
 
                               <div class="panel-heading">{{ i.name }}</div>
-                              <div class="panel-body" style="height:350px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
+                              <div class="panel-body" style="height:300px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
                               <div class="panel-footer" style="height: 50px;overflow-y: scroll;">{{ i.description }}</div>
 
 
@@ -111,6 +111,7 @@
 
 
                     {% endfor %}
+                  </div>
                     {% else %}
                     <div class='well'>
                     <p> None </p>
