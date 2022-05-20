@@ -138,8 +138,9 @@
                   {% if count > 0 %}
 
                     {% for i in listings %}
+                    {% if i.status == 'For Sale' %}
                     <div class="col-sm-6">
-                        {% if i.status == 'For Sale' %}
+
                         <a href="/managelistings/{{i.id}}">
                           {% if i.price > 0.0 %}
                               <div class="panel panel-success">
@@ -150,6 +151,7 @@
 
 
                             </div>
+
                             {% elif i.free %}
                             <div class="panel panel-info">
 
@@ -159,6 +161,7 @@
 
 
                           </div>
+
                           {% else %}
                           <div class="panel panel-warning">
 
@@ -168,13 +171,17 @@
 
 
                         </div>
-                        {% endif %}
 
+                        {% endif %}
+</div>
                         </a>
                         {% endif %}
 
+                        {% endfor %}
+
 </div>
-                    {% endfor %}
+
+
                     {% else %}
 
                     <div class='well'>
@@ -182,7 +189,7 @@
                   </div>
                     {% endif %}
                   </div>
-                </div>
+              
 
                     <h4 style='font-family: Monaco;'>Sold</h4>
                     <div class="row mt-2" style="padding:30px">
