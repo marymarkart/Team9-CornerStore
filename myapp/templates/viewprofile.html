@@ -81,37 +81,45 @@
                         {% if i.price > 0.0 %}
                             <div class="panel panel-success">
 
-                                <div class="panel-heading">{{ i.name }}</div>
+                                <div class="panel-heading">{{ i.name }}<span style="float:right;">{{ i.price }}</span></div>
                                 <div class="panel-body" style="height:300px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
                                 <div class="panel-footer" style="height: 50px;overflow-y: scroll;">{{ i.description }}</div>
 
 
                           </div>
+
                           {% elif i.free %}
                           <div class="panel panel-info">
 
-                              <div class="panel-heading">{{ i.name }}</div>
+                              <div class="panel-heading">{{ i.name }}<span style="float:right;">Free</span></div>
                               <div class="panel-body" style="height:300px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
                               <div class="panel-footer" style="height: 50px;overflow-y: scroll;">{{ i.description }}</div>
 
 
                         </div>
+
                         {% else %}
                         <div class="panel panel-warning">
 
-                            <div class="panel-heading">{{ i.name }}</div>
+                            <div class="panel-heading">{{ i.name }}<span style="float:right;">Trade</span></div>
                             <div class="panel-body" style="height:300px;overflow-y: scroll;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%" alt="Image"></div>
                             <div class="panel-footer" style="height: 50px;overflow-y: scroll;">{{ i.description }}</div>
 
 
                       </div>
-                      {% endif %}
 
+                      {% endif %}
+                    </div>
                       </a>
                       {% endif %}
+
+
                       {% endfor %}
 
-</div>
+
+
+
+
 
                   {% else %}
 
@@ -158,8 +166,7 @@
                     {% endif %}
                 </div>
             </div>
-          </div>
-        </div>
+
 
 
 

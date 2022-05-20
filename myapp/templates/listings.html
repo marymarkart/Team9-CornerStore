@@ -26,21 +26,21 @@
             <a href="/freelistings/{{i.id}}">
             <div class="panel panel-info">
 
-                <div class="panel-heading">{{ i.name }}</div>
+                <div class="panel-heading">{{ i.name }}<span style="float:right;">Free</span></div>
                 <div class="panel-body" style="height:350px;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%; " alt="Image"></div>
                 <div class="panel-footer" style="height:50px">{{ i.description }}</div>
             {% elif i.trade %}
             <a href="/tradelistings/{{i.id}}">
             <div class="panel panel-warning">
 
-                <div class="panel-heading">{{ i.name }}</div>
+                <div class="panel-heading">{{ i.name }}<span style="float:right;">Trade</span></div>
                 <div class="panel-body" style="height:350px; vertical-align:middle;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%; vertical-align:middle; " alt="Image"></div>
                 <div class="panel-footer" style="height:50px">{{ i.description }}</div>
             {% else %}
             <a href="/listings/{{i.id}}">
             <div class="panel panel-success">
 
-                <div class="panel-heading">{{ i.name }}</div>
+                <div class="panel-heading">{{ i.name }}<span style="float:right;">{{ i.price }}</span></div>
                 <div class="panel-body" style="height:350px; vertical-align:middle;"><img src="/static/listing_pics/{{i.image_file}}" class="img-responsive" style="width:100%; vertical-align:middle; " alt="Image"></div>
                 <div class="panel-footer" style="height:50px">{{ i.description }}</div>
 
