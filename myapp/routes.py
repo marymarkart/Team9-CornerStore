@@ -439,12 +439,13 @@ def bought(val):
 @login_required
 def success(name):
 	user_id = current_user.id
+	user = current_user
 	listings = Listing.query.filter(Listing.user_id==user_id)
 	count = Listing.query.filter(Listing.user_id==user_id).count()
 	sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
-	rating = Rating.query.filter(user_id==current_user).first()
-	a = Review.query.filter(Review.user_id==current_user).all()
-	return render_template('success.html', name=name, listings=listings, sold=sold, count=count, rating=rating, a=a)
+	rating = Rating.query.filter(user_id==current_user.id).first()
+	a = Review.query.filter(Review.user_id==current_user.id).all()
+	return render_template('success.html', name=name, listings=listings, sold=sold, count=count, rating=rating, a=a, user=user)
 
 
 @myapp_obj.route('/managelistings/<int:val>')
@@ -511,7 +512,14 @@ def deleteItem(val):
 	item = Listing.query.get(val)
 	db.session.delete(item)
 	db.session.commit()
-	return redirect(url_for('listings'))
+	return redirect('/profile')
+
+@myapp_obj.route('/deletevol/<int:val>')
+def deletevol(val):
+	item = Volunteer.query.get(val)
+	db.session.delete(item)
+	db.session.commit()
+	return redirect('/profile')
 """
 
 
@@ -871,10 +879,11 @@ def review(val):
 def search():
 	sale = Listing.query.filter(Listing.free==False, Listing.trade==False)
 	title = "Sale Listings"
-	count = Listing.query.filter(Listing.free==False, Listing.trade==False).count()
+	count = Listing.query.filter(Listing.status == 'For Sale', Listing.free==False, Listing.trade==False).count()
 
 	form = SearchForm()
 	ret = []
+	good = False
 	print(form.search.data)
 	search = form.search.data
 	print(search)
@@ -894,21 +903,23 @@ def search():
 				if i not in res:
 					res.append(i)
 			sale = res
+			good = True
 			print(sale)
 
 			if len(sale) == 0:
 				count = 0
 
-		return render_template('listings.html', sale=sale, title=title, form=form, count=count)
 
-	return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+		return render_template('listings.html', sale=sale, title=title, form=form, count=count, good=good)
+
+	return render_template('listings.html', sale=sale, title=title, form=form, count=count, good=good)
 
 @myapp_obj.route('/freelistings', methods=['GET','POST'])
 def freesearch():
 	sale = Listing.query.filter(Listing.free==True, Listing.trade==False)
 	title = "Free Listings"
-	count = Listing.query.filter(Listing.free==True, Listing.trade==False).count()
-
+	count = Listing.query.filter(Listing.status == 'For Sale', Listing.free==True, Listing.trade==False).count()
+	good = False
 	form = SearchForm()
 	ret = []
 	print(form.search.data)
@@ -930,23 +941,24 @@ def freesearch():
 				if i not in res:
 					res.append(i)
 			sale = res
+			good = True
 			print(sale)
 
 			if len(sale) == 0:
 				count = 0
 
-			if len(sale) == 0:
-				count = 0
 
-		return render_template('listings.html', sale=sale, title=title, form=form, count=count)
 
-	return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+		return render_template('listings.html', sale=sale, title=title, form=form, count=count, good=good)
+
+	return render_template('listings.html', sale=sale, title=title, form=form, count=count, good=good)
 
 @myapp_obj.route('/tradelistings', methods=['GET','POST'])
 def tradesearch():
 	sale = Listing.query.filter(Listing.trade==True)
 	title = "Trade Listings"
 	count = Listing.query.filter(Listing.trade==True).count()
+	good = False
 
 	form = SearchForm()
 	ret = []
@@ -972,15 +984,17 @@ def tradesearch():
 				if i not in res:
 					res.append(i)
 			sale = res
+			good = True
 			print(sale)
 
 			if len(sale) == 0:
 				count = 0
 
 
-		return render_template('listings.html', sale=sale, title=title, form=form, count=count)
 
-	return render_template('listings.html', sale=sale, title=title, form=form, count=count)
+		return render_template('listings.html', sale=sale, title=title, form=form, count=count, good=good)
+
+	return render_template('listings.html', sale=sale, title=title, form=form, count=count, good=good)
 
 @myapp_obj.route('/vollisting', methods=['GET','POST'])
 def volsearch():
@@ -1016,7 +1030,7 @@ def volsearch():
 
 			if len(sale) == 0:
 				count = 0
-				good = False
+
 
 
 		return render_template('getvol.html', sale=sale, title=title, form=form, count=count, good=good)
