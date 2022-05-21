@@ -1,11 +1,12 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture, ChangePassword, SearchForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture, ChangePassword, SearchForm, SendMessageForm, ProfileMessage, SearchMessageForm
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
+from sqlalchemy import and_, or_, not_
 
 from myapp import db
-from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating, Report, AddDonations, Review
+from myapp.models import User, Profile, Listing, Volunteer, BeVolunteer, Rating, Report, AddDonations, Review, Messages
 from flask_login import current_user, login_user, logout_user, login_required
 import stripe
 import os
@@ -1036,3 +1037,66 @@ def volsearch():
 		return render_template('getvol.html', sale=sale, title=title, form=form, count=count, good=good)
 
 	return render_template('getvol.html', sale=sale, title=title, form=form, count=count, good=good)
+
+"""
+
+
+MESSAGES
+
+
+"""
+
+@myapp_obj.route("/sendmessage", methods=['GET', 'POST'])
+@login_required
+def send_message():
+    form = SendMessageForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.sent_id.data).first()
+
+        if user is None:
+            return redirect('/sendmessage')
+        message = Messages(user_id=current_user.username, content=form.content.data, sent_id=form.sent_id.data)
+        db.session.add(message)
+        db.session.commit()
+    return render_template('sendmessage.html', form=form)
+
+
+@myapp_obj.route("/viewmessage", methods=['GET', 'POST'])
+@login_required
+def my_messages():
+    form = SearchMessageForm()
+    user_id = None
+    sent_id = None
+    sent_id = form.search.data
+    messages = Messages.query.filter(or_(and_(Messages.user_id == current_user.username, Messages.sent_id == sent_id),
+                                         and_(Messages.user_id==sent_id, Messages.sent_id==current_user.username)
+                                         )
+                                     )
+    if form.validate_on_submit():
+
+        for message in messages:
+            user_id = message.user_id
+    return render_template('viewmessage.html', messages=messages, user_id=user_id, form = form)
+
+@myapp_obj.route('/messagethis/<int:val>', methods=['GET','POST'])
+def message(val):
+    user_id = val
+    form = ProfileMessage()
+    listings = Listing.query.filter(Listing.user_id==user_id)
+    count = Listing.query.filter(Listing.user_id==user_id).count()
+    sold = Listing.query.filter(Listing.user_id==user_id and Listing.status=='Sold').count()
+    rating = Rating.query.filter(Rating.user_id==val).first()
+    a = Review.query.filter(Review.user_id==val).all()
+    user = User.query.get(val)
+    if form.validate_on_submit():
+        content= form.content.data
+        user_id = val
+        name = user.username
+        message = Messages(user_id=current_user.username, content=content, sent_id=name)
+        db.session.add(message)
+        db.session.commit()
+
+        return redirect(url_for('viewProfile', val=val, listings=listings, sold=sold, count=count, user=user, rating=rating, a=a))
+
+
+    return render_template('message.html', val=val, form=form, user=user, count=count, sold=sold, listings=listings, rating=rating, a=a)

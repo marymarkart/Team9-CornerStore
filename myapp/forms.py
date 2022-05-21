@@ -157,3 +157,18 @@ class ChangePassword(FlaskForm):
 class SearchForm(FlaskForm):
     search = StringField("Search Listings")
     submit = SubmitField("Submit")
+
+class SendMessageForm(FlaskForm):
+
+    sent_id = StringField('Send to', validators=[DataRequired()])
+    content = StringField('Content', validators=[DataRequired(), Length(min=2, message='Message should be longer than 1 character')])
+    submit = SubmitField('Send Message')
+
+class SearchMessageForm(FlaskForm):
+
+    search = StringField('Please enter username to access message history', validators=[DataRequired()])
+    submit = SubmitField('Search')
+
+class ProfileMessage(FlaskForm):
+    content = StringField("Message:")
+    submit = SubmitField("Send")
