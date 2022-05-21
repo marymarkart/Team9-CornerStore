@@ -1,6 +1,6 @@
 from sqlalchemy import null
 from myapp import myapp_obj
-from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture, ChangePassword, SearchForm, SendMessageForm, ProfileMessage, SearchMessageForm
+from myapp.forms import LoginForm, SignupForm, EditProfile, AgencySignupForm, ListingForm, VolunteerForm, NewName, NewDesc, NewPrice, ReviewForm, ReportForm, Adddonations, EditPicture, ChangePassword, SearchForm, SendMessageForm, SendMsgForm, ProfileMessage, SearchMessageForm
 from flask import render_template, flash, redirect
 from flask import Flask, url_for
 from sqlalchemy import and_, or_, not_
@@ -1055,15 +1055,18 @@ def send_message():
 
         if user is None:
             return redirect('/sendmessage')
-        message = Messages(user_id=current_user.username, content=form.content.data, sent_id=form.sent_id.data)
+        send = User.query.filter(User.username==form.sent_id.data).first()
+        message = Messages(user_id=current_user.username, user=current_user.id, content=form.content.data, sent_id=form.sent_id.data, send=send.id)
         db.session.add(message)
         db.session.commit()
+        return redirect('/profile')
     return render_template('sendmessage.html', form=form)
 
 
 @myapp_obj.route("/viewmessage", methods=['GET', 'POST'])
 @login_required
 def my_messages():
+    messages = Messages.query.filter(Messages.user_id==current_user.username).all()
     form = SearchMessageForm()
     user_id = None
     sent_id = None
@@ -1092,7 +1095,8 @@ def message(val):
         content= form.content.data
         user_id = val
         name = user.username
-        message = Messages(user_id=current_user.username, content=content, sent_id=name)
+        sent = User.query.filter(User.username==name).first()
+        message = Messages(user_id=current_user.username, user=current_user.id, content=content, sent_id=name, send=sent.id)
         db.session.add(message)
         db.session.commit()
 

@@ -172,3 +172,7 @@ class SearchMessageForm(FlaskForm):
 class ProfileMessage(FlaskForm):
     content = StringField("Message:")
     submit = SubmitField("Send")
+
+class SendMsgForm(FlaskForm):
+    content = StringField('Content', validators=[DataRequired(), Length(min=2, message='Message should be longer than 1 character')])
+    submit = SubmitField('Send Message')

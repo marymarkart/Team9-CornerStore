@@ -267,11 +267,15 @@ class Report(db.Model):
 class Messages(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.Integer)
+    send = db.Column(db.Integer)
     content = db.Column(db.String(128))
     user_id = db.Column(db.String(128))
     sent_id = db.Column(db.String(128))
 
-    def __init__(self, content, user_id, sent_id):
+    def __init__(self, content, user_id, user, sent_id, send):
         self.content = content
+        self.user = user
         self.user_id = user_id
         self.sent_id = sent_id
+        self.send = send
