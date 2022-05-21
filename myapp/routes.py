@@ -916,9 +916,9 @@ def search():
 
 @myapp_obj.route('/freelistings', methods=['GET','POST'])
 def freesearch():
-	sale = Listing.query.filter(Listing.free==True, Listing.trade==False)
+	sale = Listing.query.filter(Listing.status=='For Sale', Listing.free==True)
 	title = "Free Listings"
-	count = Listing.query.filter(Listing.status == 'For Sale', Listing.free==True, Listing.trade==False).count()
+	count = Listing.query.filter(Listing.status == 'For Sale', Listing.free==True).count()
 	good = False
 	form = SearchForm()
 	ret = []
