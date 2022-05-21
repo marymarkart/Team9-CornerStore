@@ -1071,12 +1071,12 @@ def my_messages():
     user_id = None
     sent_id = None
     sent_id = form.search.data
-    messages = Messages.query.filter(or_(and_(Messages.user_id == current_user.username, Messages.sent_id == sent_id),
+    
+    if form.validate_on_submit():
+	messages = Messages.query.filter(or_(and_(Messages.user_id == current_user.username, Messages.sent_id == sent_id),
                                          and_(Messages.user_id==sent_id, Messages.sent_id==current_user.username)
                                          )
                                      )
-    if form.validate_on_submit():
-
         for message in messages:
             user_id = message.user_id
     return render_template('viewmessage.html', messages=messages, user_id=user_id, form = form)
