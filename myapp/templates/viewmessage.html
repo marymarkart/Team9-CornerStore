@@ -24,19 +24,28 @@
 
 {% if user_id == current_user.username or sent_id == current_user.username %}
 
-    {% for message in messages %}
-    <div class = 'shadow p-3 mb-5 bg-body rounded'>
-    {{message.user_id}}
+{% for x in messages %}
+<div class="p-3 py-5">
+  {% if x.sent_id == current_user.username %}
+  <div class="panel panel-primary">
+    <div class="panel-heading" style="background-color:#5fa70d">From: {{ x.user_id }}</div>
+    <div class="panel-body">{{x.content}}</div>
+    <div class="panel-footer" style="text-align:right; backgroud-color:white;">
+      <a href="/messagethis/{{x.user}}">Reply</a></div>
 
-        </br>
-    {{message.content}}
-</br>
-    </div>
-</br>
-</p>
+</div>
+{% elif x.user_id == current_user.username %}
+<div class="panel panel-primary">
+  <div class="panel-heading">Sent to: {{ x.sent_id }}</div>
+  <div class="panel-body">{{x.content}}</div>
+  <div class="panel-footer" style="text-align:right; backgroud-color:white;">
+    <a href="/messagethis/{{x.sent}}">Reply</a></div>
 
+</div>
+{% endif %}
+</div>
+{% endfor %}
 
-    {% endfor %}
     {% else %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         You do not have any Message History!
