@@ -263,3 +263,15 @@ class Report(db.Model):
         self.user_id = user_id
         self.reason = reason
         self.username = username
+
+class Messages(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(128))
+    user_id = db.Column(db.String(128))
+    sent_id = db.Column(db.String(128))
+
+    def __init__(self, content, user_id, sent_id):
+        self.content = content
+        self.user_id = user_id
+        self.sent_id = sent_id
