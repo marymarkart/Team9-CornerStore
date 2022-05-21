@@ -1049,37 +1049,45 @@ MESSAGES
 @myapp_obj.route("/sendmessage", methods=['GET', 'POST'])
 @login_required
 def send_message():
+    error = None
     form = SendMessageForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.sent_id.data).first()
 
         if user is None:
-            return redirect('/sendmessage')
-        send = User.query.filter(User.username==form.sent_id.data).first()
-        message = Messages(user_id=current_user.username, user=current_user.id, content=form.content.data, sent_id=form.sent_id.data, send=send.id)
-        db.session.add(message)
-        db.session.commit()
-        return redirect('/profile')
-    return render_template('sendmessage.html', form=form)
+            error = 'Invalid username'
+        else:
+            send = User.query.filter(User.username==form.sent_id.data).first()
+            message = Messages(user_id=current_user.username, user=current_user.id, content=form.content.data, sent_id=form.sent_id.data, send=send.id)
+            db.session.add(message)
+            db.session.commit()
+            return redirect('/profile')
+    return render_template('sendmessage.html', form=form, error=error)
 
 
 @myapp_obj.route("/viewmessage", methods=['GET', 'POST'])
 @login_required
 def my_messages():
-    messages = Messages.query.filter(Messages.user_id==current_user.username).all()
+    messages = Messages.query.filter(or_(Messages.user_id==current_user.username,Messages.sent_id == current_user.username)).all()
     form = SearchMessageForm()
     user_id = None
     sent_id = None
     sent_id = form.search.data
-    messages = Messages.query.filter(or_(and_(Messages.user_id == current_user.username, Messages.sent_id == sent_id),
-                                         and_(Messages.user_id==sent_id, Messages.sent_id==current_user.username)
-                                         )
-                                     )
-    if form.validate_on_submit():
 
+    unreads = Messages.query.filter(and_(Messages.sent_id == current_user.username, Messages.message_viewed == False))
+    if form.validate_on_submit():
+        messages = Messages.query.filter(
+            or_(and_(Messages.user_id == current_user.username, Messages.sent_id == sent_id),
+                and_(Messages.user_id == sent_id, Messages.sent_id == current_user.username)
+                )
+            )
+        receivedmessages = Messages.query.filter(and_(Messages.user_id == sent_id, Messages.sent_id == current_user.username))
+        for receivedmessage in receivedmessages:
+            receivedmessage.message_viewed = True
+            db.session.commit()
         for message in messages:
             user_id = message.user_id
-    return render_template('viewmessage.html', messages=messages, user_id=user_id, form = form)
+    return render_template('viewmessage.html', messages=messages, user_id=user_id, form = form, unreads=unreads)
 
 @myapp_obj.route('/messagethis/<int:val>', methods=['GET','POST'])
 def message(val):

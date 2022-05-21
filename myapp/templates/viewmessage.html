@@ -25,7 +25,13 @@
             </div>
         </div>
         <div class="col-md-9 border-right">
-
+    <h4>Unread Messages</h4>
+        {% for unread in unreads %}
+            <div class="panel panel-primary">
+            <div class="panel-heading" style="background-color:#5fa70d">From: {{ unread.user_id }}</div>
+            </div>
+        {% endfor %}
+    </br>
     <h4>Enter Username for Message History</h4>
 </br>
     <form action="" method="POST" novalidate>
@@ -45,7 +51,7 @@
     <h4>Message History</h4>
 </br>
 
-{% if user_id == current_user.username or sent_id == current_user.username %}
+
 
 {% for x in messages %}
 <div class="p-3 py-5">
@@ -69,13 +75,7 @@
 </div>
 {% endfor %}
 
-    {% else %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        You do not have any Message History!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
 </div>
 
-{% endif %}
 </div>
 {% endblock %}
