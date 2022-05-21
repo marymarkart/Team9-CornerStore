@@ -143,8 +143,8 @@ class Adddonations(FlaskForm):
 
     phone = StringField('Contact Number')
 
-    account = IntegerField('Account Number',validators=[DataRequired()])
-    date = DateField("Issue Date", validators=[DataRequired()])
+    account = StringField('Account Number',validators=[DataRequired(message='Please Enter a Valid account number'), Length(min=10, max=10, message='An account number should be 10 digits' ), Regexp('\d{10}', message='Enter a valid Account Number' )])
+    date = DateField("Issue Date", validators=[DataRequired(message='Please enter a valid date')])
     submit = SubmitField('Add Donations')
 
 class ChangePassword(FlaskForm):
