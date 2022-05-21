@@ -89,12 +89,12 @@
             width: 100%;
             margin: 1px;
             padding: 10px;
-            background-color: #FEECC3;
+            background-color: #F5FFEB;
             box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
         }
         .centerx {
             margin: auto;
-            width: 60%;
+            width: 50%;
             padding: 0px;
             background-color: white;
 }
@@ -170,7 +170,7 @@
             <p style="text-align:left;"> {{ form.free.label(id ='free-label', style='font-size: 15px;') }} {{ form.free(id="seeAnotherFieldGroup") }}</p>
 
                 <p style="text-align:left;"> {{ form.trade.label(id ='trade-label', style='font-size: 15px;') }} {{ form.trade(id='trade') }}</p>
-                
+
             </div>
             <div class="form-group row" id="otherField">
             <label class="col-sm-3 col-form-label">{{form.agency.label}}</label>
@@ -221,7 +221,7 @@
 
 
 
-        <p>{{ form.submit(class= "btn btn-primary")}}</p>
+        <p style="padding-right:10px">{{ form.submit(class= "btn btn-primary",style="float:right; padding-left:20px; padding-right:20px; padding-top:10px; padding-bottom:10px")}}</p>
 
 
         </fieldset>
