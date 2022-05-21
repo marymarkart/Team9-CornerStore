@@ -272,6 +272,7 @@ class Messages(db.Model):
     content = db.Column(db.String(128))
     user_id = db.Column(db.String(128))
     sent_id = db.Column(db.String(128))
+    message_viewed = db.Column(db.Boolean, default=False, nullable=False)
 
     def __init__(self, content, user_id, user, sent_id, send):
         self.content = content
