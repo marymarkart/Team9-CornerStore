@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+</br>
+    <h4> Send Message</h4>
+</br>
+
+<div class = 'shadow p-3 mb-5 bg-body rounded'>
+<form action="" method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.sent_id.label }} <br>
+        {{ form.sent_id(size=20) }}
+    </p></br>
+    <p>
+        {{ form.content.label }} <br>
+        {{ form.content(size=70) }}
+    </p></br>
+
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+</div>
+</div>
+{% endblock %}

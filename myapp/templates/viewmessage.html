@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+</br>
+    <h4>Enter Username for Message History</h4>
+</br>
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.search.label }} <br>
+            {{ form.search(size=70) }}
+        </p><br/>
+
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>
+</br>
+
+</br>
+    <h4>Message History</h4>
+</br>
+
+{% if user_id == current_user.username or sent_id == current_user.username %}
+
+    {% for message in messages %}
+    <div class = 'shadow p-3 mb-5 bg-body rounded'>
+    {{message.user_id}}
+
+        </br>
+    {{message.content}}
+</br>
+    </div>
+</br>
+</p>
+
+
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        You do not have any Message History!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+</div>
+
+{% endif %}
+</div>
+{% endblock %}
