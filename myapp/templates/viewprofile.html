@@ -69,7 +69,7 @@
         </div>
         <div class="col-md-7 border-right">
           <div class="p-3 py-5">
-              <h4 style='font-family: Monaco;'>Your Listings</h4>
+              <h4 style='font-family: Monaco;'>{{user.username}}'s Listings</h4>
               <div class="row mt-7">
                 {% if count > 0 %}
 
@@ -77,7 +77,7 @@
                   {% if i.status == 'For Sale' %}
                   <div class="col-sm-6">
 
-                      <a href="/managelistings/{{i.id}}">
+                      <a href="/listings/{{i.id}}">
                         {% if i.price > 0.0 %}
                             <div class="panel panel-success">
 
