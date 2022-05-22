@@ -2,6 +2,10 @@
 
 A eco-friendly marketplace app for buying, selling, and trading used goods and signing up for volunteer opportunities to clean the environment
 
+***Precondition:***
+Must have Python installed to run the program
+
+
 ## To Run
 
 ### Install python libraries
