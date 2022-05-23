@@ -19,3 +19,7 @@ Must have Python installed to run the program
 ### Run application via Terminal
 
 `python3 run.py`
+
+### Access App
+
+navigate to `http://localhost:5000/` in browser
